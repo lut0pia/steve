@@ -7,6 +7,7 @@ solution "Steve"
 		language "C++"
 		files {"**.cpp","**.h"}
 		targetdir "bin"
+		debugdir "bin"
 
 		configuration {"windows"}
 			links {"winmm"}
