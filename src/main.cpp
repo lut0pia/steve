@@ -5,12 +5,10 @@
 #include <ctype.h>
 #include "Chord.h"
 #include "Music.h"
-#include "Player.h"
 #include "Scale.h"
 #include "Steve.h"
-#include <conio.h>
 
-using namespace Steve;
+using namespace steve;
 
 int main() {
   // Scales
@@ -38,15 +36,15 @@ int main() {
   Instrument::add(Instrument(4, "Electric Piano 1", 21, 108));
   Instrument::add(Instrument(5, "Electric Piano 2", 21, 108));
   Instrument::add(Instrument(6, "Harpsichord", 21, 108));
-  Instrument::add(Instrument(7, "Clavinet", 21, 108));
+  //Instrument::add(Instrument(7, "Clavinet", 21, 108));
   Instrument::add(Instrument(25, "Acoustic Guitar (nylon)", 40, 77));
   Instrument::add(Instrument(26, "Acoustic Guitar (steel)", 40, 77));
   Instrument::add(Instrument(27, "Electric Guitar (jazz)", 40, 77));
   Instrument::add(Instrument(28, "Electric Guitar (clean)", 40, 77));
   Instrument::add(Instrument(29, "Electric Guitar (muted)", 40, 77));
-  Instrument::add(Instrument(30, "Overdriven Guitar", 40, 77));
-  Instrument::add(Instrument(31, "Distortion Guitar", 40, 77));
-  Instrument::add(Instrument(32, "Guitar Harmonics", 40, 77));
+  //Instrument::add(Instrument(30, "Overdriven Guitar", 40, 77));
+  //Instrument::add(Instrument(31, "Distortion Guitar", 40, 77));
+  Instrument::add(Instrument(32, "Acoustic Bass", 40, 77));
   Instrument::add(Instrument(40, "Violin", 55, 103));
   Instrument::add(Instrument(41, "Viola", 48, 91));
   Instrument::add(Instrument(42, "Cello", 36, 76));
@@ -61,28 +59,16 @@ int main() {
   //Instrument::add(Instrument(63,"Synth Brass 1",28,67));
   //Instrument::add(Instrument(64,"Synth Brass 2",28,67));
 
-  std::cout << "Press space to skip a music." << std::endl << std::endl;
-  Player player;
   while(true) {
-    const uint64_t musicId(Rand::state());
-    std::cout << "...\r";
     Music music;
+    std::cout << "Created " << music.to_short_string() << std::endl;
     {
-      std::ofstream fs(std::to_string(musicId)+".mid", std::ofstream::binary);
-      music.write(fs);
+      std::ofstream fs(music.to_short_string()+".mid", std::ofstream::binary);
+      music.write_mid(fs);
     }
-    std::cout << "New music: " << musicId << std::endl;
-    for(auto&& instrument : music.instruments())
-      std::cout << "\t- " << instrument->name() << std::endl;
-    std::cout << "\tScale: " << music.scale().name() << std::endl
-      << "\tTempo: " << music.tempo() << std::endl
-      << "\tDuration: " << music.duration() << std::endl << std::endl;
-    player.start(&music);
-    while(!player.free()) {
-      if(_kbhit() && _getch()==' ')
-        player.stop();
-      else
-        player.play();
+    {
+      std::ofstream fs(music.to_short_string()+".txt");
+      music.write_txt(fs);
     }
   }
   return 0;

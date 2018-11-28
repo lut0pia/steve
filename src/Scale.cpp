@@ -1,5 +1,5 @@
 #include "Scale.h"
 
-using namespace Steve;
+using namespace steve;
 
 std::vector<Scale> Scale::scales;

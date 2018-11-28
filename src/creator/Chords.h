@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Tonal.h"
+#include "Creator.h"
 
-namespace Steve {
-  class Chords : public Tonal {
+namespace steve {
+  class Chords : public Creator {
   private:
-    uint32_t md;
+    uint32_t _md;
   public:
-    inline Chords(uint8_t channel,const Scale& scale,const Instrument& instrument,int mintime = 0,int maxtime = 8)
-      : Tonal(channel,scale,instrument,mintime,maxtime),md(0) {}
-    Notes get(size_t start,size_t size,const std::vector<std::set<uint8_t>>& tones) const override;
+    inline Chords(const Music& m, int mintime = 0, int maxtime = 8)
+      : Creator(m, mintime, maxtime), _md(0) {}
+    Notes get(size_t start, size_t size) const override;
+    const char* name() const override { return "Chords"; }
   };
 }

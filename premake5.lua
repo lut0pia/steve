@@ -9,9 +9,6 @@ solution "Steve"
 		targetdir "bin"
 		debugdir "bin"
 
-		configuration {"windows"}
-			links {"winmm"}
-
 		configuration {"Debug"}
 			targetname "Steve_dbg"
 			kind "ConsoleApp"
