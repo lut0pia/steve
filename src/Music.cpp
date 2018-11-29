@@ -115,7 +115,8 @@ void Music::write_mid(std::ostream& s) const {
   for(auto&& note : _notes) {
     s << uint8_t(note.first-last); // Track event delta time
     s << uint8_t((note.second.stop ? 0x80 : 0x90)|note.second.channel);
-    s << uint8_t(note.second.tone) << uint8_t(127);
+    s << uint8_t(note.second.tone);
+    s << uint8_t(note.second.velocity);
     last = note.first;
   }
   s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x2F) << uint8_t(0); // End of track
