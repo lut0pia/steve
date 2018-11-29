@@ -39,13 +39,6 @@ void Music::add_part(const Creator& creator) {
 }
 uint8_t Music::add_channel(const Instrument* instrument) {
   uint8_t channel(_instruments.size());
-  if(channel==9) { // Avoid drum channel
-    _instruments.push_back(NULL);
-    channel++;
-  } else if(channel>=16) {
-    std::cerr << "Too many channels." << std::endl;
-    exit(1);
-  }
   _instruments.push_back(instrument);
   return channel;
 }
@@ -73,7 +66,7 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
     }
     _creators.push_back(creator);
     add_part(*creator);
-  } while(parts()<2 || Rand::next(0, 1));
+  } while((parts()<2 || Rand::next(0, 1)) && _instruments.size()<9);
   if(Rand::next(0, 2)) {
     add_part(Drums(*this));
   }
