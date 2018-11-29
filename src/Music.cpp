@@ -47,7 +47,7 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
   while(_size>512); // <=512 with 46 average bars
   _size *= bar_ticks;
   do {
-    int mintime(Rand::next(eighth, whole)), maxtime(Rand::next(mintime, whole));
+    int mintime(Rand::next(eighth, half)), maxtime(Rand::next(mintime, whole));
     //cout << mintime << " " << maxtime << " " << minoct << " " << maxoct << endl;
     add_channel(Instrument::random());
     const Creator* creator;
