@@ -15,6 +15,4 @@ I was not (and still am not) in any way a music composer, I've never even had a 
 
 ## Building
 
-Steve is currently only available for Windows but Linux support is definitely doable.
-
 Steve uses [premake](https://github.com/premake/premake-core/wiki/Using-Premake) to create a project file that can then be used to build it (a binary for Windows is already present at the root of the repo).
