@@ -17,6 +17,7 @@ int main() {
   Scale::add(Scale("Harmonic minor", {0,2,3,5,7,8,11}));
   //Scale::add(Scale("Kumoi",{0,2,3,7,9}));
   Scale::add(Scale("Major", {0,2,4,5,7,9,11}));
+  Scale::add(Scale("Minor", {0,2,3,5,7,8,10}));
   //Scale::add(Scale("Melodic minor",{0,2,3,5,7,9,11}));
   Scale::add(Scale("Pentatonic major", {0,2,4,7,9}));
   Scale::add(Scale("Whole tone", {0,2,4,6,8,10}));
