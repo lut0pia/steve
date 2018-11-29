@@ -56,11 +56,13 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
         creator = new Melody(*this, mintime, maxtime, 3);
         break;
       case 1:
-        mintime = std::min<int>(mintime+2, whole);
-        maxtime = std::min<int>(maxtime+2, whole);
+        mintime = std::min<int>(mintime + 1, whole);
+        maxtime = std::min<int>(maxtime + 1, whole);
         creator = new Chords(*this, mintime, maxtime);
         break;
       case 2:
+        mintime = std::min<int>(mintime + 1, whole);
+        maxtime = std::min<int>(maxtime + 1, whole);
         creator = new Arpeggio(*this, mintime, maxtime);
         break;
     }
