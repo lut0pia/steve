@@ -35,23 +35,17 @@ namespace steve {
     perfectoctave
   };
   typedef std::multimap<uint32_t, Note> Notes;
-  typedef std::set<uint8_t> ToneSet;
+  typedef uint16_t ToneSet;
+  typedef uint64_t NoteSet;
   typedef std::vector<ToneSet> Tones;
   static const size_t bar_ticks = 128; // ticks per bar
   inline uint32_t ticks_for(NoteValue v) { return uint32_t(pow(uint32_t(2), uint32_t(v))); }
   ToneSet shift(const ToneSet& scale, int shifting);
   const char* key_name(uint8_t);
-  ToneSet octave_tones(const std::set<uint8_t>&);
   void add_note(Notes&, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity = 127);
 
   Tones octave_tones(const Notes&);
   void paste(const Notes&, Notes&, size_t start = 0);
   Notes copy(const Notes&, size_t start = 0, size_t size = -1);
   bool harmony(size_t start, const std::vector<ToneSet>& base, const std::vector<ToneSet>& piece);
-
-  template <class T> T merge(const T& a, const T& b) {
-    T wtr(a);
-    wtr.insert(b.begin(), b.end());
-    return wtr;
-  }
 }

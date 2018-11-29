@@ -72,12 +72,21 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
   if(Rand::next(0, 2)) {
     add_part(Drums(*this));
   }
+
+#if _DEBUG
+  _tones = octave_tones(_notes);
+  for(ToneSet tones : _tones) {
+    if(!Chord::harmony(tones)) {
+      __debugbreak();
+    }
+  }
+#endif
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet wtr;
   const uint32_t end(std::min(start+size, _tones.size()));
   for(uint32_t i(start); i<end; i++)
-    wtr.insert(_tones[i].begin(), _tones[i].end());
+    wtr |= _tones[i];
   return wtr;
 }
 std::string Music::to_short_string() const {
@@ -86,7 +95,7 @@ std::string Music::to_short_string() const {
   short_string += std::to_string(tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
-  
+
   return short_string;
 }
 

@@ -8,14 +8,12 @@
 using namespace std;
 using namespace steve;
 
-ToneSet steve::shift(const ToneSet& scale, int shifting) {
-  ToneSet wtr;
-  for(int tone : scale) {
-    tone += shifting;
-    tone %= 12;
-    if(tone<0)
-      tone += 12;
-    wtr.insert(tone);
+ToneSet steve::shift(const ToneSet& tones, int shifting) {
+  ToneSet wtr(0);
+  for(int i(0); i<12; i++) {
+    if(tones & 1<<i) {
+      wtr |= 1<<((i + shifting + 12)%12);
+    }
   }
   return wtr;
 }
@@ -36,12 +34,6 @@ const char* steve::key_name(uint8_t key) {
   }
   return "N/A";
 }
-ToneSet steve::octave_tones(const ToneSet& tones) {
-  ToneSet wtr;
-  for(auto&& tone : tones)
-    wtr.insert(tone%12);
-  return wtr;
-}
 void steve::add_note(Notes& notes, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity) {
   if(length>bar_ticks) {
     cerr << "Note too long." << endl;
@@ -59,21 +51,27 @@ void steve::add_note(Notes& notes, uint8_t channel, uint8_t tone, size_t start, 
 }
 
 Tones steve::octave_tones(const Notes& notes) {
-  Tones tones, played(16);
+  Tones tones;
+  std::vector<std::set<uint8_t>> channel_tones(16);
   uint32_t i(0);
-  for(auto&& note : notes) {
-    if(note.second.channel!=9) { // Not drums
-      if(note.second.stop)
-        played[note.second.channel].erase(note.second.tone);
-      else
-        played[note.second.channel].insert(note.second.tone);
+  for(const auto& note : notes) {
+    if(note.second.channel != 9 && !note.second.stop) { // Not drums and play
+      channel_tones[note.second.channel].insert(note.second.tone);
     }
-    while(i<note.first) { // We've passed a tick
-      ToneSet all_played;
-      for(auto&& channel : played)
-        all_played.insert(channel.begin(), channel.end());
-      tones.push_back(octave_tones(all_played));
+
+    while(i < note.first) { // We've passed a tick
+      ToneSet all_played(0);
+      for(const std::set<uint8_t>& channel_played : channel_tones) {
+        for(uint8_t tone : channel_played) {
+          all_played |= 1 << tone % 12;
+        }
+      }
+      tones.push_back(all_played);
       i++;
+    }
+
+    if(note.second.channel != 9 && note.second.stop) { // Not drums and stop
+      channel_tones[note.second.channel].erase(note.second.tone);
     }
   }
   return tones;
@@ -97,7 +95,7 @@ Notes steve::copy(const Notes& src, size_t start, size_t size) {
 }
 bool steve::harmony(size_t start, const std::vector<ToneSet>& base, const std::vector<ToneSet>& piece) {
   for(uint32_t i(start); i<min(base.size(), start+piece.size()); i++) {
-    if(!Chord::harmony(merge(base[i], piece[i-start])))
+    if(!Chord::harmony(base[i]|piece[i-start]))
       return false;
   }
   return true;
