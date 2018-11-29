@@ -19,6 +19,7 @@ int main() {
   Scale::add(Scale("Major", {0,2,4,5,7,9,11}));
   //Scale::add(Scale("Melodic minor",{0,2,3,5,7,9,11}));
   Scale::add(Scale("Pentatonic major", {0,2,4,7,9}));
+  Scale::add(Scale("Whole tone", {0,2,4,6,8,10}));
 
   // Chords
   Chord::add({0,4});      // Major third
