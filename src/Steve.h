@@ -5,13 +5,13 @@
 #include <vector>
 
 namespace steve {
-  typedef struct {
+  struct Note {
     uint8_t channel : 4,
       stop : 1,
       tone : 7,
       velocity : 7;
-  } Note;
-  typedef enum {
+  };
+  enum NoteValue {
     sixtyfourth = 1,
     thirtysecond,
     sixteenth,
@@ -19,8 +19,8 @@ namespace steve {
     quarter,
     half,
     whole
-  } NoteValue;
-  typedef enum {
+  };
+  enum Interval {
     perfectunison = 0,
     minorsecond,
     majorsecond,
@@ -33,7 +33,7 @@ namespace steve {
     minorseventh,
     majorseventh,
     perfectoctave
-  } Interval;
+  };
   typedef std::multimap<uint32_t, Note> Notes;
   typedef std::set<uint8_t> ToneSet;
   typedef std::vector<ToneSet> Tones;
