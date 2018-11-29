@@ -1,9 +1,9 @@
 #!lua
 solution "Steve"
 	configurations {"Debug", "Release"}
+	location("prj/".._ACTION)
 
 	project "Steve"
-		location("prj/".._ACTION)
 		language "C++"
 		files {"**.cpp","**.h"}
 		targetdir "bin"
