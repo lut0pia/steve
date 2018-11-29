@@ -83,7 +83,7 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
 #endif
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
-  ToneSet wtr;
+  ToneSet wtr(0);
   const uint32_t end(std::min(start+size, _tones.size()));
   for(uint32_t i(start); i<end; i++)
     wtr |= _tones[i];
