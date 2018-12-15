@@ -34,6 +34,18 @@ const char* steve::key_name(uint8_t key) {
   }
   return "N/A";
 }
+const char* steve::note_value_name(uint8_t value) {
+  switch(value) {
+    case sixtyfourth: return "sixtyfourth";
+    case thirtysecond: return "thirtysecond";
+    case sixteenth: return "sixteenth";
+    case eighth: return "eighth";
+    case quarter: return "quarter";
+    case half: return "half";
+    case whole: return "whole";
+  }
+  return "N/A";
+}
 void steve::add_note(Notes& notes, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity) {
   if(length>bar_ticks) {
     cerr << "Note too long." << endl;

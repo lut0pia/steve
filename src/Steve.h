@@ -42,6 +42,7 @@ namespace steve {
   inline uint32_t ticks_for(NoteValue v) { return uint32_t(pow(uint32_t(2), uint32_t(v))); }
   ToneSet shift(const ToneSet& scale, int shifting);
   const char* key_name(uint8_t);
+  const char* note_value_name(uint8_t);
   void add_note(Notes&, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity = 127);
 
   Tones octave_tones(const Notes&);
