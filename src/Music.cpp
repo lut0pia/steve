@@ -137,11 +137,11 @@ void Music::write_mid(std::ostream& s) const {
   write_bigendian(s, endoff-sizeoff-4, 4);
 }
 void Music::write_txt(std::ostream& s) const {
-  s << "Parts:" << std::endl;
-  for(uintptr_t i(0); i<parts(); i++) {
-    s << "\t- " << instruments()[i]->name() << " (" << creators()[i]->name() << ")" <<  std::endl;
-  }
   s << "Scale: " << scale().name() << std::endl
     << "Tempo: " << tempo() << std::endl
     << "Duration: " << duration() << std::endl << std::endl;
+  s << "Creators:" << std::endl;
+  for(const Creator* creator : _creators) {
+    creator->write_txt(s);
+  }
 }
