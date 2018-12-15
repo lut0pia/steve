@@ -21,6 +21,7 @@ namespace steve {
     virtual ~Creator() {}
     virtual Notes get(size_t start, size_t size) const = 0;
     virtual const char* name() const = 0;
+    virtual void write_txt(std::ostream&) const;
     virtual inline float repetition() const { return Rand::next_float(); }
 
     size_t time(size_t i, size_t size) const;
