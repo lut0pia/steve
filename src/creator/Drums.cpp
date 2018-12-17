@@ -4,6 +4,9 @@
 
 using namespace steve;
 
+Drums::Drums(Music* music) : Creator(music) {
+  _channel = 9;
+}
 Notes Drums::get(size_t start, size_t size) const {
   Notes notes;
   size_t i(0);

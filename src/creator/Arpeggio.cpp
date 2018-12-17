@@ -2,19 +2,20 @@
 
 using namespace steve;
 
+Arpeggio::Arpeggio(Music* music) : Creator(music), _md(pow(2, Rand::next(NoteValue::sixteenth, _mintime))) {}
 Notes Arpeggio::get(size_t start, size_t size) const {
   Notes notes;
   uint32_t i(0);
   while(i<size) {
     uint32_t d(time(i, size));
-    std::vector<ToneSet> chords(Chord::chords_in_harmony(_scale.tones(), _music.tones_at(start+i, d)));
+    std::vector<ToneSet> chords(Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d)));
     while(chords.empty()) {
       if(!(d /= 2)) break;
-      chords = Chord::chords_in_harmony(_scale.tones(), _music.tones_at(start+i, d));
+      chords = Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d));
     }
     if(d>=pow(2, _mintime)) {
       ToneSet chord(Rand::in(chords));
-      uint8_t octave(_instrument.random_octave());
+      uint8_t octave(_instrument->random_octave());
 
       // Get chord tones in a vector
       std::vector<uint8_t> ordered_tones;

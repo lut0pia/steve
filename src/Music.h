@@ -11,12 +11,9 @@ namespace steve {
   protected:
     Notes _notes;
     Tones _tones;
-    std::vector<const Instrument*> _instruments;
     std::vector<const Creator*> _creators;
     Scale _scale;
     uint32_t _tempo, _size;
-    void add_part(const Creator&);
-    uint8_t add_channel(const Instrument*);
 
   public:
     Music();
@@ -31,8 +28,7 @@ namespace steve {
     inline const Scale& scale() const { return _scale; }
     inline size_t size() const { return _size; }
     inline size_t bars() const { return _size/bar_ticks; }
-    inline size_t parts() const { return _instruments.size(); }
-    inline const std::vector<const Instrument*>& instruments() const { return _instruments; }
+    inline size_t parts() const { return _creators.size(); }
     inline const std::vector<const Creator*>& creators() const { return _creators; }
     inline size_t tempo() const { return _tempo; }
     inline size_t tickTime() const { return 60000/(_tempo*32); }

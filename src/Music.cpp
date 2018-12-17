@@ -8,69 +8,24 @@
 
 using namespace steve;
 
-void Music::add_part(const Creator& creator) {
-  _tones = octave_tones(_notes);
-  std::multimap<size_t, Notes> pieces;
-  uint32_t i(0);
-  const float repetition(creator.repetition());
-  while(i<_size) {
-    bool newPiece(true); // If it isn't changed it means no fitting piece was found
-    for(auto it(pieces.rbegin()); it!=pieces.rend(); it++) // Iterate through pieces already created
-      if(i%it->first==0 // Its size is good for the place it would be in
-        && i+it->first<=_size // The piece isn't too long
-        && Rand::next_float()<repetition // Add some randomness
-        && harmony(i, _tones, octave_tones(it->second))) { // It's in harmony with the current music
-        paste(it->second, _notes, i); // Paste the piece on the music
-        i += it->first; // Go forth
-        newPiece = false; // Specify that the program doesn't need to create a new piece
-        break;
-      }
-    if(newPiece) { // Needs to create a new piece of music
-      size_t piece_size(pow(2, Rand::next(0, 6))*bar_ticks); // 2^n bars
-      while(i%piece_size!=0 || i+piece_size>_size) // Good size and not too long
-        piece_size /= 2;
-      Notes piece(creator.get(i, piece_size)); // Create the piece
-      pieces.insert(make_pair(piece_size, piece)); // Add it to the collection of pieces
-      paste(piece, _notes, i); // Paste it on the music
-      i += piece_size; // Go forth
-    }
-  }
-  //std::cout << "pieces: " << pieces.size() << std::endl;
-}
-uint8_t Music::add_channel(const Instrument* instrument) {
-  uint8_t channel(_instruments.size());
-  _instruments.push_back(instrument);
-  return channel;
-}
 Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
   do _size = Rand::next(20)+26;
   while(_size>512); // <=512 with 46 average bars
   _size *= bar_ticks;
   do {
-    int mintime(Rand::next(eighth, half)), maxtime(Rand::next(mintime, whole));
-    //cout << mintime << " " << maxtime << " " << minoct << " " << maxoct << endl;
-    add_channel(Instrument::random());
-    const Creator* creator;
+    Creator* creator;
     switch(Rand::next(0, 2)) {
-      case 0:
-        creator = new Melody(*this, mintime, maxtime, 3);
-        break;
-      case 1:
-        mintime = std::min<int>(mintime + 1, whole);
-        maxtime = std::min<int>(maxtime + 1, whole);
-        creator = new Chords(*this, mintime, maxtime);
-        break;
-      case 2:
-        mintime = std::min<int>(mintime + 1, whole);
-        maxtime = std::min<int>(maxtime + 1, whole);
-        creator = new Arpeggio(*this, mintime, maxtime);
-        break;
+      case 0: creator = new Melody(this); break;
+      case 1: creator = new Chords(this); break;
+      case 2: creator = new Arpeggio(this); break;
     }
+    paste(creator->compose(), _notes);
     _creators.push_back(creator);
-    add_part(*creator);
-  } while((parts()<2 || Rand::next(0, 1)) && _instruments.size()<9);
+  } while((parts()<2 || Rand::next(0, 1)) && _creators.size()<9);
   if(Rand::next(0, 2)) {
-    add_part(Drums(*this));
+    Creator* creator = new Drums(this);
+    paste(creator->compose(), _notes);
+    _creators.push_back(creator);
   }
 
 #if _DEBUG
@@ -119,8 +74,8 @@ void Music::write_mid(std::ostream& s) const {
   s << uint8_t(0); // Track event delta time
   s << uint8_t(0xFF) << uint8_t(0x51) << uint8_t(3); // Tempo meta event
   write_bigendian(s, 60000000u/_tempo, 3); // Microseconds per quarter note
-  for(uint32_t i(0); i<_instruments.size(); i++) {
-    s << uint8_t(0) << uint8_t(0xC0|i) << _instruments[i]->midi_id(); // Program change
+  for(uint32_t i(0); i<_creators.size(); i++) {
+    s << uint8_t(0) << uint8_t(0xC0|i) << _creators[i]->instrument()->midi_id(); // Program change
   }
   uint32_t last(0);
   for(auto&& note : _notes) {
@@ -143,5 +98,6 @@ void Music::write_txt(std::ostream& s) const {
   s << "Creators:" << std::endl;
   for(const Creator* creator : _creators) {
     creator->write_txt(s);
+    s << std::endl;
   }
 }

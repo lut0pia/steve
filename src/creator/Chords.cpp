@@ -2,19 +2,20 @@
 
 using namespace steve;
 
+Chords::Chords(Music* music) : Creator(music), _md(Rand::next(0, NoteValue::eighth)) {}
 Notes Chords::get(size_t start, size_t size) const {
   Notes notes;
   size_t i(0);
   while(i<size) {
     size_t d(time(i, size));
-    std::vector<ToneSet> chords(Chord::chords_in_harmony(_scale.tones(), _music.tones_at(start+i, d)));
+    std::vector<ToneSet> chords(Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d)));
     while(chords.empty()) {
       if(!(d /= 2)) break;
-      chords = Chord::chords_in_harmony(_scale.tones(), _music.tones_at(start+i, d));
+      chords = Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d));
     }
     if(d>=pow(2, _mintime)) {
       const ToneSet& chord(Rand::in(chords));
-      uint8_t octave(_instrument.random_octave());
+      uint8_t octave(_instrument->random_octave());
       int j(0);
       for(uint8_t tone(0); tone<12; tone++) {
         if(chord & 1<<tone) {
