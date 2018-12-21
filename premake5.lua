@@ -20,4 +20,4 @@ solution "Steve"
 			targetname "Steve"
 			kind "ConsoleApp"
 			objdir("obj/".._ACTION.."/rls")
-			flags {"Optimize"}
+			optimize "On"
