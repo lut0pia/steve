@@ -9,6 +9,8 @@ namespace steve {
   protected:
     Music* _music;
     const Instrument* _instrument;
+    std::vector<Figure> _figures;
+    std::vector<uintptr_t> _figure_list;
     int _mintime, _maxtime;
     float _repetition;
     uint8_t _channel;

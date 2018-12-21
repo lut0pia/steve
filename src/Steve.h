@@ -35,6 +35,10 @@ namespace steve {
     perfectoctave
   };
   typedef std::multimap<uint32_t, Note> Notes;
+  struct Figure {
+    Notes notes;
+    size_t size;
+  };
   typedef uint16_t ToneSet;
   typedef uint64_t NoteSet;
   typedef std::vector<ToneSet> Tones;
