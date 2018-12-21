@@ -32,11 +32,15 @@ std::set<uint8_t> Melody::near_enough(const std::set<uint8_t>& tones, uint8_t la
   if(last_tone==(uint8_t)-1)
     return tones;
   else {
-    std::set<uint8_t> wtr;
-    for(auto&& tone : tones)
-      //if(abs((int)*tone-(int)last_tone)<=maxinter)
-      if(!Rand::next(0, abs((int)tone-(int)last_tone)))
-        wtr.insert(tone);
-    return wtr;
+    auto beg(tones.find(last_tone));
+    auto end(beg);
+    for(uint32_t i(0); i < 2 && beg != tones.begin(); i++) {
+      --beg;
+    }
+    for(uint32_t i(0); i < 2 && end != tones.end(); i++) {
+      ++end;
+    }
+      
+    return std::set<uint8_t>(beg, end);
   }
 }
