@@ -1,8 +1,6 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <ctype.h>
 #include "Chord.h"
 #include "Music.h"
 #include "Scale.h"

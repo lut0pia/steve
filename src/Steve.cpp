@@ -1,6 +1,5 @@
 #include "Steve.h"
 
-#include <algorithm>
 #include <iostream>
 
 #include "Chord.h"

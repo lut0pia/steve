@@ -1,6 +1,7 @@
 #include "Music.h"
 
 #include <iostream>
+#include <algorithm>
 
 #include "Chord.h"
 #include "creator.h"
