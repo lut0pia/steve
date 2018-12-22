@@ -13,7 +13,7 @@ Notes Chords::get(size_t start, size_t size) const {
       if(!(d /= 2)) break;
       chords = Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d));
     }
-    if(d>=pow(2, _mintime)) {
+    if(d >= (1<<_mintime)) {
       const ToneSet& chord(Rand::in(chords));
       uint8_t octave(_instrument->random_octave());
       int j(0);

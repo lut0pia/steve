@@ -1,5 +1,6 @@
 #include "Creator.h"
 
+#include <iostream>
 #include "../Rand.h"
 
 using namespace steve;
@@ -33,7 +34,7 @@ Notes Creator::compose() {
     }
     if(new_figure_needed) { // Needs to create a new figure of music
       Figure figure;
-      figure.size = pow(2, Rand::next(0, 6))*bar_ticks; // 2^n bars
+      figure.size = (1 << Rand::next(0, 6))*bar_ticks; // 2^n bars
       while(i%figure.size != 0 || i + figure.size > _music->size()) // Good size and not too long
         figure.size /= 2;
       figure.notes = get(i, figure.size); // Create the figure

@@ -16,7 +16,7 @@ Notes Melody::get(size_t start, size_t size) const {
       if(!(d /= 2)) break;
       tones = notes_in_harmony(_music->tones(), start+i, d, last_tone);
     }
-    if(d>=pow(2, _mintime)) {
+    if(d >= (1<<_mintime)) {
       uint8_t tone(Rand::in(tones));
       last_tone = tone;
       add_note(notes, _channel, tone, i, d);

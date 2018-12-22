@@ -43,7 +43,7 @@ namespace steve {
   typedef uint64_t NoteSet;
   typedef std::vector<ToneSet> Tones;
   static const size_t bar_ticks = 128; // ticks per bar
-  inline uint32_t ticks_for(NoteValue v) { return uint32_t(pow(uint32_t(2), uint32_t(v))); }
+  inline uint32_t ticks_for(NoteValue v) { return 1 << uint32_t(v); }
   ToneSet shift(const ToneSet& scale, int shifting);
   const char* key_name(uint8_t);
   const char* note_value_name(uint8_t);

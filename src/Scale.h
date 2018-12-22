@@ -23,6 +23,6 @@ namespace steve {
     inline std::string name() const { return std::string(key_name(_key)) + " " + _name; }
     inline ToneSet tones() const { return _tones; }
     static inline void add(const Scale& scale) { scales.push_back(scale); }
-    static inline Scale Scale::random() { return Scale(scales[Rand::next(0, scales.size()-1)], Rand::next(0, 11)); }
+    static inline Scale random() { return Scale(scales[Rand::next(0u, scales.size()-1)], Rand::next(0, 11)); }
   };
 }
