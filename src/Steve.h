@@ -35,13 +35,14 @@ namespace steve {
     perfectoctave
   };
   typedef std::multimap<uint32_t, Note> Notes;
-  struct Figure {
-    Notes notes;
-    size_t size;
-  };
   typedef uint16_t ToneSet;
   typedef uint64_t NoteSet;
   typedef std::vector<ToneSet> Tones;
+  struct Figure {
+    Notes notes;
+    Tones tones;
+    size_t size;
+  };
   static const size_t bar_ticks = 128; // ticks per bar
   inline uint32_t ticks_for(NoteValue v) { return 1 << uint32_t(v); }
   ToneSet shift(const ToneSet& scale, int shifting);
@@ -52,5 +53,5 @@ namespace steve {
   Tones octave_tones(const Notes&);
   void paste(const Notes&, Notes&, size_t start = 0);
   Notes copy(const Notes&, size_t start = 0, size_t size = -1);
-  bool harmony(size_t start, const std::vector<ToneSet>& base, const std::vector<ToneSet>& piece);
+  bool harmony(const ToneSet* base, const ToneSet* piece, size_t size);
 }

@@ -104,10 +104,11 @@ Notes steve::copy(const Notes& src, size_t start, size_t size) {
   }
   return wtr;
 }
-bool steve::harmony(size_t start, const std::vector<ToneSet>& base, const std::vector<ToneSet>& piece) {
-  for(uint32_t i(start); i<min(base.size(), start+piece.size()); i++) {
-    if(!Chord::harmony(base[i]|piece[i-start]))
+bool steve::harmony(const ToneSet* base, const ToneSet* piece, size_t size) {
+  for(uint32_t i(0); i<size; i++) {
+    if((base[i]&piece[i]) == base[i]) {
       return false;
+    }
   }
   return true;
 }

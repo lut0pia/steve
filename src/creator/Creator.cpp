@@ -14,7 +14,6 @@ Creator::Creator(Music* music) {
   _repetition = Rand::next_float()*2.f;
 }
 Notes Creator::compose() {
-  std::vector<ToneSet> tones = octave_tones(_music->notes());
   uint32_t i(0);
   Notes notes;
   while(i < _music->size()) {
@@ -24,7 +23,7 @@ Notes Creator::compose() {
       if(i%figure.size == 0 // Its size is good for the place it would be in
         && i + figure.size <= _music->size() // The figure isn't too long
         && Rand::next_float() < _repetition // Add some randomness
-        && harmony(i, tones, octave_tones(figure.notes))) { // It's in harmony with the current music
+        && harmony(_music->tones().data()+i, figure.tones.data(), figure.size)) { // It's in harmony with the current music
         paste(figure.notes, notes, i); // Paste the figure on the music
         _figure_list.push_back(figure_index); // Register that we used this figure
         i += figure.size; // Go forth
@@ -38,6 +37,7 @@ Notes Creator::compose() {
       while(i%figure.size != 0 || i + figure.size > _music->size()) // Good size and not too long
         figure.size /= 2;
       figure.notes = get(i, figure.size); // Create the figure
+      figure.tones = octave_tones(figure.notes);
       _figure_list.push_back(_figures.size()); // Register that we used this figure
       _figures.push_back(figure); // Add it to the collection of figures
       paste(figure.notes, notes, i); // Paste it on the music

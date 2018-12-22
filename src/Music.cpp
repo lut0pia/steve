@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 
 #include "Chord.h"
 #include "creator.h"
@@ -13,6 +14,18 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
   do _size = Rand::next(20)+26;
   while(_size>512); // <=512 with 46 average bars
   _size *= bar_ticks;
+
+  { // Generate chord progression
+    std::vector<ToneSet> chords(Chord::chords_in_harmony(_scale.tones(), 0));
+    for(uintptr_t i(0); i<bars(); i++) {
+      ToneSet chord(Rand::in(chords));
+      for(uintptr_t j(0); j<bar_ticks; j++) {
+        _tones.push_back(chord);
+      }
+    }
+    assert(_tones.size()==_size);
+  }
+
   do {
     Creator* creator;
     switch(Rand::next(0, 2)) {
@@ -39,10 +52,10 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
 #endif
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
-  ToneSet wtr(0);
+  ToneSet wtr(_tones[start]);
   const uint32_t end(std::min(start+size, _tones.size()));
-  for(uint32_t i(start); i<end; i++)
-    wtr |= _tones[i];
+  for(uint32_t i(start+1); i<end; i++)
+    wtr &= _tones[i];
   return wtr;
 }
 std::string Music::to_short_string() const {
