@@ -19,6 +19,7 @@ namespace steve {
     Music();
     ToneSet tones_at(size_t start, size_t size = 1) const;
     std::string to_short_string() const;
+    void check() const;
 
     void write_mid(std::ostream&) const;
     void write_txt(std::ostream&) const;

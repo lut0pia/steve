@@ -42,14 +42,7 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
     _creators.push_back(creator);
   }
 
-#if _DEBUG
-  _tones = octave_tones(_notes);
-  for(ToneSet tones : _tones) {
-    if(!Chord::harmony(tones)) {
-      __debugbreak();
-    }
-  }
-#endif
+  check();
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet wtr(_tones[start]);
@@ -66,6 +59,13 @@ std::string Music::to_short_string() const {
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
 
   return short_string;
+}
+void Music::check() const {
+  Tones final_tones(octave_tones(_notes));
+  for(ToneSet tones : final_tones) {
+    assert(Chord::harmony(tones));
+    assert((tones|_scale.tones()) == _scale.tones());
+  }
 }
 
 static void write_bigendian(std::ostream& s, uint32_t v, uint32_t byteCount) {
