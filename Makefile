@@ -1,12 +1,28 @@
+ifndef config
+  config=debug
+endif
+
+CXXFLAGS=-Wall -Wextra
+ifeq ($(config),debug)
+	CXXFLAGS+=-g3 -D_DEBUG
+	OBJDIR=obj/dbg
+	EXENAME=steve_dbg
+else
+	CXXFLAGS+=-O3
+	OBJDIR=obj/rls
+	EXENAME=steve
+endif
+
 CPPFILES := $(shell find . -name "*.cpp")
-OBJFILES := $(subst src,obj,$(CPPFILES:.cpp=.o))
+OBJFILES := $(subst src,$(OBJDIR),$(CPPFILES:.cpp=.o))
 
 all: bin/steve
 
 bin/steve: $(OBJFILES)
+	rm -rf bin
 	mkdir -p bin
-	g++ -o bin/steve $(OBJFILES)
+	g++ $(CXXFLAGS) -o bin/$(EXENAME) $(OBJFILES)
 
-obj/%.o: src/%.cpp
+$(OBJDIR)/%.o: src/%.cpp
 	mkdir -p $(@D)
-	g++ -c $< -o $@
+	g++ $(CXXFLAGS) -c $< -o $@
