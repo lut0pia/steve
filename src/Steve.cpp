@@ -81,7 +81,7 @@ Tones steve::octave_tones(const Notes& notes) {
       ToneSet all_played(0);
       for(const std::set<uint8_t>& channel_played : channel_tones) {
         for(uint8_t tone : channel_played) {
-          all_played |= 1 << tone % 12;
+          all_played |= 1 << (tone % 12);
         }
       }
       tones.push_back(all_played);
