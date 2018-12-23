@@ -35,7 +35,7 @@ Music::Music() : _scale(Scale::random()), _tempo(240*Rand::gauss(5)) {
     }
     paste(creator->compose(), _notes);
     _creators.push_back(creator);
-  } while((parts()<2 || Rand::next(0, 1)) && _creators.size()<9);
+  } while((parts()<2 || Rand::next_float()>0.75f) && _creators.size()<9);
   if(Rand::next(0, 2)) {
     Creator* creator = new Drums(this);
     paste(creator->compose(), _notes);
