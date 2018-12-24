@@ -22,8 +22,8 @@ std::vector<ToneSet> Chord::chords_in_harmony(const ToneSet& scale, const ToneSe
   for(const ToneSet& chord : _chords) {
     for(int key(0); key<12; key++) {
       const ToneSet shifted_chord(shift(chord, -key));
-      if(scale|shifted_chord == scale // All chord tones are in scale
-        && shifted_chord|played == shifted_chord) {// All played tones are in chord
+      if((scale|shifted_chord) == scale // All chord tones are in scale
+        && (shifted_chord|played) == shifted_chord) {// All played tones are in chord
         wtr.push_back(shifted_chord);
       }
     }
