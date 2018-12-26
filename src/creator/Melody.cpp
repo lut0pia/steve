@@ -16,7 +16,7 @@ Notes Melody::get(size_t start, size_t size) const {
       if(!(d /= 2)) break;
       tones = choose_note_from_chord(_music->tones_at(start+i, d), last_tone);
     }
-    if(d >= (1<<_mintime)) {
+    if(d >= (1<<_min_time)) {
       uint8_t tone(Rand::in(tones));
       last_tone = tone;
       add_note(notes, _channel, tone, i, d);

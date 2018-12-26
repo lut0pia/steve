@@ -9,8 +9,8 @@ Creator::Creator(Music* music) {
   _music = music;
   _channel = music->creators().size();
   _instrument = Instrument::random();
-  _mintime = Rand::next(sixteenth, half);
-  _maxtime = Rand::next(_mintime, whole);
+  _min_time = NoteValue(Rand::next(sixteenth, half));
+  _max_time = NoteValue(Rand::next(_min_time, whole));
   _repetition = Rand::next_float()*2.f;
 }
 Notes Creator::compose() {
@@ -48,7 +48,7 @@ Notes Creator::compose() {
 }
 void Creator::write_txt(std::ostream& s) const {
   s << "\t" << name() << " (" << _instrument->name() << ")" << std::endl
-    << "\t[" << note_value_name(_mintime) << ":" << note_value_name(_maxtime) << "]" << std::endl
+    << "\t[" << note_value_name(_min_time) << ":" << note_value_name(_max_time) << "]" << std::endl
     << "\tRepetition factor: " << _repetition << std::endl;
 
   {
@@ -60,7 +60,7 @@ void Creator::write_txt(std::ostream& s) const {
   }
 }
 size_t Creator::time(size_t i, size_t size) const {
-  size_t wtr(1 << Rand::next(_mintime, _maxtime)); // 2^n ticks
+  size_t wtr(1 << Rand::next(_min_time, _max_time)); // 2^n ticks
   while(i%wtr != 0 || i + wtr > size) // Good size and not too long
     wtr /= 2;
   return wtr;

@@ -11,7 +11,7 @@ namespace steve {
     const Instrument* _instrument;
     std::vector<Figure> _figures;
     std::vector<uintptr_t> _figure_list;
-    int _mintime, _maxtime;
+    NoteValue _min_time, _max_time;
     float _repetition;
     uint8_t _channel;
   public:

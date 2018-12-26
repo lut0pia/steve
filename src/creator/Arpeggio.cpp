@@ -2,7 +2,7 @@
 
 using namespace steve;
 
-Arpeggio::Arpeggio(Music* music) : Creator(music), _md(1<<Rand::next(NoteValue::sixteenth, _mintime)) {}
+Arpeggio::Arpeggio(Music* music) : Creator(music), _md(1<<Rand::next(NoteValue::sixteenth, _min_time)) {}
 Notes Arpeggio::get(size_t start, size_t size) const {
   Notes notes;
   uint32_t i(0);
@@ -13,7 +13,7 @@ Notes Arpeggio::get(size_t start, size_t size) const {
       if(!(d /= 2)) break;
       chords = Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d));
     }
-    if(d >= (1<<_mintime)) {
+    if(d >= (1<<_min_time)) {
       ToneSet chord(Rand::in(chords));
       uint8_t octave(_instrument->random_octave());
 
