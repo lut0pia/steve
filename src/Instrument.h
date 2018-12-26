@@ -17,7 +17,7 @@ namespace steve {
 
   public:
     inline Instrument(uint8_t id, const char* name, uint8_t min_tone = 0, uint8_t max_tone = 60)
-      : _name(name), _midi_id(id), _min_tone(std::max<uint8_t>(min_tone, 36)), _max_tone(std::min<uint8_t>(max_tone, 84)) {
+      : _name(name), _midi_id(id), _min_tone(min_tone), _max_tone(max_tone) {
     }
 
     // Return all tones corresponding to tones in the instrument's range
