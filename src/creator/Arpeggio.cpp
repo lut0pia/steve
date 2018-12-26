@@ -15,7 +15,7 @@ Notes Arpeggio::get(size_t start, size_t size) const {
     }
     if(d >= (1<<_min_time)) {
       ToneSet chord(Rand::in(chords));
-      uint8_t octave(_instrument->random_octave());
+      uint8_t octave(Rand::next(_min_tone / 12, _max_tone / 12) * 12);
 
       // Get chord tones in a vector
       std::vector<uint8_t> ordered_tones;

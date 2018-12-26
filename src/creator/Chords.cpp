@@ -15,7 +15,7 @@ Notes Chords::get(size_t start, size_t size) const {
     }
     if(d >= (1<<_min_time)) {
       const ToneSet& chord(Rand::in(chords));
-      uint8_t octave(_instrument->random_octave());
+      uint8_t octave(Rand::next(_min_tone / 12, _max_tone / 12) * 12);
       int j(0);
       for(uint8_t tone(0); tone<12; tone++) {
         if(chord & 1<<tone) {

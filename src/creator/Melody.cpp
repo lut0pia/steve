@@ -26,7 +26,17 @@ Notes Melody::get(size_t start, size_t size) const {
   return notes;
 }
 std::set<uint8_t> Melody::choose_note_from_chord(const ToneSet& tones, uint8_t lasttone) const {
-  return near_enough(_instrument->in_range(tones), lasttone);
+  std::set<uint8_t> notes_in_ambitus;
+  for(uint8_t tone(0); tone < 12; tone++) {
+    if(tones & (1 << tone)) {
+      for(uint8_t t(tone); t <= _max_tone; t += 12) {
+        if(t >= _min_tone) {
+          notes_in_ambitus.insert(t);
+        }
+      }
+    }
+  }
+  return near_enough(notes_in_ambitus, lasttone);
 }
 std::set<uint8_t> Melody::near_enough(const std::set<uint8_t>& tones, uint8_t last_tone) const {
   if(last_tone==(uint8_t)-1)
