@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <iterator>
 #include <set>
 #include <vector>
 
@@ -26,12 +27,12 @@ namespace steve {
     template <class T>
     static const T& in(const std::set<T>& s) {
       auto it(s.begin());
-      std::advance(it, next(0u, s.size()-1));
+      std::advance(it, next(0ull, s.size()-1));
       return *it;
     }
     template <class T>
     inline static const T& in(const std::vector<T>& v) {
-      return v[next(0u, v.size()-1)];
+      return v[next(0ull, v.size()-1)];
     }
 
     inline static const uint64_t& state() { return _state; }

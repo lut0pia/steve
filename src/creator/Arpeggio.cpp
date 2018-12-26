@@ -28,7 +28,7 @@ Notes Arpeggio::get(size_t start, size_t size) const {
       // Randomize those tones (this is terribly ugly)
       std::vector<uint8_t> tones;
       while(!ordered_tones.empty()) {
-        uintptr_t i(Rand::next(0u, ordered_tones.size()-1));
+        uintptr_t i(Rand::next(0ull, ordered_tones.size()-1));
         tones.push_back(ordered_tones[i]);
         ordered_tones.erase(ordered_tones.begin()+i);
       }
