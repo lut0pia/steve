@@ -109,6 +109,26 @@ void Music::write_txt(std::ostream& s) const {
   s << "Scale: " << scale().name() << std::endl
     << "Tempo: " << tempo() << std::endl
     << "Duration: " << duration() << std::endl << std::endl;
+
+  {
+    ToneSet last_chord;
+    s << "Chord progression:";
+    for(uintptr_t i(0); i<_size; i++) {
+      if(i%bar_ticks==0) {
+        if(i > 0) {
+          s << " |";
+        }
+        last_chord = -1;
+      }
+      ToneSet chord(_tones[i]);
+      if(chord != last_chord) {
+        s << " " << chord;
+      }
+      last_chord = chord;
+    }
+    s << std::endl;
+  }
+
   s << "Creators:" << std::endl;
   for(const Creator* creator : _creators) {
     creator->write_txt(s);
