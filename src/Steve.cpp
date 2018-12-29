@@ -1,21 +1,13 @@
 #include "Steve.h"
 
 #include <iostream>
+#include <cassert>
 
 #include "Chord.h"
 
 using namespace std;
 using namespace steve;
 
-ToneSet steve::shift(const ToneSet& tones, int shifting) {
-  ToneSet wtr(0);
-  for(int i(0); i<12; i++) {
-    if(tones & 1<<i) {
-      wtr |= 1<<((i + shifting + 12)%12);
-    }
-  }
-  return wtr;
-}
 const char* steve::key_name(uint8_t key) {
   switch(key) {
     case 0: return "C";
@@ -44,6 +36,10 @@ const char* steve::note_value_name(uint8_t value) {
     case whole: return "whole";
   }
   return "N/A";
+}
+ToneSet steve::tone_set_shift(const ToneSet& tones, int shifting) {
+  assert(shifting >= 0 && shifting < 12);
+  return ((tones << shifting) | (tones >> (12 - shifting))) & 0xfff;
 }
 const char* steve::tone_set_binary(ToneSet tone_set) {
   static char str[13] = {};

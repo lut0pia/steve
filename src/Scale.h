@@ -15,7 +15,7 @@ namespace steve {
     ToneSet _tones;
 
     inline Scale(const Scale& scale, int key) :
-      _name(scale._name), _key(key), _tones(shift(scale._tones, -key)) {
+      _name(scale._name), _key(key), _tones(tone_set_shift(scale._tones, key)) {
     }
 
   public:

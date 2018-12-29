@@ -8,7 +8,7 @@ ToneSet Chord::tones_in_harmony(const ToneSet& scale, const ToneSet& played) {
   ToneSet wtr(0);
   for(const ToneSet& chord : _chords) {
     for(int key(0); key<12; key++) {
-      const ToneSet shifted_chord(shift(chord, -key));
+      const ToneSet shifted_chord(tone_set_shift(chord, key));
       if(scale|shifted_chord == scale // All chord tones are in scale
         && shifted_chord|played == shifted_chord) {// All played tones are in chord
         wtr |= shifted_chord;
@@ -21,7 +21,7 @@ std::vector<ToneSet> Chord::chords_in_harmony(const ToneSet& scale, const ToneSe
   std::vector<ToneSet> wtr;
   for(const ToneSet& chord : _chords) {
     for(int key(0); key<12; key++) {
-      const ToneSet shifted_chord(shift(chord, -key));
+      const ToneSet shifted_chord(tone_set_shift(chord, key));
       if((scale|shifted_chord) == scale // All chord tones are in scale
         && (shifted_chord|played) == shifted_chord) {// All played tones are in chord
         wtr.push_back(shifted_chord);
@@ -33,7 +33,7 @@ std::vector<ToneSet> Chord::chords_in_harmony(const ToneSet& scale, const ToneSe
 bool Chord::harmony(const ToneSet& played) {
   for(const ToneSet& chord : _chords) {
     for(int key(0); key<12; key++) {
-      const ToneSet shifted_chord(shift(chord, -key));
+      const ToneSet shifted_chord(tone_set_shift(chord, key));
       if(shifted_chord|played == shifted_chord) { // All played tones are in chord
         return true;
       }
