@@ -62,9 +62,10 @@ std::string Music::to_short_string() const {
 }
 void Music::check() const {
   Tones final_tones(octave_tones(_notes));
-  for(ToneSet tones : final_tones) {
-    assert(Chord::harmony(tones));
-    assert((tones|_scale.tones()) == _scale.tones());
+  assert(_tones.size() == final_tones.size());
+  for(uintptr_t i(0); i < _tones.size(); i++) {
+    assert((final_tones[i] | _scale.tones()) == _scale.tones());
+    assert((final_tones[i] | _tones[i]) == _tones[i]);
   }
 }
 
