@@ -9,6 +9,8 @@
 using namespace steve;
 
 int main() {
+  note_name_init();
+
   // Scales
   Scale::add(Scale("Blues", {0,3,5,6,7}));
   //Scale::add(Scale("Byzantine",{0,1,4,5,7,8,11}));

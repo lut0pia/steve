@@ -37,6 +37,17 @@ const char* steve::note_value_name(uint8_t value) {
   }
   return "N/A";
 }
+
+static char* note_names;
+void steve::note_name_init() {
+  note_names = (char*)malloc(128 * 4);
+  for(uint8_t note(0); note < 128; note++) {
+    sprintf(note_names + note * 4, "%s%d", key_name(note % 12), note / 12);
+  }
+}
+const char* steve::note_name(uint8_t note) {
+  return note_names + note * 4;
+}
 ToneSet steve::tone_set_shift(const ToneSet& tones, int shifting) {
   assert(shifting >= 0 && shifting < 12);
   return ((tones << shifting) | (tones >> (12 - shifting))) & 0xfff;
