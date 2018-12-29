@@ -119,8 +119,8 @@ Notes steve::copy(const Notes& src, size_t start, size_t size) {
   return wtr;
 }
 bool steve::harmony(const ToneSet* base, const ToneSet* piece, size_t size) {
-  for(uint32_t i(0); i<size; i++) {
-    if((base[i]&piece[i]) == base[i]) {
+  for(uintptr_t i(0); i<size; i++) {
+    if((base[i]|piece[i]) != base[i]) {
       return false;
     }
   }
