@@ -123,7 +123,7 @@ void Music::write_txt(std::ostream& s) const {
       }
       ToneSet chord(_tones[i]);
       if(chord != last_chord) {
-        s << " " << chord;
+        s << " " << tone_set_binary(chord);
       }
       last_chord = chord;
     }
