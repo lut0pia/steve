@@ -2,30 +2,19 @@
 
 using namespace steve;
 
-Chords::Chords(Music* music) : Creator(music), _md(Rand::next(0, NoteValue::eighth)) {}
+Chords::Chords(Music* music) : ChordBasedCreator(music) {}
 Notes Chords::get(size_t start, size_t size) const {
   Notes notes;
-  size_t i(0);
-  while(i<size) {
+  uintptr_t i(0);
+  while(i < size) {
     size_t d(time(i, size));
-    std::vector<ToneSet> chords(Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d)));
-    while(chords.empty()) {
-      if(!(d /= 2)) break;
-      chords = Chord::chords_in_harmony(_music->scale().tones(), _music->tones_at(start+i, d));
-    }
-    if(d >= (1<<_min_time)) {
-      const ToneSet& chord(Rand::in(chords));
-      uint8_t octave(Rand::next(_min_tone / 12, _max_tone / 12) * 12);
-      int j(0);
-      for(uint8_t tone(0); tone<12; tone++) {
-        if(chord & 1<<tone) {
-          if(d-j<=bar_ticks) {
-            // Decreased velocity because chords shouldn't take up all the space
-            add_note(notes, _channel, octave+tone, i+j, d-j, 64);
-          }
-          j += _md;
-        }
+    if(d >= (1 << _min_time)) {
+      std::vector<uint8_t> tones(chord_for(start + i, d));
+
+      for(uint8_t tone : tones) {
+        add_note(notes, _channel, tone, i, d, 100);
       }
+
       i += d;
     } else i++;
   }

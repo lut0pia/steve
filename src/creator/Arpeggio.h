@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Creator.h"
+#include "ChordBasedCreator.h"
 
 namespace steve {
-  class Arpeggio : public Creator {
+  class Arpeggio : public ChordBasedCreator {
   private:
-    uint32_t _md;
+    NoteValue _step;
   public:
     Arpeggio(Music*);
     Notes get(size_t start, size_t size) const;
