@@ -8,24 +8,22 @@ Melody::Melody(Music* music) : Creator(music) {
 Notes Melody::get(size_t start, size_t size) const {
   Notes notes;
   size_t i(0);
-  uint8_t last_tone(-1);
-  while(i<size) {
+  while(i < size) {
     size_t d(time(i, size));
-    std::set<uint8_t> tones(choose_note_from_chord(_music->tones_at(start+i, d), last_tone));
+    std::set<uint8_t> tones(choose_note_from_chord(_music->tones_at(start + i, d)));
     while(tones.empty()) {
       if(!(d /= 2)) break;
-      tones = choose_note_from_chord(_music->tones_at(start+i, d), last_tone);
+      tones = choose_note_from_chord(_music->tones_at(start + i, d));
     }
-    if(d >= (1<<_min_time)) {
+    if(d >= (1 << _min_time)) {
       uint8_t tone(Rand::in(tones));
-      last_tone = tone;
       add_note(notes, _channel, tone, i, d);
       i += d;
     } else i++;
   }
   return notes;
 }
-std::set<uint8_t> Melody::choose_note_from_chord(const ToneSet& tones, uint8_t lasttone) const {
+std::set<uint8_t> Melody::choose_note_from_chord(const ToneSet& tones) const {
   std::set<uint8_t> notes_in_ambitus;
   for(uint8_t tone(0); tone < 12; tone++) {
     if(tones & (1 << tone)) {
@@ -36,21 +34,5 @@ std::set<uint8_t> Melody::choose_note_from_chord(const ToneSet& tones, uint8_t l
       }
     }
   }
-  return near_enough(notes_in_ambitus, lasttone);
-}
-std::set<uint8_t> Melody::near_enough(const std::set<uint8_t>& tones, uint8_t last_tone) const {
-  if(last_tone==(uint8_t)-1)
-    return tones;
-  else {
-    auto beg(tones.find(last_tone));
-    auto end(beg);
-    for(uint32_t i(0); i < 2 && beg != tones.begin(); i++) {
-      --beg;
-    }
-    for(uint32_t i(0); i < 2 && end != tones.end(); i++) {
-      ++end;
-    }
-      
-    return std::set<uint8_t>(beg, end);
-  }
+  return notes_in_ambitus;
 }

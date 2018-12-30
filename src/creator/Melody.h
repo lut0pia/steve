@@ -10,7 +10,6 @@ namespace steve {
     Melody(Music*);
     Notes get(size_t start, size_t size) const override;
     const char* name() const override { return "Melody"; }
-    std::set<uint8_t> choose_note_from_chord(const ToneSet& chord, uint8_t lasttone) const;
-    std::set<uint8_t> near_enough(const std::set<uint8_t>&, uint8_t lasttone) const;
+    std::set<uint8_t> choose_note_from_chord(const ToneSet& chord) const;
   };
 }
