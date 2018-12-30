@@ -21,3 +21,8 @@ Notes Arpeggio::get(size_t start, size_t size) const {
   }
   return notes;
 }
+
+void Arpeggio::write_txt(std::ostream& s) const {
+  ChordBasedCreator::write_txt(s);
+  s << "\t\tArpeggio step: " << note_value_name(_step) << std::endl;
+}
