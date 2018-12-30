@@ -55,12 +55,12 @@ Notes Creator::compose() {
 }
 void Creator::write_txt(std::ostream& s) const {
   s << "\t" << name() << " (" << _instrument->name() << ")" << std::endl
-    << "\t[" << note_value_name(_min_time) << ":" << note_value_name(_max_time) << "]" << std::endl
-    << "\t[" << note_name(_min_tone) << ":" << note_name(_max_tone) << "]" << std::endl
-    << "\tRepetition factor: " << _repetition << std::endl;
+    << "\t\t[" << note_value_name(_min_time) << ":" << note_value_name(_max_time) << "]" << std::endl
+    << "\t\t[" << note_name(_min_tone) << ":" << note_name(_max_tone) << "]" << std::endl
+    << "\t\tRepetition factor: " << _repetition << std::endl;
 
   {
-    s << "\tFigures:";
+    s << "\t\tFigures:";
     for(uintptr_t figure_index : _figure_list) {
       s << " " << figure_index;
     }
