@@ -11,14 +11,19 @@ Creator::Creator(Music* music) {
   _music = music;
   _channel = music->creators().size();
   _instrument = Instrument::random();
-  const uint8_t mid_tone(_instrument->min_tone() + Rand::gauss(5)*float(_instrument->max_tone() - _instrument->min_tone()));
-  _min_tone = std::max<uint8_t>(mid_tone - 10, _instrument->min_tone());
-  _max_tone = std::min<uint8_t>(mid_tone + 10, _instrument->max_tone());
+  const uint8_t ambitus_half_range(Rand::next(6, 10));
+  const uint8_t instrument_range(_instrument->max_tone() - _instrument->min_tone());
+
+  {
+    const uint8_t mid_tone(_instrument->min_tone() + ambitus_half_range + Rand::gauss(5)*float(instrument_range - ambitus_half_range * 2));
+    _min_tone = std::max<uint8_t>(mid_tone - ambitus_half_range, _instrument->min_tone());
+    _max_tone = std::min<uint8_t>(mid_tone + ambitus_half_range, _instrument->max_tone());
+    assert(_max_tone - _min_tone >= 12);
+  }
+
   _min_time = NoteValue(Rand::next(sixteenth, half));
   _max_time = NoteValue(Rand::next(_min_time, whole));
   _repetition = Rand::next_float()*2.f;
-
-  assert(_max_tone - _min_tone > 12);
 }
 Notes Creator::compose() {
   uint32_t i(0);
