@@ -40,13 +40,15 @@ const char* steve::note_value_name(uint8_t value) {
 
 static char* note_names;
 void steve::note_name_init() {
-  note_names = (char*)malloc(128 * 4);
+  // Start at C-1
+  // Worst case: C#-1\0 (5 bytes)
+  note_names = (char*)malloc(128 * 5);
   for(uint8_t note(0); note < 128; note++) {
-    sprintf(note_names + note * 4, "%s%d", key_name(note % 12), note / 12);
+    sprintf(note_names + note * 5, "%s%d", key_name(note % 12), (note / 12) - 1);
   }
 }
 const char* steve::note_name(uint8_t note) {
-  return note_names + note * 4;
+  return note_names + note * 5;
 }
 ToneSet steve::tone_set_shift(const ToneSet& tones, int shifting) {
   assert(shifting >= 0 && shifting < 12);
