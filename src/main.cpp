@@ -11,6 +11,19 @@ using namespace steve;
 int main() {
   note_name_init();
 
+  // Chords
+  Chord::add({0,4,7});    // Major triad
+  Chord::add({0,3,7});    // Minor triad
+  Chord::add({0,4,8});    // Augmented triad
+  Chord::add({0,3,6});    // Diminished triad
+  Chord::add({0,2,5});    // Second
+  Chord::add({0,4,5});    // Fourth
+  Chord::add({0,4,7,9});  // Major sixth
+  Chord::add({0,3,7,9});  // Minor sixth
+  Chord::add({0,4,7,10}); // 7th
+  Chord::add({0,4,7,11}); // Major 7th
+  Chord::add({0,3,7,11}); // Minor 7th
+
   // Scales
   Scale::add(Scale("Blues", {0,3,5,6,7}));
   //Scale::add(Scale("Byzantine",{0,1,4,5,7,8,11}));
@@ -21,14 +34,6 @@ int main() {
   //Scale::add(Scale("Melodic minor",{0,2,3,5,7,9,11}));
   Scale::add(Scale("Pentatonic major", {0,2,4,7,9}));
   Scale::add(Scale("Whole tone", {0,2,4,6,8,10}));
-
-  // Chords
-  Chord::add({0,4});      // Major third
-  Chord::add({0,3});      // Minor third
-  Chord::add({0,7});      // Perfect fifth
-  Chord::add({0,4,7});    // Major
-  Chord::add({0,3,7});    // Minor
-  Chord::add({0,4,7,10}); // 7th
 
   // Instruments
   // Tone numbering starts at C-1 (CCCC)
