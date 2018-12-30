@@ -4,8 +4,6 @@
 
 namespace steve {
   class Melody : public Creator {
-  private:
-    int _maxinter; // Maximum melodic interval
   public:
     Melody(Music*);
     Notes get(size_t start, size_t size) const override;

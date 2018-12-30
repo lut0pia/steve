@@ -2,24 +2,18 @@
 
 using namespace steve;
 
-Melody::Melody(Music* music) : Creator(music) {
-  _maxinter = 3;
-}
+Melody::Melody(Music* music) : Creator(music) {}
 Notes Melody::get(size_t start, size_t size) const {
   Notes notes;
-  size_t i(0);
+  uintptr_t i(0);
   while(i < size) {
-    size_t d(time(i, size));
+    const size_t d(time(i, size));
     std::set<uint8_t> tones(choose_note_from_chord(_music->tones_at(start + i, d)));
-    while(tones.empty()) {
-      if(!(d /= 2)) break;
-      tones = choose_note_from_chord(_music->tones_at(start + i, d));
-    }
-    if(d >= (1 << _min_time)) {
-      uint8_t tone(Rand::in(tones));
-      add_note(notes, _channel, tone, i, d);
-      i += d;
-    } else i++;
+
+    uint8_t tone(Rand::in(tones));
+    add_note(notes, _channel, tone, i, d);
+
+    i += d;
   }
   return notes;
 }
