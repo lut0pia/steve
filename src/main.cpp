@@ -58,7 +58,7 @@ int main() {
   Instrument::add(Instrument(18, "Rock Organ", 24, 84));
   Instrument::add(Instrument(19, "Church Organ", 24, 84));
   Instrument::add(Instrument(20, "Reed Organ", 24, 84));
-  Instrument::add(Instrument(21, "Accordion", 44, 92));
+  //Instrument::add(Instrument(21, "Accordion", 44, 92));
   Instrument::add(Instrument(22, "Harmonica", 60, 96));
   Instrument::add(Instrument(23, "Tango Accordion", 44, 92));
   Instrument::add(Instrument(24, "Acoustic Guitar (nylon)", 40, 77));
@@ -113,7 +113,7 @@ int main() {
   Instrument::add(Instrument(73, "Flute", 60, 96));
   Instrument::add(Instrument(74, "Recorder", 60, 96));
   Instrument::add(Instrument(75, "Pan Flute", 36, 95));
-  Instrument::add(Instrument(76, "Bottle Blow", 36, 95));
+  //Instrument::add(Instrument(76, "Bottle Blow", 36, 95));
   Instrument::add(Instrument(77, "Shakuhachi", 36, 95));
   //Instrument::add(Instrument(78, "Whistle", 60, 84));
   Instrument::add(Instrument(79, "Ocarina", 60, 96));
