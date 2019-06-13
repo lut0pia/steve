@@ -66,8 +66,7 @@ std::string Music::to_short_string() const {
 }
 void Music::check() const {
   Tones final_tones(octave_tones(_notes));
-  assert(_tones.size() == final_tones.size());
-  for(uintptr_t i(0); i < _tones.size(); i++) {
+  for(uintptr_t i(0); i < final_tones.size(); i++) {
     assert((final_tones[i] | _scale.tones()) == _scale.tones());
     assert((final_tones[i] | _tones[i]) == _tones[i]);
   }
