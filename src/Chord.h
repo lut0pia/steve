@@ -9,8 +9,8 @@ namespace steve {
     static std::vector<ToneSet> _chords;
 
   public:
-    // Return possible chords in harmony with currently played tones, considering scale
-    static std::vector<ToneSet> chords_in_harmony(const ToneSet& scale, const ToneSet& played);
+    // Return chords that fit inside the scale
+    static std::vector<ToneSet> chords_inside(const ToneSet& scale);
 
     static void add(const std::initializer_list<uint8_t>& tones);
     inline static ToneSet random() { return Rand::in(_chords); }
