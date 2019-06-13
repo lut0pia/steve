@@ -7,7 +7,7 @@ Notes Arpeggio::get(size_t start, size_t size) const {
   Notes notes;
   uintptr_t i(0);
   while(i < size) {
-    size_t d(time(i, size));
+    size_t d(bar_ticks);
     if(d >= (1 << _min_time)) {
       std::vector<uint8_t> tones(chord_for(start + i, d));
 
