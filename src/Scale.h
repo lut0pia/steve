@@ -20,7 +20,9 @@ namespace steve {
 
   public:
     Scale(const char* name, std::initializer_list<uint8_t> tones);
-    inline std::string name() const { return std::string(key_name(_key)) + " " + _name; }
+    inline std::string full_name() const { return std::string(key_name(_key)) + " " + _name; }
+    inline const std::string& name() const { return _name; }
+    inline uint8_t key() const { return _key; }
     inline ToneSet tones() const { return _tones; }
     static inline void add(const Scale& scale) { scales.push_back(scale); }
     static inline Scale random() { return Scale(scales[Rand::next(0ull, scales.size()-1)], Rand::next(0, 11)); }
