@@ -13,6 +13,7 @@ namespace steve {
     static std::vector<ToneSet> chords_inside(const ToneSet& scale);
 
     static void add(const std::initializer_list<uint8_t>& tones);
+    static const std::vector<ToneSet>& list() { return _chords; }
     inline static ToneSet random() { return Rand::in(_chords); }
   };
 }
