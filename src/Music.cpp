@@ -57,7 +57,7 @@ ToneSet Music::tones_at(size_t start, size_t size) const {
 }
 std::string Music::to_short_string() const {
   std::string short_string;
-  short_string += scale().name() + "_";
+  short_string += scale().name() + "_" + key_name(scale().key()) + "_";
   short_string += std::to_string(tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
