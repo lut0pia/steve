@@ -74,7 +74,13 @@ void Creator::write_txt(std::ostream& s) const {
 }
 size_t Creator::time(size_t i, size_t size) const {
   size_t wtr(1 << Rand::next(_min_time, _max_time)); // 2^n ticks
-  while(i%wtr != 0 || i + wtr > size) // Good size and not too long
+  while(i%wtr != 0 || i + wtr > size) { // Good size and not too long
     wtr /= 2;
+  }
+  if(wtr < (1 << _max_time) && wtr > (1 << _min_time) &&
+    (i / bar_ticks) == ((i + wtr + wtr / 2) / bar_ticks) &&
+    Rand::next(0, 32 / wtr)==0) {
+    wtr += wtr / 2;
+  }
   return wtr;
 }
