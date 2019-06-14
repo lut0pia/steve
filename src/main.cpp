@@ -53,7 +53,7 @@ int main() {
   Instrument::add(Instrument(20, "Reed Organ", 24, 84));
   //Instrument::add(Instrument(21, "Accordion", 44, 92));
   //Instrument::add(Instrument(22, "Harmonica", 60, 96));
-  Instrument::add(Instrument(23, "Tango Accordion", 44, 92));
+  //Instrument::add(Instrument(23, "Tango Accordion", 44, 92));
   Instrument::add(Instrument(24, "Acoustic Guitar (nylon)", 40, 77));
   Instrument::add(Instrument(25, "Acoustic Guitar (steel)", 40, 77));
   Instrument::add(Instrument(26, "Electric Guitar (jazz)", 40, 77));
