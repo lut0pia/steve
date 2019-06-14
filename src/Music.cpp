@@ -31,10 +31,11 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::gauss(5))
 
   do {
     Creator* creator;
-    switch(Rand::next(0, 2)) {
+    switch(Rand::next(0, 3)) {
       case 0: creator = new Melody(this); break;
       case 1: creator = new Chords(this); break;
       case 2: creator = new Arpeggio(this); break;
+      case 3: creator = new Bass(this); break;
     }
     paste(creator->compose(), _notes);
     _creators.push_back(creator);
