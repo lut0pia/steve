@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Instrument.h"
+#include "Chord.h"
 #include "Scale.h"
 #include "Steve.h"
 
@@ -12,6 +13,7 @@ namespace steve {
     Notes _notes;
     Tones _tones;
     std::vector<const Creator*> _creators;
+    std::vector<Chord> _chord_progression;
     Scale _scale;
     uint32_t _tempo, _size;
 

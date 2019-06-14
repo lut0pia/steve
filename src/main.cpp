@@ -12,17 +12,10 @@ int main() {
   note_name_init();
 
   // Chords
-  Chord::add({0,4,7});    // Major triad
-  Chord::add({0,3,7});    // Minor triad
-  Chord::add({0,4,8});    // Augmented triad
-  Chord::add({0,3,6});    // Diminished triad
-  Chord::add({0,2,5});    // Second
-  Chord::add({0,4,5});    // Fourth
-  Chord::add({0,4,7,9});  // Major sixth
-  Chord::add({0,3,7,9});  // Minor sixth
-  Chord::add({0,4,7,10}); // 7th
-  Chord::add({0,4,7,11}); // Major 7th
-  Chord::add({0,3,7,11}); // Minor 7th
+  Chord::add(Chord("Major", "", {0,4,7}));
+  Chord::add(Chord("Minor", "m", {0,3,7}));
+  Chord::add(Chord("Augmented", "aug", {0,4,8}));
+  Chord::add(Chord("Diminished", "dim", {0,3,6}));
 
   // Scales
   Scale::add(Scale("Blues", {0,3,5,6,7}));

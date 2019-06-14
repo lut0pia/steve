@@ -16,15 +16,14 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::gauss(5))
   _size *= bar_ticks;
 
   { // Generate chord progression
-    std::vector<ToneSet> chords(Chord::chords_inside(_scale.tones()));
-    uintptr_t period(1 << Rand::next(2, 3));
-    std::vector<ToneSet> chord_progression;
+    std::vector<Chord> chords(Chord::chords_inside(_scale));
+    uintptr_t period(4);
     for(uintptr_t i(0); i < period; i++) {
-      chord_progression.push_back(Rand::in(chords));
+      _chord_progression.push_back(Rand::in(chords));
     }
     for(uintptr_t i(0); i<bars(); i++) {
       for(uintptr_t j(0); j<bar_ticks; j++) {
-        _tones.push_back(chord_progression[i % period]);
+        _tones.push_back(_chord_progression[i % period].tones());
       }
     }
     assert(_tones.size()==_size);
@@ -115,20 +114,9 @@ void Music::write_txt(std::ostream& s) const {
     << "Duration: " << duration() << std::endl << std::endl;
 
   {
-    ToneSet last_chord;
-    s << "Chord progression:";
-    for(uintptr_t i(0); i<_size; i++) {
-      if(i%bar_ticks==0) {
-        if(i > 0) {
-          s << " |";
-        }
-        last_chord = -1;
-      }
-      ToneSet chord(_tones[i]);
-      if(chord != last_chord) {
-        s << " " << tone_set_binary(chord);
-      }
-      last_chord = chord;
+    s << "Chord progression:" << std::endl;
+    for(const Chord& chord : _chord_progression) {
+      s << " - " << chord.to_short_string() << std::endl;
     }
     s << std::endl;
   }
