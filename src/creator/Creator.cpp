@@ -68,6 +68,11 @@ void Creator::write_txt(std::ostream& s) const {
     s << "\t\tFigures:";
     for(uintptr_t figure_index : _figure_list) {
       s << " " << figure_index;
+      const Figure& figure(_figures[figure_index]);
+      const uint32_t bar_count(figure.size / bar_ticks);
+      for(uint32_t i(1); i < bar_count; i++) {
+        s << " -";
+      }
     }
     s << std::endl;
   }
