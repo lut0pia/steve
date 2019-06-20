@@ -21,7 +21,7 @@ Creator::Creator(Music* music) {
     assert(_max_tone - _min_tone >= 12);
   }
 
-  _min_time = NoteValue(Rand::next(sixteenth, half));
+  _min_time = NoteValue(Rand::next(sixteenth, quarter));
   _max_time = NoteValue(Rand::next(_min_time, whole));
   _repetition = Rand::next_float()*1.25f;
 }
