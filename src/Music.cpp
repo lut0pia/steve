@@ -29,24 +29,18 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::gauss(5))
     assert(_tones.size()==_size);
   }
 
+  add_creator(new Drums(this));
+  add_creator(new Bass(this));
+
   do {
-    Creator* creator;
-    switch(Rand::next(0, 3)) {
-      case 0: creator = new Melody(this); break;
-      case 1: creator = new Chords(this); break;
-      case 2: creator = new Arpeggio(this); break;
-      case 3: creator = new Bass(this); break;
-    }
-    paste(creator->compose(), _notes);
-    _creators.push_back(creator);
-  } while((parts()<2 || Rand::next_float()>0.75f) && _creators.size()<9);
-  if(Rand::next(0, 2)) {
-    Creator* creator = new Drums(this);
-    paste(creator->compose(), _notes);
-    _creators.push_back(creator);
-  }
+    add_creator(new Melody(this));
+  } while((parts() < 3 || Rand::next_float() > 0.75f) && _creators.size() < 9);
 
   check();
+}
+void Music::add_creator(Creator* creator) {
+  paste(creator->compose(), _notes);
+  _creators.push_back(creator);
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet wtr(_tones[start]);

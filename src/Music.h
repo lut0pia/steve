@@ -19,6 +19,7 @@ namespace steve {
 
   public:
     Music();
+    void add_creator(Creator* creator);
     ToneSet tones_at(size_t start, size_t size = 1) const;
     std::string to_short_string() const;
     void check() const;
