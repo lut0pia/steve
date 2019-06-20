@@ -35,7 +35,7 @@ Notes Creator::compose() {
       if(i%figure.size == 0 // Its size is good for the place it would be in
         && i + figure.size <= _music->size() // The figure isn't too long
         && Rand::next_float() < _repetition // Add some randomness
-        && harmony(_music->tones().data()+i, figure.tones.data(), figure.size)) { // It's in harmony with the current music
+        && harmony(_music->tones().data() + i, figure.tones.data(), figure.tones.size())) { // It's in harmony with the current music
         paste(figure.notes, notes, i); // Paste the figure on the music
         _figure_list.push_back(figure_index); // Register that we used this figure
         i += figure.size; // Go forth
