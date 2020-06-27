@@ -6,7 +6,8 @@ namespace steve {
   class Drums : public Creator {
   public:
     Drums(Music* music);
-    Notes get(size_t start, size_t size) const override;
-    const char* name() const override { return "Drums"; }
+    virtual void init() override;
+    virtual Notes get(size_t start, size_t size) const override;
+    virtual const char* name() const override { return "Drums"; }
   };
 }

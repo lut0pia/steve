@@ -2,7 +2,9 @@
 
 using namespace steve;
 
-ChordBasedCreator::ChordBasedCreator(Music* music) : Creator(music) {
+ChordBasedCreator::ChordBasedCreator(Music* music) : Creator(music) {}
+void ChordBasedCreator::init() {
+  Creator::init();
   _min_time = NoteValue(Rand::next(NoteValue::quarter, NoteValue::whole));
   _max_time = NoteValue(Rand::next(_min_time, NoteValue::whole));
 }

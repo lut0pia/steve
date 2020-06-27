@@ -39,6 +39,7 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::gauss(5))
   check();
 }
 void Music::add_creator(Creator* creator) {
+  creator->init();
   paste(creator->compose(), _notes);
   _creators.push_back(creator);
 }

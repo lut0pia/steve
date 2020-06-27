@@ -4,7 +4,9 @@
 
 using namespace steve;
 
-Drums::Drums(Music* music) : Creator(music) {
+Drums::Drums(Music* music) : Creator(music) {}
+void Drums::init() {
+  Creator::init();
   _channel = 9;
   _repetition = 1;
 }

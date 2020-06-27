@@ -2,7 +2,11 @@
 
 using namespace steve;
 
-Arpeggio::Arpeggio(Music* music) : ChordBasedCreator(music), _step(NoteValue(Rand::next(NoteValue::sixteenth, _min_time))) {}
+Arpeggio::Arpeggio(Music* music) : ChordBasedCreator(music) {}
+void Arpeggio::init() {
+  ChordBasedCreator::init();
+  _step = NoteValue(Rand::next(NoteValue::sixteenth, _min_time));
+}
 Notes Arpeggio::get(size_t start, size_t size) const {
   Notes notes;
   uintptr_t i(0);

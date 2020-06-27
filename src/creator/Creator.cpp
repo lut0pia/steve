@@ -10,6 +10,8 @@ using namespace steve;
 Creator::Creator(Music* music) {
   _music = music;
   _channel = music->creators().size();
+}
+void Creator::init() {
   _instrument = Instrument::random();
   const uint8_t ambitus_half_range(Rand::next(6, 10));
   const uint8_t instrument_range(_instrument->max_tone() - _instrument->min_tone());
