@@ -30,6 +30,6 @@ namespace steve {
     inline uint8_t key() const { return _key; }
     inline ToneSet tones() const { return _tones; }
     static inline void add(const char* name, std::initializer_list<uint8_t> tone_list) { _descriptions.push_back(Description(name, tone_list)); }
-    static inline Scale random() { return Scale(_descriptions[Rand::next(0ull, _descriptions.size() - 1)], Rand::next(0, 11)); }
+    static inline Scale random() { return Scale(Rand::in(_descriptions), Rand::next(0, 11)); }
   };
 }
