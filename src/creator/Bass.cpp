@@ -17,6 +17,9 @@ Notes Bass::get(size_t start, size_t size) const {
   }
   return notes;
 }
+bool Bass::is_valid_instrument(const Instrument& instrument) const {
+  return instrument.min_tone() <= 35;
+}
 std::set<uint8_t> Bass::choose_note_from_chord(const ToneSet& tones) const {
   std::set<uint8_t> notes_in_ambitus;
   for(uint8_t tone(0); tone < 12; tone++) {
