@@ -43,6 +43,9 @@ void Music::add_creator(Creator* creator) {
   paste(creator->compose(), _notes);
   _creators.push_back(creator);
 }
+const Chord& Music::chord_at(size_t i) const {
+  return _chord_progression[(i / bar_ticks) % _chord_progression.size()];
+}
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet wtr(_tones[start]);
   const uint32_t end(std::min(start+size, _tones.size()));
