@@ -15,10 +15,10 @@ namespace steve {
     static std::vector<Description> _descriptions;
 
     const Description& _desc;
-    int _key;
+    uint8_t _key;
     ToneSet _tones;
 
-    inline Chord(const Description& desc, int key) :
+    inline Chord(const Description& desc, uint8_t key) :
       _desc(desc), _key(key), _tones(tone_set_shift(desc.tones, key)) {
     }
 
