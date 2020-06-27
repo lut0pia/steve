@@ -12,7 +12,9 @@ Creator::Creator(Music* music) {
   _channel = music->creators().size();
 }
 void Creator::init() {
-  _instrument = Instrument::random();
+  do {
+    _instrument = Instrument::random();
+  } while(!is_valid_instrument(*_instrument));
   const uint8_t ambitus_half_range(Rand::next(6, 10));
   const uint8_t instrument_range(_instrument->max_tone() - _instrument->min_tone());
 
@@ -59,6 +61,9 @@ Notes Creator::compose() {
     }
   }
   return notes;
+}
+bool Creator::is_valid_instrument(const Instrument& instrument) const {
+  return true;
 }
 void Creator::write_txt(std::ostream& s) const {
   s << "\t" << name() << " (" << _instrument->name() << ")" << std::endl

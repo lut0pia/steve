@@ -22,6 +22,7 @@ namespace steve {
     virtual Notes compose();
     virtual Notes get(size_t start, size_t size) const = 0;
     virtual const char* name() const = 0;
+    virtual bool is_valid_instrument(const Instrument& instrument) const;
     virtual void write_txt(std::ostream&) const;
 
     inline const Instrument* instrument() const { return _instrument; }
