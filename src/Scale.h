@@ -8,23 +8,28 @@
 namespace steve {
   class Scale {
   protected:
-    static std::vector<Scale> scales;
+    struct Description {
+      Description(const char* name, std::initializer_list<uint8_t> tone_list);
+      std::string name;
+      ToneSet tones;
+    };
 
-    std::string _name;
-    int _key;
+    static std::vector<Description> _descriptions;
+
+    const Description& _desc;
+    uint8_t _key;
     ToneSet _tones;
 
-    inline Scale(const Scale& scale, int key) :
-      _name(scale._name), _key(key), _tones(tone_set_shift(scale._tones, key)) {
+    inline Scale(const Description& desc, uint8_t key) :
+      _desc(desc), _key(key), _tones(tone_set_shift(desc.tones, key)) {
     }
 
   public:
-    Scale(const char* name, std::initializer_list<uint8_t> tones);
-    inline std::string full_name() const { return std::string(key_name(_key)) + " " + _name; }
-    inline const std::string& name() const { return _name; }
+    inline std::string full_name() const { return std::string(key_name(_key)) + " " + _desc.name; }
+    inline const std::string& name() const { return _desc.name; }
     inline uint8_t key() const { return _key; }
     inline ToneSet tones() const { return _tones; }
-    static inline void add(const Scale& scale) { scales.push_back(scale); }
-    static inline Scale random() { return Scale(scales[Rand::next(0ull, scales.size()-1)], Rand::next(0, 11)); }
+    static inline void add(const char* name, std::initializer_list<uint8_t> tone_list) { _descriptions.push_back(Description(name, tone_list)); }
+    static inline Scale random() { return Scale(_descriptions[Rand::next(0ull, _descriptions.size() - 1)], Rand::next(0, 11)); }
   };
 }
