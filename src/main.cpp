@@ -12,10 +12,10 @@ int main() {
   note_name_init();
 
   // Chords
-  Chord::add(Chord("Major", "", {0,4,7}));
-  Chord::add(Chord("Minor", "m", {0,3,7}));
-  Chord::add(Chord("Augmented", "aug", {0,4,8}));
-  Chord::add(Chord("Diminished", "dim", {0,3,6}));
+  Chord::add("Major", "", {0,4,7});
+  Chord::add("Minor", "m", {0,3,7});
+  Chord::add("Augmented", "aug", {0,4,8});
+  Chord::add("Diminished", "dim", {0,3,6});
 
   // Scales
   Scale::add("Blues", {0,3,5,6,7});

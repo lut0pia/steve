@@ -6,23 +6,29 @@
 namespace steve {
   class Chord {
   protected:
-    static std::vector<Chord> _chords;
+    struct Description {
+      Description(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list);
+      std::string name, suffix;
+      ToneSet tones;
+    };
 
-    std::string _name, _suffix;
+    static std::vector<Description> _descriptions;
+
+    const Description& _desc;
     int _key;
     ToneSet _tones;
 
-    inline Chord(const Chord& chord, int key) :
-      _name(chord._name), _suffix(chord._suffix), _key(key), _tones(tone_set_shift(chord._tones, key)) {}
+    inline Chord(const Description& desc, int key) :
+      _desc(desc), _key(key), _tones(tone_set_shift(desc.tones, key)) {
+    }
 
   public:
-    Chord(const char* name, const char* suffix, std::initializer_list<uint8_t> tones);
     std::string to_short_string() const;
     inline ToneSet tones() const { return _tones; }
 
     // Return chords that fit inside the scale
     static std::vector<Chord> chords_inside(const class Scale& scale);
 
-    static void add(const Chord& chord);
+    static void add(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list);
   };
 }
