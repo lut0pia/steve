@@ -91,7 +91,7 @@ size_t Creator::time(size_t i, size_t size) const {
   }
   if(wtr < (1 << _max_time) && wtr > (1 << _min_time) &&
     (i / bar_ticks) == ((i + wtr + wtr / 2) / bar_ticks) &&
-    Rand::next(0, 32 / wtr)==0) {
+    Rand::next(0ull, 32ull / wtr)==0) {
     wtr += wtr / 2;
   }
   return wtr;
