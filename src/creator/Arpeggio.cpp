@@ -1,5 +1,7 @@
 #include "Arpeggio.h"
 
+#include <ostream>
+
 using namespace steve;
 
 Arpeggio::Arpeggio(Music* music) : ChordBasedCreator(music) {}

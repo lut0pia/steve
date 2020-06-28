@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Rand.h"
 #include "Steve.h"
 
