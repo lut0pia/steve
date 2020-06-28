@@ -12,6 +12,8 @@ Creator::Creator(Music* music) {
   _channel = music->creators().size();
 }
 void Creator::init() {
+  _figure_size = (1ull << Rand::next(0ull, 3ull)) * bar_ticks;
+
   do {
     _instrument = Instrument::random();
   } while(!is_valid_instrument(*_instrument));
@@ -49,7 +51,7 @@ Notes Creator::compose() {
     }
     if(new_figure_needed) { // Needs to create a new figure of music
       Figure figure;
-      figure.size = (1 << Rand::next(0, 6))*bar_ticks; // 2^n bars
+      figure.size = _figure_size;
       while(i%figure.size != 0 || i + figure.size > _music->size()) // Good size and not too long
         figure.size /= 2;
       figure.notes = get(i, figure.size); // Create the figure
