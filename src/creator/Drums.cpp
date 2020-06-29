@@ -10,7 +10,7 @@ void Drums::init() {
   _channel = 9;
   _repetition = 1;
 }
-Notes Drums::get(size_t start, size_t size) const {
+Notes Drums::get(size_t, size_t size) const {
   Notes notes;
 
   uint32_t layers(Rand::next(2, 5));

@@ -64,7 +64,7 @@ Notes Creator::compose() {
   }
   return notes;
 }
-bool Creator::is_valid_instrument(const Instrument& instrument) const {
+bool Creator::is_valid_instrument(const Instrument&) const {
   return true;
 }
 void Creator::write_txt(std::ostream& s) const {
