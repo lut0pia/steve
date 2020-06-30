@@ -48,11 +48,13 @@ const Chord& Music::chord_at(size_t i) const {
   return _chord_progression[(i / bar_ticks) % _chord_progression.size()];
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
-  ToneSet wtr(_tones[start]);
-  const uint32_t end(std::min(start+size, _tones.size()));
-  for(uint32_t i(start+1); i<end; i++)
-    wtr &= _tones[i];
-  return wtr;
+  ToneSet tones = ~0;
+  const uintptr_t start_bar = start / bar_ticks;
+  const uintptr_t end_bar = (start + size - 1) / bar_ticks;
+  for(uintptr_t i = start_bar; i <= end_bar; i++) {
+      tones &= _chord_progression[i % _chord_progression.size()].tones();
+  }
+  return tones;
 }
 std::string Music::to_short_string() const {
   std::string short_string;
