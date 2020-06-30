@@ -128,7 +128,7 @@ void Music::write_mid(std::ostream& s) const {
   write_bigendian(s, endoff-sizeoff-4, 4);
 }
 void Music::write_txt(std::ostream& s) const {
-  s << "Scale: " << scale().name() << std::endl
+  s << "Scale: " << scale().full_name() << std::endl
     << "Tempo: " << tempo() << std::endl
     << "Duration: " << duration() << std::endl << std::endl;
 
