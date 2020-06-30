@@ -114,7 +114,7 @@ void Music::write_mid(std::ostream& s) const {
     s << uint8_t(note.second.tone);
     s << uint8_t(note.second.velocity);
     last = note.first;
-    if(note.first != last_chord && note.first % bar_ticks == 0) {
+    if(note.first != last_chord && note.first != _size && note.first % bar_ticks == 0) {
       // Chord meta-event
       std::string chord_str = chord_at(note.first).to_short_string();
       s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x01) << VarLength(chord_str.size()) << chord_str; // Program change
