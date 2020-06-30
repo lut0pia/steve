@@ -32,7 +32,7 @@ namespace steve {
     }
     template <class T>
     inline static const T& in(const std::vector<T>& v) {
-      return v[next(0ull, v.size()-1)];
+      return v[(unsigned int)next(0ull, v.size()-1)];
     }
 
     inline static const uint64_t& state() { return _state; }
