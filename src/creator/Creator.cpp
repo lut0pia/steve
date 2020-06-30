@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include "../Music.h"
 #include "../Rand.h"
 
 using namespace steve;

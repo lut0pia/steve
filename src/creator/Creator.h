@@ -1,14 +1,13 @@
 #pragma once
 
 #include "../Chord.h"
-#include "../Music.h"
 #include "../Steve.h"
 
 namespace steve {
   class Creator {
   protected:
-    Music* _music;
-    const Instrument* _instrument;
+    class Music* _music;
+    const class Instrument* _instrument;
     std::vector<Figure> _figures;
     std::vector<uintptr_t> _figure_list;
     size_t _figure_size;
@@ -17,7 +16,7 @@ namespace steve {
     float _repetition;
     uint8_t _channel;
   public:
-    Creator(Music*);
+    Creator(class Music*);
     virtual ~Creator() {}
     virtual void init();
     virtual Notes compose();

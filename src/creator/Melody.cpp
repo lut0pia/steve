@@ -1,5 +1,7 @@
 #include "Melody.h"
 
+#include "../Music.h"
+
 using namespace steve;
 
 Melody::Melody(Music* music) : Creator(music) {}

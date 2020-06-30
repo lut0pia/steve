@@ -42,7 +42,7 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::gauss(5))
 void Music::add_creator(Creator* creator) {
   creator->init();
   paste(creator->compose(), _notes);
-  _creators.push_back(creator);
+  _creators.push_back(std::unique_ptr<Creator>(creator));
 }
 const Chord& Music::chord_at(size_t i) const {
   return _chord_progression[(i / bar_ticks) % _chord_progression.size()];
@@ -141,7 +141,7 @@ void Music::write_txt(std::ostream& s) const {
   }
 
   s << "Creators:" << std::endl;
-  for(const Creator* creator : _creators) {
+  for(const auto& creator : _creators) {
     creator->write_txt(s);
     s << std::endl;
   }

@@ -1,5 +1,7 @@
 #include "Bass.h"
 
+#include "../Music.h"
+
 using namespace steve;
 
 Bass::Bass(Music* music) : Creator(music) {}

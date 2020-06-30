@@ -1,5 +1,7 @@
 #include "ChordBasedCreator.h"
 
+#include "../Music.h"
+
 using namespace steve;
 
 ChordBasedCreator::ChordBasedCreator(Music* music) : Creator(music) {}
