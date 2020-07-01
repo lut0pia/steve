@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include "Rand.h"
 #include "Steve.h"
@@ -13,14 +14,14 @@ namespace steve {
       ToneSet tones;
     };
 
-    static std::vector<Description> _descriptions;
+    static std::vector<std::shared_ptr<Description>> _descriptions;
 
-    const Description& _desc;
+    std::shared_ptr<const Description> _desc;
     uint8_t _key;
     ToneSet _tones;
 
-    inline Chord(const Description& desc, uint8_t key) :
-      _desc(desc), _key(key), _tones(tone_set_shift(desc.tones, key)) {
+    inline Chord(std::shared_ptr<const Description> desc, uint8_t key) :
+      _desc(desc), _key(key), _tones(tone_set_shift(desc->tones, key)) {
     }
 
   public:
