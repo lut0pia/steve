@@ -10,8 +10,8 @@
 
 using namespace steve;
 
-Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::gauss(5)) / 5) * 5) {
-  do _size = Rand::next(20)+26;
+Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::next_normal()) / 5) * 5) {
+  do _size = (40 * Rand::next_normal())+26;
   while(_size>512); // <=512 with 46 average bars
   _size -= _size % 4; // Multiple of 4 bars
   _size *= bar_ticks;

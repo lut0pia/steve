@@ -22,7 +22,7 @@ void Creator::init() {
   const uint8_t instrument_range(_instrument->max_tone() - _instrument->min_tone());
 
   {
-    const uint8_t mid_tone(_instrument->min_tone() + ambitus_half_range + Rand::gauss(5)*float(instrument_range - ambitus_half_range * 2));
+    const uint8_t mid_tone(_instrument->min_tone() + ambitus_half_range + Rand::next_normal()*float(instrument_range - ambitus_half_range * 2));
     _min_tone = std::max<uint8_t>(mid_tone - ambitus_half_range, _instrument->min_tone());
     _max_tone = std::min<uint8_t>(mid_tone + ambitus_half_range, _instrument->max_tone());
     assert(_max_tone - _min_tone >= 12);
