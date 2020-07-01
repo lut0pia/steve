@@ -17,7 +17,7 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::next_norm
   _size *= bar_ticks;
 
   { // Generate chord progression
-    std::vector<Chord> chords(Chord::chords_inside(_scale));
+    std::vector<Chord> chords(Chord::chords_inside(_scale.tones()));
     uintptr_t period(4);
     for(uintptr_t i(0); i < period; i++) {
       _chord_progression.push_back(Rand::in(chords));

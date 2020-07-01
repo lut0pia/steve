@@ -28,8 +28,8 @@ namespace steve {
     inline uint8_t key() const { return _key; }
     inline ToneSet tones() const { return _tones; }
 
-    // Return chords that fit inside the scale
-    static std::vector<Chord> chords_inside(const class Scale& scale);
+    // Return chords that fit inside a toneset
+    static std::vector<Chord> chords_inside(ToneSet tones);
 
     static void add(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list);
   };
