@@ -3,16 +3,22 @@
 #include <string>
 #include <vector>
 #include <initializer_list>
+#include "Chord.h"
 #include "Rand.h"
 #include "Steve.h"
 
 namespace steve {
   class Scale {
   protected:
+    struct ChordDescription {
+      Chord chord;
+      float tonicity = 0;
+    };
     struct Description {
       Description(const char* name, std::initializer_list<uint8_t> tone_list);
       std::string name;
-      ToneSet tones;
+      ToneSet tones = 0, tonic_tones = 0;
+      std::vector<ChordDescription> chords;
     };
 
     static std::vector<Description> _descriptions;
