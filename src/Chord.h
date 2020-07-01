@@ -9,7 +9,6 @@ namespace steve {
   class Chord {
   protected:
     struct Description {
-      Description(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list);
       std::string name, suffix;
       ToneSet tones;
     };

@@ -6,13 +6,6 @@ using namespace steve;
 
 std::vector<std::shared_ptr<Chord::Description>> Chord::_descriptions;
 
-Chord::Description::Description(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list)
-  : name(name), suffix(suffix), tones(0) {
-  for(uint8_t tone : tone_list) {
-    tones |= 1 << tone;
-  }
-}
-
 std::string Chord::to_short_string() const {
   return key_name(_key) + _desc->suffix;
 }
@@ -29,6 +22,13 @@ std::vector<Chord> Chord::chords_inside(ToneSet tones) {
   }
   return chords;
 }
+
 void Chord::add(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list) {
-  _descriptions.push_back(std::shared_ptr<Description>(new Description(name, suffix, tone_list)));
+  std::shared_ptr<Description> desc(new Description());
+  desc->name = name;
+  desc->suffix = suffix;
+  for(uint8_t tone : tone_list) {
+    desc->tones |= 1 << tone;
+  }
+  _descriptions.push_back(desc);
 }
