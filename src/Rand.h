@@ -2,12 +2,14 @@
 
 #include <cstdint>
 #include <iterator>
+#include <random>
 #include <set>
 #include <vector>
 
 namespace steve {
   class Rand {
   public:
+    static std::default_random_engine generator;
     static float next_float();
     static float next_normal();
 

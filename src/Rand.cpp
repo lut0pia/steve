@@ -2,9 +2,9 @@
 
 #include <random>
 
-static std::default_random_engine generator;
-
 using namespace steve;
+
+std::default_random_engine Rand::generator;
 
 float Rand::next_float() {
   std::uniform_real_distribution<float> dist(0.f, 1.f);
