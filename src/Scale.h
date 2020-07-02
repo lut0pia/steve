@@ -36,6 +36,12 @@ namespace steve {
     inline const std::string& name() const { return _desc.name; }
     inline uint8_t key() const { return _key; }
     inline ToneSet tones() const { return _tones; }
+
+    Chord chord_by_tonicity(float ratio) const;
+    Chord tonic_chord() const;
+    Chord subdominant_chord() const;
+    Chord dominant_chord() const;
+
     static inline void add(const char* name, std::initializer_list<uint8_t> tone_list) { _descriptions.push_back(Description(name, tone_list)); }
     static inline Scale random() { return Scale(Rand::in(_descriptions), Rand::next(0, 11)); }
   };

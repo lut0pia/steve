@@ -1,6 +1,7 @@
 #include "Scale.h"
 
 #include <algorithm>
+#include <random>
 
 using namespace steve;
 
@@ -37,8 +38,25 @@ Scale::Description::Description(const char* name, std::initializer_list<uint8_t>
     }
   }
 
-  // Sort chords by decreasing tonicity
+  // Sort chords by increasing tonicity
   std::sort(chords.begin(), chords.end(), [](const ChordDescription& a, const ChordDescription& b) {
-    return a.tonicity > b.tonicity;
+    return a.tonicity < b.tonicity;
   });
+}
+
+Chord Scale::chord_by_tonicity(float ratio) const {
+  const uintptr_t index = std::max<uintptr_t>(0, std::min<uintptr_t>(_desc.chords.size() - 1, ratio * _desc.chords.size()));
+  return _desc.chords[index].chord.shifted(_key);
+}
+
+Chord Scale::tonic_chord() const {
+  std::exponential_distribution<float> dist(7.f);
+  return chord_by_tonicity(1.f - dist(Rand::generator));
+}
+Chord Scale::subdominant_chord() const {
+  return chord_by_tonicity(Rand::next_normal());
+}
+Chord Scale::dominant_chord() const {
+  std::exponential_distribution<float> dist(7.f);
+  return chord_by_tonicity(dist(Rand::generator));
 }
