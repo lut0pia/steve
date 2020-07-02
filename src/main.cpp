@@ -13,7 +13,9 @@ int main() {
 
   // Chords
   Chord::add("Major", "", {0,4,7});
+  Chord::add("Dominant Seventh", "7", {0,4,7,10});
   Chord::add("Minor", "m", {0,3,7});
+  Chord::add("Minor Seventh", "m7", {0,3,7,10});
   Chord::add("Augmented", "aug", {0,4,8});
   Chord::add("Diminished", "dim", {0,3,6});
 
