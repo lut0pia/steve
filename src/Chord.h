@@ -27,6 +27,7 @@ namespace steve {
     std::string to_short_string() const;
     inline uint8_t key() const { return _key; }
     inline ToneSet tones() const { return _tones; }
+    inline Chord shifted(uint8_t semitones) const { return Chord(_desc, (_key + semitones) % 12); }
 
     // Return chords that fit inside a toneset
     static std::vector<Chord> chords_inside(ToneSet tones);
