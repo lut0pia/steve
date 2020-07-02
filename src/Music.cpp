@@ -36,7 +36,9 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::next_norm
     add_creator(new Melody(this));
   } while((parts() < 3 || Rand::next_float() > 0.75f) && _creators.size() < 9);
 
+#ifndef NDEBUG
   check();
+#endif
 }
 void Music::add_creator(Creator* creator) {
   creator->init();
