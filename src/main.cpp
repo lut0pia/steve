@@ -87,7 +87,7 @@ int main() {
   Instrument::add(Instrument(52, "Choir Aahs", 40, 84));
   Instrument::add(Instrument(53, "Voice Oohs", 40, 84));
   Instrument::add(Instrument(54, "Syn Choir", 40, 84));
-  Instrument::add(Instrument(55, "Orchestral Hit", 36, 91));
+  //Instrument::add(Instrument(55, "Orchestral Hit", 36, 91));
   Instrument::add(Instrument(56, "Trumpet", 55, 82));
   Instrument::add(Instrument(57, "Trombone", 40, 72));
   Instrument::add(Instrument(58, "Tuba", 28, 58));
