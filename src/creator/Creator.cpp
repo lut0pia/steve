@@ -30,7 +30,7 @@ void Creator::init() {
 
   _min_time = NoteValue(Rand::next(sixteenth, quarter));
   _max_time = NoteValue(Rand::next(_min_time, whole));
-  _repetition = Rand::next_float()*1.25f;
+  _repetition = Rand::next_float() * 0.5f;
 }
 Notes Creator::compose() {
   uint32_t i(0);
