@@ -28,8 +28,8 @@ void Creator::init() {
     assert(_max_tone - _min_tone >= 12);
   }
 
-  _min_time = NoteValue(Rand::next(sixteenth, quarter));
-  _max_time = NoteValue(Rand::next(_min_time, whole));
+  _min_time = Rand::next(NoteValue::sixteenth, NoteValue::quarter);
+  _max_time = Rand::next(_min_time, NoteValue::whole);
   _repetition = Rand::next_float() * 0.5f;
 }
 Notes Creator::compose() {
@@ -93,11 +93,11 @@ void Creator::write_txt(std::ostream& s) const {
   }
 }
 size_t Creator::time(size_t i, size_t size) const {
-  size_t wtr(1 << Rand::next(_min_time, _max_time)); // 2^n ticks
+  size_t wtr = ticks_for(Rand::next(_min_time, _max_time)); // 2^n ticks
   while(i%wtr != 0 || i + wtr > size) { // Good size and not too long
     wtr /= 2;
   }
-  if(wtr < (1 << _max_time) && wtr > (1 << _min_time) &&
+  if(wtr < ticks_for(_max_time) && wtr > ticks_for(_min_time) &&
     (i / bar_ticks) == ((i + wtr + wtr / 2) / bar_ticks) &&
     Rand::next(0ull, 32ull / wtr)==0) {
     wtr += wtr / 2;

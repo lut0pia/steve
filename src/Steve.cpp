@@ -25,15 +25,15 @@ const char* steve::key_name(uint8_t key) {
   }
   return "N/A";
 }
-const char* steve::note_value_name(uint8_t value) {
-  switch(value) {
-    case sixtyfourth: return "sixtyfourth";
-    case thirtysecond: return "thirtysecond";
-    case sixteenth: return "sixteenth";
-    case eighth: return "eighth";
-    case quarter: return "quarter";
-    case half: return "half";
-    case whole: return "whole";
+const char* steve::note_value_name(NoteValue v) {
+  switch(v) {
+    case NoteValue::sixtyfourth: return "sixtyfourth";
+    case NoteValue::thirtysecond: return "thirtysecond";
+    case NoteValue::sixteenth: return "sixteenth";
+    case NoteValue::eighth: return "eighth";
+    case NoteValue::quarter: return "quarter";
+    case NoteValue::half: return "half";
+    case NoteValue::whole: return "whole";
   }
   return "N/A";
 }

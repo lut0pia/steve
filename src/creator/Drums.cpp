@@ -16,9 +16,9 @@ Notes Drums::get(size_t, size_t size) const {
   uint32_t layers(Rand::next(2, 5));
   for(uint32_t i(0); i < layers; i++) {
     uint8_t tone(Rand::next(35, 59));
-    NoteValue period_value(NoteValue(Rand::next(eighth, whole)));
-    uintptr_t period(1 << period_value);
-    uintptr_t offset(1 << Rand::next(eighth, period_value));
+    NoteValue period_value = Rand::next(NoteValue::eighth, NoteValue::whole);
+    uintptr_t period = ticks_for(period_value);
+    uintptr_t offset = ticks_for(Rand::next(NoteValue::eighth, period_value));
     if(i == 0 || Rand::next(0, 3) > 0) {
       offset = 0;
     }

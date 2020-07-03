@@ -98,7 +98,7 @@ void Music::write_mid(std::ostream& s) const {
   write_bigendian(s, 6, 4); // Chunk size
   write_bigendian(s, 0, 2); // Format type (single track)
   write_bigendian(s, 1, 2); // Number of tracks
-  write_bigendian(s, ticks_for(quarter), 2); // Time division (ticks per beat)
+  write_bigendian(s, ticks_for(NoteValue::quarter), 2); // Time division (ticks per beat)
   // Track chunk
   s << "MTrk";
   const size_t sizeoff(s.tellp());

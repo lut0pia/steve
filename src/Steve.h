@@ -11,16 +11,16 @@ namespace steve {
       tone : 7,
       velocity : 7;
   };
-  enum NoteValue {
-    sixtyfourth = 1,
+  enum class NoteValue {
+    sixtyfourth,
     thirtysecond,
     sixteenth,
     eighth,
     quarter,
     half,
-    whole
+    whole,
   };
-  enum Interval {
+  enum class Interval {
     perfectunison = 0,
     minorsecond,
     majorsecond,
@@ -32,7 +32,7 @@ namespace steve {
     majorsixth,
     minorseventh,
     majorseventh,
-    perfectoctave
+    perfectoctave,
   };
   typedef std::multimap<uint32_t, Note> Notes;
   typedef uint16_t ToneSet;
@@ -44,9 +44,9 @@ namespace steve {
     size_t size;
   };
   static const size_t bar_ticks = 128; // ticks per bar
-  inline uint32_t ticks_for(NoteValue v) { return 1 << uint32_t(v); }
+  inline uint32_t ticks_for(NoteValue v) { return bar_ticks >> (uint32_t(NoteValue::whole) - uint32_t(v)); }
   const char* key_name(uint8_t);
-  const char* note_value_name(uint8_t);
+  const char* note_value_name(NoteValue);
   void note_name_init();
   const char* note_name(uint8_t);
   ToneSet tone_set_shift(const ToneSet& scale, int shifting);

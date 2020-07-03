@@ -8,7 +8,7 @@ Notes Chords::get(size_t start, size_t size) const {
   uintptr_t i(0);
   while(i < size) {
     size_t d(bar_ticks);
-    if(d >= (1 << _min_time)) {
+    if(d >= ticks_for(_min_time)) {
       std::vector<uint8_t> tones(chord_for(start + i, d));
 
       for(uint8_t tone : tones) {
