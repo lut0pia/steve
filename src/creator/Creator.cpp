@@ -13,7 +13,7 @@ Creator::Creator(Music* music) {
   _channel = music->creators().size();
 }
 void Creator::init() {
-  _figure_size = (1ull << Rand::next(0ull, 3ull)) * bar_ticks;
+  _figure_size = 4 * bar_ticks;
 
   do {
     _instrument = Instrument::random();
