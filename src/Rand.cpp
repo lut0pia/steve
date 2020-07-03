@@ -28,3 +28,6 @@ float Rand::next(float min, float max) {
   std::uniform_real_distribution<float> dist(min, max);
   return dist(generator);
 }
+NoteValue Rand::next(NoteValue min, NoteValue max) {
+  return NoteValue(Rand::next(uint64_t(min), uint64_t(max)));
+}

@@ -5,6 +5,7 @@
 #include <random>
 #include <set>
 #include <vector>
+#include "Steve.h"
 
 namespace steve {
   class Rand {
@@ -16,6 +17,7 @@ namespace steve {
     static uint64_t next(uint64_t min, uint64_t max); // Returns a random unsigned integer between min and max
     static int next(int min, int max); // Returns a random integer between min and max
     static float next(float min, float max); // Returns a random float between min and max
+    static NoteValue next(NoteValue min, NoteValue max);
 
     // Containers
     template <class T>
