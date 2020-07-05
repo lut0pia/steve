@@ -62,10 +62,7 @@ const char* steve::tone_set_binary(ToneSet tone_set) {
   return str;
 }
 void steve::add_note(Notes& notes, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity) {
-  if(length>bar_ticks) {
-    cerr << "Note too long." << endl;
-    exit(1);
-  }
+  assert(length <= bar_ticks);
   Note note;
   note.channel = channel;
   note.tone = tone;
