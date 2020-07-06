@@ -57,4 +57,7 @@ namespace steve {
   void paste(const Notes&, Notes&, size_t start = 0);
   Notes copy(const Notes&, size_t start = 0, size_t size = -1);
   bool harmony(const ToneSet* base, const ToneSet* piece, size_t size);
+
+  template <class T>
+  inline T clamp(T v, T min, T max) { return std::max(min, std::min(max, v)); }
 }
