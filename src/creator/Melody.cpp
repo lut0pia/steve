@@ -7,15 +7,13 @@ using namespace steve;
 Melody::Melody(Music* music) : Creator(music) {}
 Notes Melody::get(size_t start, size_t size) const {
   Notes notes;
-  uintptr_t i(0);
-  while(i < size) {
-    const size_t d(time(i, size));
-    std::set<uint8_t> tones(choose_note_from_chord(_music->tones_at(start + i, d)));
-
-    uint8_t tone(Rand::in(tones));
-    add_note(notes, _channel, tone, i, d);
-
-    i += d;
+  auto times = generate_times(start, size);
+  for(uintptr_t i = 0; i < times.size() - 1; i++) {
+    const auto time = times[i];
+    const auto duration = times[i + 1] - time;
+    const auto tones = choose_note_from_chord(_music->tones_at(start + time, duration));
+    const auto tone = Rand::in(tones);
+    add_note(notes, _channel, tone, time, duration);
   }
   return notes;
 }
