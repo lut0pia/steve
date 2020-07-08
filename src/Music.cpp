@@ -29,6 +29,45 @@ Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::next_norm
     assert(_tones.size()==_size);
   }
 
+  { // Generate beats
+    
+    for(uint32_t i = 0; i < 4; i++) {
+      const uint32_t offset = ticks_for(NoteValue::quarter) * i;
+      _beats.push_back(offset + 0);
+      switch(Rand::next(0, 7)) {
+        case 0: break; // 4
+        case 1: // 22
+          _beats.push_back(offset + ticks_for(NoteValue::eighth));
+          break;
+        case 2: // 1111
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 2);
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
+          break;
+        case 3: // 211
+          _beats.push_back(offset + ticks_for(NoteValue::eighth));
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
+          break;
+        case 4: // 112
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 2);
+          break;
+        case 5: // 31
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
+          break;
+        case 6: // 13
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
+          break;
+        case 7: // 121
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
+          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
+          break;
+      }
+    }
+    
+    _beat_mod = bar_ticks;
+  }
+
   add_creator(new Drums(this));
   add_creator(new Bass(this));
 
@@ -56,6 +95,19 @@ ToneSet Music::tones_at(size_t start, size_t size) const {
       tones &= _chord_progression[i % _chord_progression.size()].tones();
   }
   return tones;
+}
+bool Music::is_beat(uintptr_t i) const {
+  i %= _beat_mod;
+  return std::find(_beats.begin(), _beats.end(), i) != _beats.end();
+}
+std::vector<uintptr_t> Music::beats_inside(uintptr_t min, uintptr_t max) const {
+  std::vector<uintptr_t> beats;
+  for(uintptr_t i = min; i <= max; i++) {
+    if(is_beat(i)) {
+      beats.push_back(i);
+    }
+  }
+  return beats;
 }
 std::string Music::to_short_string() const {
   std::string short_string;
@@ -142,6 +194,17 @@ void Music::write_txt(std::ostream& s) const {
       s << " - " << chord.to_short_string() << std::endl;
     }
     s << std::endl;
+  }
+
+  {
+    s << "Rhythm:" << std::endl << '\t';
+    for(uintptr_t i = 0; i < _beat_mod; i += 2) {
+      if(i % ticks_for(NoteValue::quarter) == 0 && i > 0) {
+        s << ' ';
+      }
+      s << (is_beat(i) ? '1' : '0');
+    }
+    s << std::endl << std::endl;
   }
 
   s << "Creators:" << std::endl;

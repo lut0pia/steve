@@ -16,14 +16,17 @@ namespace steve {
     Tones _tones;
     std::vector<std::unique_ptr<Creator>> _creators;
     std::vector<Chord> _chord_progression;
+    std::vector<uint32_t> _beats;
     Scale _scale;
-    uint32_t _tempo, _size;
+    uint32_t _tempo, _size, _beat_mod;
 
   public:
     Music();
     void add_creator(Creator* creator);
     const Chord& chord_at(size_t i) const;
     ToneSet tones_at(size_t start, size_t size = 1) const;
+    bool is_beat(uintptr_t i) const;
+    std::vector<uintptr_t> beats_inside(uintptr_t min, uintptr_t max) const;
     std::string to_short_string() const;
     void check() const;
 
