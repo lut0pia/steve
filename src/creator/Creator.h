@@ -27,6 +27,7 @@ namespace steve {
 
     inline const Instrument* instrument() const { return _instrument; }
 
-    size_t time(size_t i, size_t size) const;
+    uintptr_t time(uintptr_t i, size_t size) const;
+    std::vector<uintptr_t> generate_times(uintptr_t i, size_t size) const;
   };
 }

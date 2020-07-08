@@ -92,15 +92,76 @@ void Creator::write_txt(std::ostream& s) const {
     s << std::endl;
   }
 }
-size_t Creator::time(size_t i, size_t size) const {
-  size_t wtr = ticks_for(Rand::next(_min_time, _max_time)); // 2^n ticks
-  while(i%wtr != 0 || i + wtr > size) { // Good size and not too long
-    wtr /= 2;
+uintptr_t Creator::time(uintptr_t i, size_t size) const {
+  std::vector<uintptr_t> candidates = _music->beats_inside(
+    i + ticks_for(_min_time),
+    std::min(i + ticks_for(_max_time), size));
+
+  // Transform from position to duration
+  for(uintptr_t& candidate : candidates) {
+    candidate -= i;
   }
-  if(wtr < ticks_for(_max_time) && wtr > ticks_for(_min_time) &&
-    (i / bar_ticks) == ((i + wtr + wtr / 2) / bar_ticks) &&
-    Rand::next(0ull, 32ull / wtr)==0) {
-    wtr += wtr / 2;
+
+  const auto min_ticks = ticks_for(_min_time);
+  const auto max_ticks = ticks_for(_max_time);
+  const auto score = [i, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
+    bool valid = false;
+    for(auto ticks = min_ticks; ticks <= max_ticks; ticks <<= 1) {
+      if(c == ticks || (ticks > min_ticks && ticks < max_ticks && c == (ticks * 3 / 2))) {
+        valid = true;
+        break;
+      }
+    }
+    if(!valid) {
+      return 0;
+    }
+
+    const bool is_pot = (c & (c - 1)) == 0;
+    uintptr_t d = is_pot ? c : (c / 3);
+    for(uintptr_t j = 2; d && j; d >>= 1, j--) {
+      if(i % d == 0) {
+        return bar_ticks * (j + (is_pot ? 1 : 0)) + c;
+      }
+    }
+    return 0;
+  };
+
+  // Remove unwanted candidates
+  auto previous_candidates = candidates;
+  candidates.erase(std::remove_if(candidates.begin(), candidates.end(),
+    [score](uintptr_t c) {
+      return score(c) == 0;
+    }), candidates.end());
+  if(candidates.empty()) {
+    return 0;
   }
-  return wtr;
+
+  // Sort by increasing awkwardness
+  std::sort(candidates.begin(), candidates.end(),
+    [score](uintptr_t a, uintptr_t b) {
+      return score(a) > score(b);
+    });
+  
+  std::exponential_distribution<float> dist(0.5f);
+  const uintptr_t index = std::max<uintptr_t>(0, std::min<uintptr_t>(candidates.size() - 1, dist(Rand::generator)));
+
+  size_t ticks = candidates[index];
+  assert(i + ticks <= size);
+  return ticks;
+}
+std::vector<uintptr_t> Creator::generate_times(uintptr_t start, size_t size) const {
+  std::vector<uintptr_t> times;
+  do {
+    uintptr_t i = 0;
+    times = {i};
+    while(i < size) {
+      const uintptr_t d = time(i, size);
+      if(d == 0 || _music->tones_at(start + i, d) == 0) {
+        break;
+      }
+      i += d;
+      times.push_back(i);
+    }
+  } while(times.back() != size);
+  return times;
 }
