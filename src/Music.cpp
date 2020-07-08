@@ -125,6 +125,10 @@ void Music::check() const {
     assert((final_tones[i] | _scale.tones()) == _scale.tones());
     assert((final_tones[i] | _tones[i]) == _tones[i]);
   }
+
+  for(const auto& note : _notes) {
+    assert(note.second.stop || is_beat(note.first));
+  }
 }
 
 static void write_bigendian(std::ostream& s, uint32_t v, uint32_t byteCount) {
