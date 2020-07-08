@@ -1,5 +1,6 @@
 #include "Drums.h"
 
+#include "../Music.h"
 #include "../Rand.h"
 
 using namespace steve;
@@ -24,7 +25,9 @@ Notes Drums::get(size_t, size_t size) const {
     }
 
     for(uintptr_t j(offset); j < size; j += period) {
-      add_note(notes, _channel, tone, j, 1, 100);
+      if(_music->is_beat(j)) {
+        add_note(notes, _channel, tone, j, 1, 100);
+      }
     }
   }
   return notes;
