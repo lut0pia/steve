@@ -29,16 +29,3 @@ Notes Bass::get(size_t start, size_t size) const {
 bool Bass::is_valid_instrument(const Instrument& instrument) const {
   return instrument.min_tone() <= 36 && instrument.max_tone() >= 48;
 }
-std::set<uint8_t> Bass::choose_note_from_chord(const ToneSet& tones) const {
-  std::set<uint8_t> notes_in_ambitus;
-  for(uint8_t tone(0); tone < 12; tone++) {
-    if(tones & (1 << tone)) {
-      for(uint8_t t(tone); t <= _max_tone; t += 12) {
-        if(t >= _min_tone) {
-          notes_in_ambitus.insert(t);
-        }
-      }
-    }
-  }
-  return notes_in_ambitus;
-}
