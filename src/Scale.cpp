@@ -45,18 +45,20 @@ Scale::Description::Description(const char* name, std::initializer_list<uint8_t>
 }
 
 Chord Scale::chord_by_tonicity(float ratio) const {
-  const uintptr_t index = std::max<uintptr_t>(0, std::min<uintptr_t>(_desc.chords.size() - 1, ratio * _desc.chords.size()));
+  const uintptr_t index = clamp<uintptr_t>(ratio * _desc.chords.size(), 0, _desc.chords.size() - 1);
   return _desc.chords[index].chord.shifted(_key);
 }
 
 Chord Scale::tonic_chord() const {
-  std::exponential_distribution<float> dist(7.f);
-  return chord_by_tonicity(1.f - dist(Rand::generator));
+  std::exponential_distribution<float> dist(0.5f);
+  const uintptr_t index = clamp<uintptr_t>(_desc.chords.size() - dist(Rand::generator) - 1, 0, _desc.chords.size() - 1);
+  return _desc.chords[index].chord.shifted(_key);
 }
 Chord Scale::subdominant_chord() const {
   return chord_by_tonicity(Rand::next_normal());
 }
 Chord Scale::dominant_chord() const {
-  std::exponential_distribution<float> dist(7.f);
-  return chord_by_tonicity(dist(Rand::generator));
+  std::exponential_distribution<float> dist(0.5f);
+  const uintptr_t index = clamp<uintptr_t>(dist(Rand::generator), 0, _desc.chords.size() - 1);
+  return _desc.chords[index].chord.shifted(_key);
 }
