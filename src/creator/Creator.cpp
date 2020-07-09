@@ -107,7 +107,7 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
   const auto score = [i, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
     bool valid = false;
     for(auto ticks = min_ticks; ticks <= max_ticks; ticks <<= 1) {
-      if(c == ticks || (ticks > min_ticks && ticks < max_ticks && c == (ticks * 3 / 2))) {
+      if(c == ticks || (ticks > std::max(min_ticks, ticks_for(NoteValue::eighth)) && ticks < max_ticks && c == (ticks * 3 / 2))) {
         valid = true;
         break;
       }
