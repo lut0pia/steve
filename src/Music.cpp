@@ -5,8 +5,11 @@
 #include <cassert>
 
 #include "Chord.h"
-#include "creator.h"
 #include "Scale.h"
+
+#include "creator/Bass.h"
+#include "creator/Drums.h"
+#include "creator/Melody.h"
 
 using namespace steve;
 
