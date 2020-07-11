@@ -6,10 +6,7 @@
 
 namespace steve {
   struct Note {
-    uint8_t channel : 4,
-      stop : 1,
-      tone : 7,
-      velocity : 7;
+    uint8_t channel, tone, velocity, duration;
   };
   enum class NoteValue {
     sixtyfourth,

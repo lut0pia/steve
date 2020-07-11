@@ -62,40 +62,24 @@ const char* steve::tone_set_binary(ToneSet tone_set) {
   return str;
 }
 void steve::add_note(Notes& notes, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity) {
-  assert(length <= bar_ticks);
   Note note;
   note.channel = channel;
   note.tone = tone;
   note.velocity = velocity;
-
-  note.stop = 0;
+  note.duration = length;
   notes.insert(make_pair(start, note));
-  note.stop = 1;
-  notes.insert(make_pair(start+length, note));
 }
 
 Tones steve::octave_tones(const Notes& notes) {
   Tones tones;
-  std::vector<std::set<uint8_t>> channel_tones(16);
-  uint32_t i(0);
   for(const auto& note : notes) {
-    if(note.second.channel != 9 && !note.second.stop) { // Not drums and play
-      channel_tones[note.second.channel].insert(note.second.tone);
+    while(tones.size() < note.first + note.second.duration) {
+      tones.push_back(0);
     }
-
-    while(i < note.first) { // We've passed a tick
-      ToneSet all_played(0);
-      for(const std::set<uint8_t>& channel_played : channel_tones) {
-        for(uint8_t tone : channel_played) {
-          all_played |= 1 << (tone % 12);
-        }
+    for(uintptr_t i = 0; i < note.second.duration; i++) {
+      if(note.second.channel != 9) { // Drums are atonal
+        tones[note.first + i] |= 1 << (note.second.tone % 12);
       }
-      tones.push_back(all_played);
-      i++;
-    }
-
-    if(note.second.channel != 9 && note.second.stop) { // Not drums and stop
-      channel_tones[note.second.channel].erase(note.second.tone);
     }
   }
   return tones;
@@ -106,13 +90,9 @@ void steve::paste(const Notes& src, Notes& tar, size_t start) {
 }
 Notes steve::copy(const Notes& src, size_t start, size_t size) {
   Notes wtr;
-  auto it(src.lower_bound(start));
-  while(it != src.end() && (*it).first<=start+size) {
-    if((*it).first==start) { // Only take the starts from the beginning
-      if(!(*it).second.stop)  wtr.insert(make_pair((*it).first-start, (*it).second));
-    } else if((*it).first==start+size) { // Only take the stops from the ending
-      if((*it).second.stop)   wtr.insert(make_pair((*it).first-start, (*it).second));
-    } else wtr.insert(make_pair((*it).first-start, (*it).second));
+  auto it = src.lower_bound(start);
+  while(it != src.end() && (*it).first <= start + size) {
+    wtr.insert(make_pair((*it).first-start, (*it).second));
     it++;
   }
   return wtr;

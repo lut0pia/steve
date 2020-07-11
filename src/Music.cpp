@@ -130,7 +130,7 @@ void Music::check() const {
   }
 
   for(const auto& note : _notes) {
-    assert(note.second.stop || is_beat(note.first));
+    assert(is_beat(note.first));
   }
 }
 
@@ -159,6 +159,7 @@ void Music::write_mid(std::ostream& s) const {
   write_bigendian(s, 0, 2); // Format type (single track)
   write_bigendian(s, 1, 2); // Number of tracks
   write_bigendian(s, ticks_for(NoteValue::quarter), 2); // Time division (ticks per beat)
+
   // Track chunk
   s << "MTrk";
   const size_t sizeoff(s.tellp());
@@ -169,14 +170,33 @@ void Music::write_mid(std::ostream& s) const {
   for(uint32_t i(0); i < _creators.size(); i++) {
     s << uint8_t(0) << uint8_t(0xC0|i) << _creators[i]->instrument()->midi_id(); // Program change
   }
+
   uint32_t last = 0;
   uint32_t last_chord = -1;
+
+  Notes end_notes;
+  auto process_end_notes = [&s, &last, &end_notes](uint32_t next_time) {
+    while(!end_notes.empty()) {
+      auto next_end = end_notes.begin();
+      if(next_end->first <= next_time) {
+        s << VarLength(next_end->first - last) << uint8_t(0x80 | next_end->second.channel) << uint8_t(next_end->second.tone) << uint8_t(next_end->second.velocity); // Note off
+        last = next_end->first;
+        end_notes.erase(next_end);
+      } else {
+        break;
+      }
+    }
+  };
+
   for(const auto& note : _notes) {
-    s << VarLength(note.first - last); // Track event delta time
-    s << uint8_t((note.second.stop ? 0x80 : 0x90)|note.second.channel);
-    s << uint8_t(note.second.tone);
-    s << uint8_t(note.second.velocity);
+    process_end_notes(note.first);
+
+    s << VarLength(note.first - last) << uint8_t(0x90 | note.second.channel) << uint8_t(note.second.tone) << uint8_t(note.second.velocity); // Note on
+
+    end_notes.insert(std::make_pair(note.first + note.second.duration, note.second));
+
     last = note.first;
+
     if(note.first != last_chord && note.first != _size && note.first % bar_ticks == 0) {
       // Chord meta-event
       std::string chord_str = chord_at(note.first).to_short_string();
@@ -184,7 +204,10 @@ void Music::write_mid(std::ostream& s) const {
       last_chord = note.first;
     }
   }
+  process_end_notes(last + bar_ticks);
+
   s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x2F) << uint8_t(0); // End of track
+
   // Write chunk size
   const size_t endoff(s.tellp());
   s.seekp(sizeoff);
