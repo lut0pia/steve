@@ -20,15 +20,15 @@ int main() {
   Chord::add("Diminished", "dim", {0,3,6});
 
   // Scales
-  Scale::add("Blues", {0,3,5,6,7});
+  //Scale::add("Blues", {0,3,5,6,7});
   //Scale::add("Byzantine",{0,1,4,5,7,8,11});
   Scale::add("Harmonic minor", {0,2,3,5,7,8,11});
   //Scale::add("Kumoi",{0,2,3,7,9});
   Scale::add("Major", {0,2,4,5,7,9,11});
   Scale::add("Minor", {0,2,3,5,7,8,10});
   //Scale::add("Melodic minor",{0,2,3,5,7,9,11});
-  Scale::add("Pentatonic major", {0,2,4,7,9});
-  Scale::add("Whole tone", {0,2,4,6,8,10});
+  //Scale::add("Pentatonic major", {0,2,4,7,9});
+  //Scale::add("Whole tone", {0,2,4,6,8,10});
 
   // Instruments
   // Tone numbering starts at C-1 (CCCC)
