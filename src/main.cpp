@@ -109,7 +109,7 @@ int main() {
   Instrument::add(Instrument(74, "Recorder", 60, 96));
   Instrument::add(Instrument(75, "Pan Flute", 36, 95));
   //Instrument::add(Instrument(76, "Bottle Blow", 36, 95));
-  Instrument::add(Instrument(77, "Shakuhachi", 36, 95));
+  //Instrument::add(Instrument(77, "Shakuhachi", 36, 95));
   //Instrument::add(Instrument(78, "Whistle", 60, 84));
   Instrument::add(Instrument(79, "Ocarina", 60, 96));
 
