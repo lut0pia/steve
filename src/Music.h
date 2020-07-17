@@ -36,6 +36,7 @@ namespace steve {
     inline const Notes& notes() const { return _notes; }
     inline const Tones& tones() const { return _tones; }
     inline const Scale& scale() const { return _scale; }
+    inline const std::vector<Chord> chord_progression() const { return _chord_progression; }
     inline size_t size() const { return _size; }
     inline size_t bars() const { return _size/bar_ticks; }
     inline size_t parts() const { return _creators.size(); }
