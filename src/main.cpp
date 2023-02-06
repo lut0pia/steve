@@ -11,13 +11,17 @@ using namespace steve;
 int main() {
   note_name_init();
 
-  // Chords
+  // Triads
   Chord::add("Major", "", {0,4,7});
-  Chord::add("Dominant Seventh", "7", {0,4,7,10});
   Chord::add("Minor", "m", {0,3,7});
-  Chord::add("Minor Seventh", "m7", {0,3,7,10});
-  Chord::add("Augmented", "aug", {0,4,8});
-  Chord::add("Diminished", "dim", {0,3,6});
+  Chord::add("Augmented", "+", {0,4,8});
+  Chord::add("Diminished", "-", {0,3,6});
+
+  // Seventh chords
+  Chord::add("Dominant seventh", "7", {0,4,7,10});
+  Chord::add("Major seventh", "maj7", {0,4,7,11});
+  Chord::add("Minor-major seventh", "mM7", {0,3,7,10});
+  Chord::add("Minor seventh", "m7", {0,3,7,10});
 
   // Scales
   //Scale::add("Blues", {0,3,5,6,7});
