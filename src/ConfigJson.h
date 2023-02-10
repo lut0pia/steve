@@ -9,7 +9,10 @@ namespace steve {
     void parse_file(const char* filepath);
     void parse_buffer(const char* buffer, size_t size);
     void parse_chords(const json_object_s*);
+    void parse_chord(const json_object_s*, Chord::Description&);
     void parse_scales(const json_object_s*);
+    void parse_scale(const json_object_s*, Scale::Description&);
     void parse_instruments(const json_object_s*);
+    void parse_instrument(const json_object_s*, Instrument&);
   };
 }
