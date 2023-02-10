@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include "../Config.h"
 #include "../Music.h"
 #include "../Rand.h"
 
@@ -16,15 +17,15 @@ void Creator::init() {
   _phrase_size = 4 * bar_ticks;
 
   do {
-    _instrument = Instrument::random();
+    _instrument = _music->get_config().get_random_instrument();
   } while(!is_valid_instrument(*_instrument));
   const uint8_t ambitus_half_range(Rand::next(6, 10));
-  const uint8_t instrument_range(_instrument->max_tone() - _instrument->min_tone());
+  const uint8_t instrument_range(_instrument->max_tone - _instrument->min_tone);
 
   {
-    const uint8_t mid_tone(_instrument->min_tone() + ambitus_half_range + Rand::next_normal()*float(instrument_range - ambitus_half_range * 2));
-    _min_tone = std::max<uint8_t>(mid_tone - ambitus_half_range, _instrument->min_tone());
-    _max_tone = std::min<uint8_t>(mid_tone + ambitus_half_range, _instrument->max_tone());
+    const uint8_t mid_tone(_instrument->min_tone + ambitus_half_range + Rand::next_normal()*float(instrument_range - ambitus_half_range * 2));
+    _min_tone = std::max<uint8_t>(mid_tone - ambitus_half_range, _instrument->min_tone);
+    _max_tone = std::min<uint8_t>(mid_tone + ambitus_half_range, _instrument->max_tone);
     assert(_max_tone - _min_tone >= 12);
   }
 
@@ -69,7 +70,7 @@ bool Creator::is_valid_instrument(const Instrument&) const {
   return true;
 }
 void Creator::write_txt(std::ostream& s) const {
-  s << "\t" << name() << " (" << _instrument->name() << ")" << std::endl
+  s << "\t" << name() << " (" << _instrument->name << ")" << std::endl
     << "\t\t[" << note_value_name(_min_time) << ":" << note_value_name(_max_time) << "]" << std::endl
     << "\t\t[" << note_name(_min_tone) << ":" << note_name(_max_tone) << "]" << std::endl
     << "\t\tRepetition factor: " << _repetition << std::endl;

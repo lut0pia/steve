@@ -9,20 +9,20 @@
 
 namespace steve {
   class Scale {
-  protected:
+  public:
     struct ChordDescription {
       Chord chord;
       float tonicity = 0;
     };
     struct Description {
-      Description(const char* name, std::initializer_list<uint8_t> tone_list);
       std::string name;
-      ToneSet tones = 0, tonic_tones = 0;
+      ToneSet tones = 1, tonic_tones = 0;
       std::vector<ChordDescription> chords;
+
+      void compute_chords(const class Config&);
     };
 
-    static std::vector<Description> _descriptions;
-
+  protected:
     const Description& _desc;
     uint8_t _key;
     ToneSet _tones;
@@ -42,7 +42,6 @@ namespace steve {
     Chord subdominant_chord() const;
     Chord dominant_chord() const;
 
-    static inline void add(const char* name, std::initializer_list<uint8_t> tone_list) { _descriptions.push_back(Description(name, tone_list)); }
-    static inline Scale random() { return Scale(Rand::in(_descriptions), Rand::next(0, 11)); }
+    friend class Config;
   };
 }

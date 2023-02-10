@@ -2,19 +2,15 @@
 
 #include <algorithm>
 #include <random>
+#include "Config.h"
 
 using namespace steve;
 
-std::vector<Scale::Description> Scale::_descriptions;
-
-Scale::Description::Description(const char* name, std::initializer_list<uint8_t> tone_list)
-  : name(name) {
-  for(uint8_t tone : tone_list) {
-    tones |= 1 << tone;
-  }
+void Scale::Description::compute_chords(const Config& instance) {
+  chords.clear();
 
   // Gather all chords inside scale and find tonic tones
-  for(const Chord& chord : Chord::chords_inside(tones)) {
+  for(const Chord& chord : instance.get_chords_inside(tones)) {
     if(chord.key() == 0) {
       tonic_tones |= chord.tones();
     }
@@ -31,7 +27,7 @@ Scale::Description::Description(const char* name, std::initializer_list<uint8_t>
         if(tonic_tones & tone) {
           desc.tonicity += 1.f;
         } else if((tonic_tones & tone_set_shift(tone, 1)) ||
-          (tonic_tones & tone_set_shift(tone, 11))) {
+                  (tonic_tones & tone_set_shift(tone, 11))) {
           desc.tonicity -= 1.f;
         }
       }
@@ -43,6 +39,7 @@ Scale::Description::Description(const char* name, std::initializer_list<uint8_t>
     return a.tonicity < b.tonicity;
   });
 }
+
 
 Chord Scale::chord_by_tonicity(float ratio) const {
   const uintptr_t index = clamp<uintptr_t>(ratio * _desc.chords.size(), 0, _desc.chords.size() - 1);

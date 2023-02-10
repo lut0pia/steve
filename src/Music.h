@@ -12,6 +12,7 @@ namespace steve {
   class Creator;
   class Music {
   protected:
+    const Config& _config;
     Notes _notes;
     Tones _tones;
     std::vector<std::unique_ptr<Creator>> _creators;
@@ -21,7 +22,7 @@ namespace steve {
     uint32_t _tempo, _size, _beat_mod;
 
   public:
-    Music();
+    Music(const Config&);
     void add_creator(Creator* creator);
     const Chord& chord_at(size_t i) const;
     ToneSet tones_at(size_t start, size_t size = 1) const;
@@ -33,6 +34,7 @@ namespace steve {
     void write_mid(std::ostream&) const;
     void write_txt(std::ostream&) const;
 
+    inline const Config& get_config() const { return _config; }
     inline const Notes& notes() const { return _notes; }
     inline const Tones& tones() const { return _tones; }
     inline const Scale& scale() const { return _scale; }

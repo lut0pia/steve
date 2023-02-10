@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include "Chord.h"
+#include "Config.h"
 #include "Scale.h"
 
 #include "creator/Bass.h"
@@ -13,7 +14,7 @@
 
 using namespace steve;
 
-Music::Music() : _scale(Scale::random()), _tempo((uint32_t(240 * Rand::next_normal()) / 5) * 5) {
+Music::Music(const Config& instance) : _config(instance), _scale(_config.get_random_scale()), _tempo((uint32_t(240 * Rand::next_normal()) / 5) * 5) {
   do _size = (40 * Rand::next_normal())+26;
   while(_size>512); // <=512 with 46 average bars
   _size -= _size % 4; // Multiple of 4 bars
@@ -168,7 +169,7 @@ void Music::write_mid(std::ostream& s) const {
   s << uint8_t(0xFF) << uint8_t(0x51) << uint8_t(3); // Tempo meta event
   write_bigendian(s, 60000000u/_tempo, 3); // Microseconds per quarter note
   for(uint32_t i(0); i < _creators.size(); i++) {
-    s << uint8_t(0) << uint8_t(0xC0|i) << _creators[i]->instrument()->midi_id(); // Program change
+    s << uint8_t(0) << uint8_t(0xC0|i) << _creators[i]->instrument()->midi_id; // Program change
   }
 
   uint32_t last = 0;

@@ -7,7 +7,7 @@ namespace steve {
   class Creator {
   protected:
     class Music* _music;
-    const class Instrument* _instrument;
+    const struct Instrument* _instrument;
     std::vector<Phrase> _phrases;
     std::vector<uintptr_t> _phrase_list;
     size_t _phrase_size;

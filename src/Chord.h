@@ -7,14 +7,13 @@
 
 namespace steve {
   class Chord {
-  protected:
+  public:
     struct Description {
       std::string name, suffix;
-      ToneSet tones;
+      ToneSet tones = 1;
     };
 
-    static std::vector<std::shared_ptr<Description>> _descriptions;
-
+  protected:
     std::shared_ptr<const Description> _desc;
     uint8_t _key;
     ToneSet _tones;
@@ -29,9 +28,6 @@ namespace steve {
     inline ToneSet tones() const { return _tones; }
     inline Chord shifted(uint8_t semitones) const { return Chord(_desc, (_key + semitones) % 12); }
 
-    // Return chords that fit inside a toneset
-    static std::vector<Chord> chords_inside(ToneSet tones);
-
-    static void add(const char* name, const char* suffix, std::initializer_list<uint8_t> tone_list);
+    friend class Config;
   };
 }

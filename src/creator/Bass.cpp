@@ -27,5 +27,5 @@ Notes Bass::get(size_t start, size_t size) const {
   return notes;
 }
 bool Bass::is_valid_instrument(const Instrument& instrument) const {
-  return instrument.min_tone() <= 36 && instrument.max_tone() >= 48;
+  return instrument.min_tone <= 36 && instrument.max_tone >= 48;
 }
