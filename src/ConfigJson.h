@@ -5,6 +5,9 @@
 
 namespace steve {
   class ConfigJson : public Config {
+  protected:
+    std::vector<std::string> _directory_stack;
+
   public:
     void parse_file(const char* filepath);
     void parse_buffer(const char* buffer, size_t size);

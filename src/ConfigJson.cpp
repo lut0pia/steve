@@ -24,8 +24,24 @@ std::shared_ptr<T> find_item(std::vector<std::shared_ptr<T>>& items, const std::
   return desc;
 }
 
-void ConfigJson::parse_file(const char* filepath) {
-  FILE* file = fopen(filepath, "rb");
+void ConfigJson::parse_file(const char* relative_filepath) {
+  std::string filepath;
+  if(!_directory_stack.empty()) {
+    filepath = _directory_stack.back() + relative_filepath;
+  } else {
+    filepath = relative_filepath;
+  }
+
+  {
+    const size_t last_slash = filepath.find_last_of('/');
+    std::string directory;
+    if(last_slash >= 0) {
+      directory = filepath.substr(0, last_slash + 1);
+    }
+    _directory_stack.push_back(directory);
+  }
+
+  FILE* file = fopen(filepath.c_str(), "rb");
   fseek(file, 0, SEEK_END);
   const size_t file_size = ftell(file);
   fseek(file, 0, SEEK_SET);
@@ -36,6 +52,8 @@ void ConfigJson::parse_file(const char* filepath) {
   parse_buffer(file_data, file_size);
 
   free(file_data);
+
+  _directory_stack.pop_back();
 }
 
 void ConfigJson::parse_buffer(const char* buffer, size_t size) {
@@ -43,6 +61,21 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
   json_value_s* root = json_parse_ex(buffer, size, 0, nullptr, nullptr, &parse_result);
 
   if(const json_object_s* root_object = json_value_as_object(root)) {
+    // Properties like "parents" need to be parsed first
+    for(const json_object_element_s* root_attribute = root_object->start; root_attribute != nullptr; root_attribute = root_attribute->next) {
+      if(!strcmp(root_attribute->name->string, "parents")) {
+        if(const json_array_s* parents = json_value_as_array(root_attribute->value)) {
+          for(json_array_element_s* parent = parents->start; parent != nullptr; parent = parent->next) {
+            if(const json_string_s* parent_path = json_value_as_string(parent->value)) {
+              parse_file(parent_path->string);
+            } else {
+            }
+          }
+        } else {
+        }
+      }
+    }
+
     for(const json_object_element_s* element = root_object->start; element != nullptr; element = element->next) {
       if(!strcmp(element->name->string, "min_tempo")) {
         parse_number(element->value, min_tempo);
