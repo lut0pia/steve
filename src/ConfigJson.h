@@ -17,5 +17,7 @@ namespace steve {
     void parse_scale(const json_object_s*, ScaleDescription&);
     void parse_instruments(const json_object_s*);
     void parse_instrument(const json_object_s*, Instrument&);
+
+    void parse_item(const json_object_s*, ItemDescription&);
   };
 }

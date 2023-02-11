@@ -6,5 +6,6 @@
 namespace steve {
   struct ItemDescription {
     std::string name;
+    bool blacklisted = false, whitelisted = false;
   };
 }

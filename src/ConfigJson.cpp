@@ -107,6 +107,7 @@ void ConfigJson::parse_chords(const json_object_s* chords_object) {
 }
 
 void ConfigJson::parse_chord(const json_object_s* chord_object, ChordDescription& desc) {
+  parse_item(chord_object, desc);
   for(const json_object_element_s* chord_attribute = chord_object->start; chord_attribute != nullptr; chord_attribute = chord_attribute->next) {
     const char* chord_attribute_name = chord_attribute->name->string;
     if(!strcmp(chord_attribute_name, "suffix")) {
@@ -138,6 +139,7 @@ void ConfigJson::parse_scales(const json_object_s* scales_object) {
 }
 
 void ConfigJson::parse_scale(const json_object_s* scale_object, ScaleDescription& desc) {
+  parse_item(scale_object, desc);
   for(const json_object_element_s* scale_attribute = scale_object->start; scale_attribute != nullptr; scale_attribute = scale_attribute->next) {
     if(!strcmp(scale_attribute->name->string, "tones")) {
       if(const json_array_s* scale_tones = json_value_as_array(scale_attribute->value)) {
@@ -162,6 +164,7 @@ void ConfigJson::parse_instruments(const json_object_s* instruments_object) {
   }
 }
 void ConfigJson::parse_instrument(const json_object_s* instrument_object, Instrument& desc) {
+  parse_item(instrument_object, desc);
   for(const json_object_element_s* instrument_attribute = instrument_object->start; instrument_attribute != nullptr; instrument_attribute = instrument_attribute->next) {
     if(!strcmp(instrument_attribute->name->string, "index")) {
       parse_number(instrument_attribute->value, desc.midi_id);
@@ -169,6 +172,16 @@ void ConfigJson::parse_instrument(const json_object_s* instrument_object, Instru
       parse_number(instrument_attribute->value, desc.min_tone);
     } else if(!strcmp(instrument_attribute->name->string, "max_tone")) {
       parse_number(instrument_attribute->value, desc.max_tone);
+    }
+  }
+}
+
+void ConfigJson::parse_item(const json_object_s* item_object, ItemDescription& item) {
+  for(const json_object_element_s* item_attribute = item_object->start; item_attribute != nullptr; item_attribute = item_attribute->next) {
+    if(!strcmp(item_attribute->name->string, "whitelist")) {
+      item.whitelisted = json_value_is_true(item_attribute->value);
+    } else if(!strcmp(item_attribute->name->string, "blacklist")) {
+      item.blacklisted = json_value_is_true(item_attribute->value);
     }
   }
 }

@@ -15,6 +15,10 @@ namespace steve {
     std::vector<std::shared_ptr<ScaleDescription>> _scales;
     std::vector<std::shared_ptr<Instrument>> _instruments;
 
+    std::vector<std::shared_ptr<ChordDescription>> _allowed_chords;
+    std::vector<std::shared_ptr<ScaleDescription>> _allowed_scales;
+    std::vector<std::shared_ptr<Instrument>> _allowed_instruments;
+
   public:
     void compute_cache();
 
