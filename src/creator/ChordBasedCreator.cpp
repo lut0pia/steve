@@ -1,6 +1,7 @@
 #include "ChordBasedCreator.h"
 
 #include "../Music.h"
+#include "../Rand.h"
 
 using namespace steve;
 

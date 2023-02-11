@@ -39,7 +39,7 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
 
 void ConfigJson::parse_chords(const json_object_s* chords_object) {
   for(const json_object_element_s* chord_element = chords_object->start; chord_element != nullptr; chord_element = chord_element->next) {
-    std::shared_ptr<Chord::Description> desc;
+    std::shared_ptr<ChordDescription> desc;
     for(auto& desc_candidate : _chords) {
       if(desc_candidate->name == std::string(chord_element->name->string)) {
         desc = desc_candidate;
@@ -47,8 +47,8 @@ void ConfigJson::parse_chords(const json_object_s* chords_object) {
       }
     }
 
-    if(desc.get() == nullptr) {
-      _chords.push_back(std::shared_ptr<Chord::Description>(new Chord::Description()));
+    if(desc == nullptr) {
+      _chords.push_back(std::shared_ptr<ChordDescription>(new ChordDescription));
       desc = _chords.back();
       desc->name = chord_element->name->string;
     }
@@ -60,7 +60,7 @@ void ConfigJson::parse_chords(const json_object_s* chords_object) {
   }
 }
 
-void ConfigJson::parse_chord(const json_object_s* chord_object, Chord::Description& desc) {
+void ConfigJson::parse_chord(const json_object_s* chord_object, ChordDescription& desc) {
   for(const json_object_element_s* chord_attribute = chord_object->start; chord_attribute != nullptr; chord_attribute = chord_attribute->next) {
     const char* chord_attribute_name = chord_attribute->name->string;
     if(!strcmp(chord_attribute_name, "suffix")) {
@@ -84,17 +84,17 @@ void ConfigJson::parse_chord(const json_object_s* chord_object, Chord::Descripti
 
 void ConfigJson::parse_scales(const json_object_s* scales_object) {
   for(const json_object_element_s* scale_element = scales_object->start; scale_element != nullptr; scale_element = scale_element->next) {
-    Scale::Description* desc = nullptr;
-    for(Scale::Description& desc_candidate : _scales) {
-      if(desc_candidate.name == std::string(scale_element->name->string)) {
-        desc = &desc_candidate;
+    std::shared_ptr<ScaleDescription> desc;
+    for(auto& desc_candidate : _scales) {
+      if(desc_candidate->name == std::string(scale_element->name->string)) {
+        desc = desc_candidate;
         break;
       }
     }
 
     if(desc == nullptr) {
-      _scales.push_back(Scale::Description());
-      desc = &_scales.back();
+      _scales.push_back(std::shared_ptr<ScaleDescription>(new ScaleDescription));
+      desc = _scales.back();
       desc->name = scale_element->name->string;
     }
 
@@ -104,7 +104,7 @@ void ConfigJson::parse_scales(const json_object_s* scales_object) {
   }
 }
 
-void ConfigJson::parse_scale(const json_object_s* scale_object, Scale::Description& desc) {
+void ConfigJson::parse_scale(const json_object_s* scale_object, ScaleDescription& desc) {
   for(const json_object_element_s* scale_attribute = scale_object->start; scale_attribute != nullptr; scale_attribute = scale_attribute->next) {
     if(!strcmp(scale_attribute->name->string, "tones")) {
       if(const json_array_s* scale_tones = json_value_as_array(scale_attribute->value)) {
@@ -122,17 +122,17 @@ void ConfigJson::parse_scale(const json_object_s* scale_object, Scale::Descripti
 
 void ConfigJson::parse_instruments(const json_object_s* instruments_object) {
   for(const json_object_element_s* instrument_element = instruments_object->start; instrument_element != nullptr; instrument_element = instrument_element->next) {
-    Instrument* desc = nullptr;
-    for(Instrument& desc_candidate : _instruments) {
-      if(desc_candidate.name == std::string(instrument_element->name->string)) {
-        desc = &desc_candidate;
+    std::shared_ptr<Instrument> desc;
+    for(auto& desc_candidate : _instruments) {
+      if(desc_candidate->name == std::string(instrument_element->name->string)) {
+        desc = desc_candidate;
         break;
       }
     }
 
     if(desc == nullptr) {
-      _instruments.push_back(Instrument());
-      desc = &_instruments.back();
+      _instruments.push_back(std::shared_ptr<Instrument>(new Instrument));
+      desc = _instruments.back();
       desc->name = instrument_element->name->string;
     }
 

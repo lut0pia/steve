@@ -7,7 +7,7 @@ namespace steve {
   class Creator {
   protected:
     class Music* _music;
-    const struct Instrument* _instrument;
+    std::shared_ptr<const struct Instrument> _instrument;
     std::vector<Phrase> _phrases;
     std::vector<uintptr_t> _phrase_list;
     size_t _phrase_size;
@@ -25,7 +25,7 @@ namespace steve {
     virtual bool is_valid_instrument(const Instrument& instrument) const;
     virtual void write_txt(std::ostream&) const;
 
-    inline const Instrument* instrument() const { return _instrument; }
+    inline std::shared_ptr<const Instrument> instrument() const { return _instrument; }
 
     uintptr_t time(uintptr_t i, size_t size) const;
     std::vector<uintptr_t> generate_times(uintptr_t i, size_t size) const;

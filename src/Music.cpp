@@ -6,6 +6,7 @@
 
 #include "Chord.h"
 #include "Config.h"
+#include "Rand.h"
 #include "Scale.h"
 
 #include "creator/Bass.h"
@@ -27,7 +28,7 @@ Music::Music(const Config& instance) : _config(instance), _scale(_config.get_ran
     _chord_progression.push_back(_scale.dominant_chord());
     for(uintptr_t i(0); i<bars(); i++) {
       for(uintptr_t j(0); j<bar_ticks; j++) {
-        _tones.push_back(_chord_progression[i % _chord_progression.size()].tones());
+        _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);
       }
     }
     assert(_tones.size()==_size);
@@ -96,7 +97,7 @@ ToneSet Music::tones_at(size_t start, size_t size) const {
   const uintptr_t start_bar = start / bar_ticks;
   const uintptr_t end_bar = (start + size - 1) / bar_ticks;
   for(uintptr_t i = start_bar; i <= end_bar; i++) {
-      tones &= _chord_progression[i % _chord_progression.size()].tones();
+      tones &= _chord_progression[i % _chord_progression.size()].tones;
   }
   return tones;
 }
@@ -115,7 +116,7 @@ std::vector<uintptr_t> Music::beats_inside(uintptr_t min, uintptr_t max) const {
 }
 std::string Music::to_short_string() const {
   std::string short_string;
-  short_string += scale().name() + "_" + key_name(scale().key()) + "_";
+  short_string += scale().desc->name + "_" + key_name(scale().key) + "_";
   short_string += std::to_string(tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
@@ -126,7 +127,7 @@ void Music::check() const {
   Tones final_tones(octave_tones(_notes));
   assert(final_tones.size() <= _tones.size());
   for(uintptr_t i(0); i < final_tones.size(); i++) {
-    assert((final_tones[i] | _scale.tones()) == _scale.tones());
+    assert((final_tones[i] | _scale.tones) == _scale.tones);
     assert((final_tones[i] | _tones[i]) == _tones[i]);
   }
 
@@ -215,7 +216,7 @@ void Music::write_mid(std::ostream& s) const {
   write_bigendian(s, endoff-sizeoff-4, 4);
 }
 void Music::write_txt(std::ostream& s) const {
-  s << "Scale: " << scale().full_name() << std::endl
+  s << "Scale: " << key_name(scale().key) << " " << scale().desc->name << std::endl
     << "Tempo: " << tempo() << std::endl
     << "Duration: " << duration() << std::endl << std::endl;
 

@@ -2,6 +2,8 @@
 
 #include <ostream>
 
+#include "../Rand.h"
+
 using namespace steve;
 
 Arpeggio::Arpeggio(Music* music) : ChordBasedCreator(music) {}
