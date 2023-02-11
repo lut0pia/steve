@@ -2,6 +2,14 @@
 
 using namespace steve;
 
+template <class T>
+void parse_number(json_value_s* json_value, T& target) {
+  if(const json_number_s* json_number = json_value_as_number(json_value)) {
+    target = atoi(json_number->number);
+  } else {
+  }
+}
+
 void ConfigJson::parse_file(const char* filepath) {
   FILE* file = fopen(filepath, "rb");
   fseek(file, 0, SEEK_END);
@@ -22,7 +30,11 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
 
   if(const json_object_s* root_object = json_value_as_object(root)) {
     for(const json_object_element_s* element = root_object->start; element != nullptr; element = element->next) {
-      if(!strcmp(element->name->string, "chords")) {
+      if(!strcmp(element->name->string, "min_tempo")) {
+        parse_number(element->value, min_tempo);
+      } else if(!strcmp(element->name->string, "max_tempo")) {
+        parse_number(element->value, max_tempo);
+      } else if(!strcmp(element->name->string, "chords")) {
         parse_chords(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "scales")) {
         parse_scales(json_value_as_object(element->value));
@@ -144,20 +156,11 @@ void ConfigJson::parse_instruments(const json_object_s* instruments_object) {
 void ConfigJson::parse_instrument(const json_object_s* instrument_object, Instrument& desc) {
   for(const json_object_element_s* instrument_attribute = instrument_object->start; instrument_attribute != nullptr; instrument_attribute = instrument_attribute->next) {
     if(!strcmp(instrument_attribute->name->string, "index")) {
-      if(const json_number_s* instrument_index = json_value_as_number(instrument_attribute->value)) {
-        desc.midi_id = atoi(instrument_index->number);
-      } else {
-      }
+      parse_number(instrument_attribute->value, desc.midi_id);
     } else if(!strcmp(instrument_attribute->name->string, "min_tone")) {
-      if(const json_number_s* instrument_min_tone = json_value_as_number(instrument_attribute->value)) {
-        desc.min_tone = atoi(instrument_min_tone->number);
-      } else {
-      }
+      parse_number(instrument_attribute->value, desc.min_tone);
     } else if(!strcmp(instrument_attribute->name->string, "max_tone")) {
-      if(const json_number_s* instrument_min_tone = json_value_as_number(instrument_attribute->value)) {
-        desc.max_tone = atoi(instrument_min_tone->number);
-      } else {
-      }
+      parse_number(instrument_attribute->value, desc.max_tone);
     }
   }
 }

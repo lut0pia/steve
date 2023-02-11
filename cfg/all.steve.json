@@ -1,4 +1,6 @@
 {
+  "min_tempo": 20,
+  "max_tempo": 220,
   "chords": {
     "Major": {
       "suffix": "",

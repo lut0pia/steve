@@ -15,9 +15,14 @@
 
 using namespace steve;
 
-Music::Music(const Config& instance) : _config(instance), _scale(_config.get_random_scale()), _tempo((uint32_t(240 * Rand::next_normal()) / 5) * 5) {
-  do _size = (40 * Rand::next_normal())+26;
-  while(_size>512); // <=512 with 46 average bars
+Music::Music(const Config& instance)
+  : _config(instance),
+    _scale(_config.get_random_scale()),
+    _tempo(_config.get_random_tempo()) {
+  do {
+    _size = uint32_t(40 * Rand::next_normal()) + 26;
+  } while(_size > 512); // <=512 with 46 average bars
+  
   _size -= _size % 4; // Multiple of 4 bars
   _size *= bar_ticks;
 
