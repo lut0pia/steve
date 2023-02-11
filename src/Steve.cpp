@@ -50,6 +50,14 @@ void steve::note_name_init() {
 const char* steve::note_name(uint8_t note) {
   return note_names + note * 5;
 }
+uint8_t steve::get_note_with_name(const char* name) {
+  for(uintptr_t note = 0; note < 128; note++) {
+    if(!strcmp(note_names + note * 5, name)) {
+      return uint8_t(note);
+    }
+  }
+  return 0;
+}
 ToneSet steve::tone_set_shift(const ToneSet& tones, int shifting) {
   assert(shifting >= 0 && shifting < 12);
   return ((tones << shifting) | (tones >> (12 - shifting))) & 0xfff;

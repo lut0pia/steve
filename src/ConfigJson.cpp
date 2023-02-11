@@ -10,6 +10,14 @@ void parse_number(json_value_s* json_value, T& target) {
   }
 }
 
+void parse_note(json_value_s* json_value, uint8_t& target) {
+  if(const json_string_s* json_string = json_value_as_string(json_value)) {
+    target = get_note_with_name(json_string->string);
+  } else {
+    parse_number(json_value, target);
+  }
+}
+
 template <class T>
 std::shared_ptr<T> find_item(std::vector<std::shared_ptr<T>>& items, const std::string& name) {
   for(auto& candidate : items) {
@@ -169,9 +177,9 @@ void ConfigJson::parse_instrument(const json_object_s* instrument_object, Instru
     if(!strcmp(instrument_attribute->name->string, "index")) {
       parse_number(instrument_attribute->value, desc.midi_id);
     } else if(!strcmp(instrument_attribute->name->string, "min_tone")) {
-      parse_number(instrument_attribute->value, desc.min_tone);
+      parse_note(instrument_attribute->value, desc.min_tone);
     } else if(!strcmp(instrument_attribute->name->string, "max_tone")) {
-      parse_number(instrument_attribute->value, desc.max_tone);
+      parse_note(instrument_attribute->value, desc.max_tone);
     }
   }
 }
