@@ -1,10 +1,10 @@
 #pragma once
 
-#include <initializer_list>
 #include <string>
 #include <vector>
 
 #include "Chord.h"
+#include "ItemDescription.h"
 #include "Steve.h"
 
 namespace steve {
@@ -12,8 +12,7 @@ namespace steve {
     Chord chord;
     float tonicity = 0;
   };
-  struct ScaleDescription {
-    std::string name;
+  struct ScaleDescription : public ItemDescription {
     ToneSet tones = 1, tonic_tones = 0;
     std::vector<ScaleChordDescription> chords;
 

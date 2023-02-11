@@ -3,11 +3,12 @@
 #include <memory>
 #include <string>
 
+#include "ItemDescription.h"
 #include "Steve.h"
 
 namespace steve {
-  struct ChordDescription {
-    std::string name, suffix;
+  struct ChordDescription : public ItemDescription {
+    std::string suffix;
     ToneSet tones = 1;
   };
 

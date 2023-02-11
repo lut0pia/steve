@@ -10,6 +10,20 @@ void parse_number(json_value_s* json_value, T& target) {
   }
 }
 
+template <class T>
+std::shared_ptr<T> find_item(std::vector<std::shared_ptr<T>>& items, const std::string& name) {
+  for(auto& candidate : items) {
+    if(candidate->name == name) {
+      return candidate;
+    }
+  }
+
+  std::shared_ptr<T> desc(new T);
+  items.push_back(desc);
+  desc->name = name;
+  return desc;
+}
+
 void ConfigJson::parse_file(const char* filepath) {
   FILE* file = fopen(filepath, "rb");
   fseek(file, 0, SEEK_END);
@@ -51,20 +65,7 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
 
 void ConfigJson::parse_chords(const json_object_s* chords_object) {
   for(const json_object_element_s* chord_element = chords_object->start; chord_element != nullptr; chord_element = chord_element->next) {
-    std::shared_ptr<ChordDescription> desc;
-    for(auto& desc_candidate : _chords) {
-      if(desc_candidate->name == std::string(chord_element->name->string)) {
-        desc = desc_candidate;
-        break;
-      }
-    }
-
-    if(desc == nullptr) {
-      _chords.push_back(std::shared_ptr<ChordDescription>(new ChordDescription));
-      desc = _chords.back();
-      desc->name = chord_element->name->string;
-    }
-
+    std::shared_ptr<ChordDescription> desc = find_item(_chords, chord_element->name->string);
     if(const json_object_s* chord_object = json_value_as_object(chord_element->value)) {
       parse_chord(chord_object, *desc);
     } else {
@@ -96,20 +97,7 @@ void ConfigJson::parse_chord(const json_object_s* chord_object, ChordDescription
 
 void ConfigJson::parse_scales(const json_object_s* scales_object) {
   for(const json_object_element_s* scale_element = scales_object->start; scale_element != nullptr; scale_element = scale_element->next) {
-    std::shared_ptr<ScaleDescription> desc;
-    for(auto& desc_candidate : _scales) {
-      if(desc_candidate->name == std::string(scale_element->name->string)) {
-        desc = desc_candidate;
-        break;
-      }
-    }
-
-    if(desc == nullptr) {
-      _scales.push_back(std::shared_ptr<ScaleDescription>(new ScaleDescription));
-      desc = _scales.back();
-      desc->name = scale_element->name->string;
-    }
-
+    std::shared_ptr<ScaleDescription> desc = find_item(_scales, scale_element->name->string);
     if(const json_object_s* scale_object = json_value_as_object(scale_element->value)) {
       parse_scale(scale_object, *desc);
     }
@@ -134,20 +122,7 @@ void ConfigJson::parse_scale(const json_object_s* scale_object, ScaleDescription
 
 void ConfigJson::parse_instruments(const json_object_s* instruments_object) {
   for(const json_object_element_s* instrument_element = instruments_object->start; instrument_element != nullptr; instrument_element = instrument_element->next) {
-    std::shared_ptr<Instrument> desc;
-    for(auto& desc_candidate : _instruments) {
-      if(desc_candidate->name == std::string(instrument_element->name->string)) {
-        desc = desc_candidate;
-        break;
-      }
-    }
-
-    if(desc == nullptr) {
-      _instruments.push_back(std::shared_ptr<Instrument>(new Instrument));
-      desc = _instruments.back();
-      desc->name = instrument_element->name->string;
-    }
-
+    std::shared_ptr<Instrument> desc = find_item(_instruments, instrument_element->name->string);
     if(const json_object_s* instrument_object = json_value_as_object(instrument_element->value)) {
       parse_instrument(instrument_object, *desc);
     }
