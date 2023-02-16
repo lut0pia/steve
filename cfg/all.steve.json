@@ -19,6 +19,15 @@
       "tones": [3, 6]
     },
 
+    "Major sixth": {
+      "suffix": "6",
+      "tones": [4, 7, 9]
+    },
+    "Minor sixth": {
+      "suffix": "m6",
+      "tones": [3, 7, 9]
+    },
+
     "Dominant seventh": {
       "suffix": "7",
       "tones": [4, 7, 10]
