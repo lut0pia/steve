@@ -1,6 +1,7 @@
 #include "Scale.h"
 
 #include <algorithm>
+#include <cassert>
 #include <random>
 
 #include "Config.h"
@@ -9,12 +10,12 @@
 using namespace steve;
 
 void ScaleDescription::compute_chords(const Config& instance) {
-  chords.clear();
-
   // Gather all chords inside scale and find tonic tones
+  chords.clear();
+  tonic_tones = 0;
   for(const Chord& chord : instance.get_chords_inside(tones)) {
-    if(chord.key == 0) {
-      tonic_tones |= chord.tones;
+    if(chord.key == 0 && chord.tones > tonic_tones) {
+      tonic_tones = chord.tones;
     }
     chords.push_back({chord});
   }
