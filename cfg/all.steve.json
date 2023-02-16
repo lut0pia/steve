@@ -474,6 +474,167 @@
       "index": 79,
       "min_tone": 60,
       "max_tone": 96
+    },
+    "Lead 1 (Square)": {
+      "index": 80
+    },
+    "Lead 2 (Sawtooth)": {
+      "index": 81
+    },
+    "Lead 3 (Calliope)": {
+      "index": 82
+    },
+    "Lead 4 (Chiff)": {
+      "index": 83
+    },
+    "Lead 5 (Charang)": {
+      "index": 84
+    },
+    "Lead 6 (Voice)": {
+      "index": 85
+    },
+    "Lead 7 (Fifths)": {
+      "index": 86
+    },
+    "Lead 8 (Bass + Lead)": {
+      "index": 87
+    },
+    "Pad 1 (New Age)": {
+      "index": 88
+    },
+    "Pad 2 (Warm)": {
+      "index": 89
+    },
+    "Pad 3 (Polysynth)": {
+      "index": 90
+    },
+    "Pad 4 (Choir)": {
+      "index": 91
+    },
+    "Pad 5 (Bowed)": {
+      "index": 92
+    },
+    "Pad 6 (Metallic)": {
+      "index": 93
+    },
+    "Pad 7 (Halo)": {
+      "index": 94
+    },
+    "FX 1 (Rain)": {
+      "index": 96
+    },
+    "FX 2 (Soundtrack)": {
+      "index": 97
+    },
+    "FX 3 (Crystal)": {
+      "index": 98
+    },
+    "FX 4 (Atmosphere)": {
+      "index": 99
+    },
+    "FX 5 (Brightness)": {
+      "index": 100
+    },
+    "FX 6 (Goblins)": {
+      "index": 101
+    },
+    "FX 7 (Echoes)": {
+      "index": 102
+    },
+    "FX 8 (Sci-Fi)": {
+      "index": 103
+    },
+    "Sitar": {
+      "index": 104,
+      "min_tone": "C2",
+      "max_tone": "E5"
+    },
+    "Banjo": {
+      "index": 105,
+      "min_tone": "C3",
+      "max_tone": "C6"
+    },
+    "Shamisen": {
+      "index": 106,
+      "min_tone": "D4",
+      "max_tone": "F6"
+    },
+    "Koto": {
+      "index": 107,
+      "min_tone": "A1",
+      "max_tone": "A7"
+    },
+    "Kalimba": {
+      "index": 108,
+      "min_tone": "G3",
+      "max_tone": "D6"
+    },
+    "Bag Pipe": {
+      "index": 109,
+      "min_tone": "A4",
+      "max_tone": "A#5"
+    },
+    "Fiddle": {
+      "index": 110,
+      "min_tone": "G3",
+      "max_tone": "G7"
+    },
+    "Shanai": {
+      "index": 111,
+      "min_tone": "A3",
+      "max_tone": "A5"
+    },
+    "Tinkle Bell": {
+      "index": 112,
+      "min_tone": "C#4",
+      "max_tone": "A6"
+    },
+    "Agogo": {
+      "index": 113
+    },
+    "Steel Drums": {
+      "index": 114,
+      "min_tone": "F1",
+      "max_tone": "G6"
+    },
+    "Woodblock": {
+      "index": 115
+    },
+    "Taiko Drum": {
+      "index": 116
+    },
+    "Melodic Tom": {
+      "index": 117
+    },
+    "Synth Drum": {
+      "index": 118
+    },
+    "Reverse Cymbal": {
+      "index": 119
+    },
+    "Guitar Fret Noise": {
+      "index": 120
+    },
+    "Breath Noise": {
+      "index": 121
+    },
+    "Seashore": {
+      "index": 122
+    },
+    "Bird Tweet": {
+      "index": 123
+    },
+    "Telephone Ring": {
+      "index": 124
+    },
+    "Helicopter": {
+      "index": 125
+    },
+    "Applause": {
+      "index": 126
+    },
+    "Gunshot": {
+      "index": 127
     }
   }
 }
