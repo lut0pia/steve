@@ -15,8 +15,8 @@
 
 using namespace steve;
 
-Music::Music(const Config& instance)
-  : _config(instance),
+Music::Music(const Config& config)
+  : _config(config),
     _scale(_config.get_random_scale()),
     _tempo(_config.get_random_tempo()) {
   do {
