@@ -77,313 +77,313 @@
   "instruments": {
     "Acoustic Grand Piano": {
       "index": 0,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Bright Acoustic Piano": {
       "index": 1,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Electric Grand Piano": {
       "index": 2,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Honky Tonk Piano": {
       "index": 3,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Electric Piano 1": {
       "index": 4,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Electric Piano 2": {
       "index": 5,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Harpsichord": {
       "index": 6,
-      "min_tone": 21,
-      "max_tone": 88
+      "min_tone": "F1",
+      "max_tone": "F6"
     },
     "Clavinet": {
       "index": 7,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Celesta": {
       "index": 8,
-      "min_tone": 48,
-      "max_tone": 112
+      "min_tone": "C4",
+      "max_tone": "C8"
     },
     "Glockenspiel": {
       "index": 9,
-      "min_tone": 72,
-      "max_tone": 112
+      "min_tone": "G5",
+      "max_tone": "C8"
     },
     "Music Box": {
       "index": 10,
-      "min_tone": 21,
-      "max_tone": 108
+      "min_tone": "A0",
+      "max_tone": "C8"
     },
     "Vibraphone": {
       "index": 11,
-      "min_tone": 48,
-      "max_tone": 88
+      "min_tone": "F3",
+      "max_tone": "F6"
     },
     "Marimba": {
       "index": 12,
-      "min_tone": 36,
-      "max_tone": 96
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Xylophone": {
       "index": 13,
-      "min_tone": 50,
-      "max_tone": 108
+      "min_tone": "F3",
+      "max_tone": "C8"
     },
     "Tubular Bells": {
       "index": 14,
-      "min_tone": 52,
-      "max_tone": 80
+      "min_tone": "F3",
+      "max_tone": "G5"
     },
     "Dulcimer": {
       "index": 15,
-      "min_tone": 48,
-      "max_tone": 84
+      "min_tone": "A2",
+      "max_tone": "A6"
     },
     "Drawbar Organ": {
       "index": 16,
-      "min_tone": 24,
-      "max_tone": 84
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Percussive Organ": {
       "index": 17,
-      "min_tone": 24,
-      "max_tone": 84
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Rock Organ": {
       "index": 18,
-      "min_tone": 24,
-      "max_tone": 84
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Church Organ": {
       "index": 19,
-      "min_tone": 24,
-      "max_tone": 84
+      "min_tone": "C-1",
+      "max_tone": "G9"
     },
     "Reed Organ": {
       "index": 20,
-      "min_tone": 24,
-      "max_tone": 84
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Accordion": {
       "index": 21,
-      "min_tone": 44,
-      "max_tone": 92
+      "min_tone": "D2",
+      "max_tone": "D8"
     },
     "Harmonica": {
       "index": 22,
-      "min_tone": 60,
-      "max_tone": 96
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Tango Accordion": {
       "index": 23,
-      "min_tone": 44,
-      "max_tone": 92
+      "min_tone": "C2",
+      "max_tone": "C7"
     },
     "Acoustic Guitar (nylon)": {
       "index": 24,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Acoustic Guitar (steel)": {
       "index": 25,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Electric Guitar (jazz)": {
       "index": 26,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Electric Guitar (clean)": {
       "index": 27,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Electric Guitar (muted)": {
       "index": 28,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Overdriven Guitar": {
       "index": 29,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Distorted Guitar": {
       "index": 30,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Guitar Harmonics": {
       "index": 31,
-      "min_tone": 40,
-      "max_tone": 77
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Acoustic Bass": {
       "index": 32,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Electric Fingered Bass": {
       "index": 33,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Electric Picked Bass": {
       "index": 34,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Fretless Bass": {
       "index": 35,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Slap Bass 1": {
       "index": 36,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Slap Bass 2": {
       "index": 37,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Syn Bass 1": {
       "index": 38,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Syn Bass 2": {
       "index": 39,
-      "min_tone": 24,
-      "max_tone": 77
+      "min_tone": "E1",
+      "max_tone": "G4"
     },
     "Violin": {
       "index": 40,
-      "min_tone": 55,
-      "max_tone": 103
+      "min_tone": "G3",
+      "max_tone": "G7"
     },
     "Viola": {
       "index": 41,
-      "min_tone": 48,
-      "max_tone": 91
+      "min_tone": "C3",
+      "max_tone": "C7"
     },
     "Cello": {
       "index": 42,
-      "min_tone": 36,
-      "max_tone": 76
+      "min_tone": "C2",
+      "max_tone": "C6"
     },
     "Contrabass": {
       "index": 43,
-      "min_tone": 28,
-      "max_tone": 67
+      "min_tone": "E1",
+      "max_tone": "D4"
     },
     "Tremolo Strings": {
       "index": 44,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "C3",
+      "max_tone": "C6"
     },
     "Pizzicato Strings": {
       "index": 45,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "C3",
+      "max_tone": "C6"
     },
     "Orchestral Harp": {
       "index": 46,
-      "min_tone": 23,
-      "max_tone": 100
+      "min_tone": "B0",
+      "max_tone": "G7"
     },
     "Timpani": {
       "index": 47,
-      "min_tone": 36,
-      "max_tone": 62
+      "min_tone": "D2",
+      "max_tone": "A3"
     },
     "String Ensemble": {
       "index": 48,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "G3",
+      "max_tone": "C5"
     },
     "String Ensemble 2 (Slow)": {
       "index": 49,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "G3",
+      "max_tone": "C5"
     },
     "Syn Strings 1": {
       "index": 50,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "G3",
+      "max_tone": "C5"
     },
     "Syn Strings 2": {
       "index": 51,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "G3",
+      "max_tone": "C5"
     },
     "Choir Aahs": {
       "index": 52,
-      "min_tone": 40,
-      "max_tone": 84
+      "min_tone": "E2",
+      "max_tone": "A#5"
     },
     "Voice Oohs": {
       "index": 53,
-      "min_tone": 40,
-      "max_tone": 84
+      "min_tone": "E2",
+      "max_tone": "A#5"
     },
     "Syn Choir": {
       "index": 54,
-      "min_tone": 40,
-      "max_tone": 84
+      "min_tone": "E2",
+      "max_tone": "A#5"
     },
     "Orchestral Hit": {
       "index": 55,
-      "min_tone": 36,
-      "max_tone": 91
+      "min_tone": "C3",
+      "max_tone": "C6"
     },
     "Trumpet": {
       "index": 56,
-      "min_tone": 55,
-      "max_tone": 82
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "Trombone": {
       "index": 57,
-      "min_tone": 40,
-      "max_tone": 72
+      "min_tone": "B1",
+      "max_tone": "A#4"
     },
     "Tuba": {
       "index": 58,
-      "min_tone": 28,
-      "max_tone": 58
+      "min_tone": "E1",
+      "max_tone": "F4"
     },
     "Muted Trumpet": {
       "index": 59,
-      "min_tone": 55,
-      "max_tone": 82
+      "min_tone": "E2",
+      "max_tone": "C6"
     },
     "French Horn": {
       "index": 60,
-      "min_tone": 34,
-      "max_tone": 77
+      "min_tone": "B1",
+      "max_tone": "F5"
     },
     "Brass Section": {
       "index": 61,
-      "min_tone": 28,
-      "max_tone": 67
+      "min_tone": "E2",
+      "max_tone": "E4"
     },
     "Synth Brass 1": {
       "index": 62,
@@ -397,63 +397,63 @@
     },
     "Soprano Sax": {
       "index": 64,
-      "min_tone": 56,
-      "max_tone": 88
+      "min_tone": "G#3",
+      "max_tone": "E6"
     },
     "Alto Sax": {
       "index": 65,
-      "min_tone": 50,
-      "max_tone": 81
+      "min_tone": "C#3",
+      "max_tone": "G#5"
     },
     "Tenor Sax": {
       "index": 66,
-      "min_tone": 45,
-      "max_tone": 76
+      "min_tone": "G#2",
+      "max_tone": "E5"
     },
     "Baritone Sax": {
       "index": 67,
-      "min_tone": 38,
-      "max_tone": 69
+      "min_tone": "C2",
+      "max_tone": "A4"
     },
     "Oboe": {
       "index": 68,
-      "min_tone": 59,
-      "max_tone": 93
+      "min_tone": "A#3",
+      "max_tone": "G6"
     },
     "English Horn": {
       "index": 69,
-      "min_tone": 52,
-      "max_tone": 84
+      "min_tone": "E3",
+      "max_tone": "C6"
     },
     "Bassoon": {
       "index": 70,
-      "min_tone": 35,
-      "max_tone": 76
+      "min_tone": "A#1",
+      "max_tone": "E5"
     },
     "Clarinet": {
       "index": 71,
-      "min_tone": 36,
-      "max_tone": 95
+      "min_tone": "C#2",
+      "max_tone": "G6"
     },
     "Piccolo": {
       "index": 72,
-      "min_tone": 72,
-      "max_tone": 108
+      "min_tone": "D5",
+      "max_tone": "C8"
     },
     "Flute": {
       "index": 73,
-      "min_tone": 60,
-      "max_tone": 96
+      "min_tone": "C4",
+      "max_tone": "C7"
     },
     "Recorder": {
       "index": 74,
-      "min_tone": 60,
-      "max_tone": 96
+      "min_tone": "F3",
+      "max_tone": "G7"
     },
     "Pan Flute": {
       "index": 75,
-      "min_tone": 36,
-      "max_tone": 95
+      "min_tone": "B3",
+      "max_tone": "G7"
     },
     "Bottle Blow": {
       "index": 76,
@@ -462,8 +462,8 @@
     },
     "Shakuhachi": {
       "index": 77,
-      "min_tone": 36,
-      "max_tone": 95
+      "min_tone": "D4",
+      "max_tone": "E6"
     },
     "Whistle": {
       "index": 78,
@@ -472,8 +472,8 @@
     },
     "Ocarina": {
       "index": 79,
-      "min_tone": 60,
-      "max_tone": 96
+      "min_tone": "C4",
+      "max_tone": "C7"
     },
     "Lead 1 (Square)": {
       "index": 80
