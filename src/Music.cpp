@@ -27,10 +27,7 @@ Music::Music(const Config& config)
   _size *= bar_ticks;
 
   { // Generate chord progression
-    _chord_progression.push_back(_scale.tonic_chord());
-    _chord_progression.push_back(_scale.subdominant_chord());
-    _chord_progression.push_back(_scale.subdominant_chord());
-    _chord_progression.push_back(_scale.dominant_chord());
+    _chord_progression = _config.get_chord_progression(_scale);
     for(uintptr_t i(0); i<bars(); i++) {
       for(uintptr_t j(0); j<bar_ticks; j++) {
         _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);

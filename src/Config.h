@@ -24,6 +24,7 @@ namespace steve {
 
     uint32_t get_random_tempo() const;
     std::vector<Chord> get_chords_inside(ToneSet tones) const;
+    std::vector<Chord> get_chord_progression(const Scale&) const;
     Scale get_random_scale() const;
     std::shared_ptr<const Instrument> get_random_instrument() const;
   };
