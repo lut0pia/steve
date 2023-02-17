@@ -38,11 +38,10 @@ const char* steve::note_value_name(NoteValue v) {
   return "N/A";
 }
 
-static char* note_names;
+static char note_names[128 * 5];
 void steve::note_name_init() {
   // Start at C-1
   // Worst case: C#-1\0 (5 bytes)
-  note_names = (char*)malloc(128 * 5);
   for(uint8_t note(0); note < 128; note++) {
     sprintf(note_names + note * 5, "%s%d", key_name(note % 12), (note / 12) - 1);
   }
