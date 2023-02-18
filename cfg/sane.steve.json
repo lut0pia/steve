@@ -1,0 +1,95 @@
+{
+  "parents": ["all.steve.json"],
+  "min_tempo": 80,
+  "max_tempo": 160,
+  "creators": {
+    "Bass": {
+      "min_count": 1
+    },
+    "Melody": {
+      "min_count": 1,
+      "max_count": 3
+    }
+  },
+  "scales": {
+    "Byzantine": {
+      "blacklist": true
+    },
+    "Kumoi": {
+      "blacklist": true
+    },
+    "Whole Tone": {
+      "blacklist": true
+    }
+  },
+  "chords": {
+    "Major Sixth": {
+      "blacklist": true
+    },
+    "Minor Sixth": {
+      "blacklist": true
+    }
+  },
+  "instruments": {
+    "Acoustic Bass": {
+      "voices": 1
+    },
+    "Electric Fingered Bass": {
+      "voices": 1
+    },
+    "Electric Picked Bass": {
+      "voices": 1
+    },
+    "Fretless Bass": {
+      "voices": 1
+    },
+    "Slap Bass 1": {
+      "voices": 1
+    },
+    "Slap Bass 2": {
+      "voices": 1
+    },
+    "Syn Bass 1": {
+      "voices": 1
+    },
+    "Syn Bass 2": {
+      "voices": 1
+    },
+    "Guitar Harmonics": {
+      "blacklist": true
+    },
+    "Bottle Blow": {
+      "blacklist": true
+    },
+    "Whistle": {
+      "blacklist": true
+    },
+    "Reverse Cymbal": {
+      "blacklist": true
+    },
+    "Guitar Fret Noise": {
+      "blacklist": true
+    },
+    "Breath Noise": {
+      "blacklist": true
+    },
+    "Seashore": {
+      "blacklist": true
+    },
+    "Bird Tweet": {
+      "blacklist": true
+    },
+    "Telephone Ring": {
+      "blacklist": true
+    },
+    "Helicopter": {
+      "blacklist": true
+    },
+    "Applause": {
+      "blacklist": true
+    },
+    "Gunshot": {
+      "blacklist": true
+    }
+  }
+}
