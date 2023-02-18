@@ -1,9 +1,17 @@
 #pragma once
 
+#include <functional>
+
 #include "../Chord.h"
+#include "../ItemDescription.h"
 #include "../Steve.h"
 
 namespace steve {
+  struct CreatorDescription : public ItemDescription {
+    std::function<class Creator*(class Music*)> func;
+    uint32_t min_count = 0, max_count = 1;
+  };
+
   class Creator {
   protected:
     class Music* _music;
@@ -15,6 +23,7 @@ namespace steve {
     uint8_t _min_tone, _max_tone;
     float _repetition;
     uint8_t _channel;
+
   public:
     Creator(class Music*);
     virtual ~Creator() {}

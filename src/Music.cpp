@@ -9,10 +9,6 @@
 #include "Rand.h"
 #include "Scale.h"
 
-#include "creator/Bass.h"
-#include "creator/Drums.h"
-#include "creator/Melody.h"
-
 using namespace steve;
 
 Music::Music(const Config& config)
@@ -75,12 +71,9 @@ Music::Music(const Config& config)
     _beat_mod = bar_ticks;
   }
 
-  add_creator(new Drums(this));
-  add_creator(new Bass(this));
-
-  do {
-    add_creator(new Melody(this));
-  } while((parts() < 3 || Rand::next_float() > 0.75f) && _creators.size() < 9);
+  for(const auto& creator : _config.get_creators()) {
+    add_creator(creator->func(this));
+  }
 
 #ifndef NDEBUG
   check();

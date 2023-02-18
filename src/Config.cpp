@@ -1,8 +1,34 @@
 #include "Config.h"
 
+#include "Music.h"
 #include "Rand.h"
+#include "creator/Arpeggio.h"
+#include "creator/Bass.h"
+#include "creator/Chords.h"
+#include "creator/Drums.h"
+#include "creator/Melody.h"
 
 using namespace steve;
+
+Config::Config() {
+  /*
+  _creators.get_item("Arpeggio")->func = [](Music* music) {
+    return new Arpeggio(music);
+  };
+  */
+  _creators.get_item("Bass")->func = [](Music* music) {
+    return new Bass(music);
+  };
+  _creators.get_item("Chords")->func = [](Music* music) {
+    return new Chords(music);
+  };
+  _creators.get_item("Drums")->func = [](Music* music) {
+    return new Drums(music);
+  };
+  _creators.get_item("Melody")->func = [](Music* music) {
+    return new Melody(music);
+  };
+}
 
 void Config::compute_cache() {
   // This needs to happen before computing scale chords
@@ -13,6 +39,7 @@ void Config::compute_cache() {
 
   _scales.compute_cache();
   _instruments.compute_cache();
+  _creators.compute_cache();
 }
 
 uint32_t Config::get_random_tempo() const {
@@ -52,4 +79,18 @@ Scale Config::get_random_scale() const {
 
 std::shared_ptr<const Instrument> Config::get_random_instrument() const {
   return Rand::in(_instruments.get_allowed());
+}
+std::vector<std::shared_ptr<const CreatorDescription>> Config::get_creators() const {
+  std::vector<std::shared_ptr<const CreatorDescription>> creators;
+
+  while(creators.empty()) {
+    for(const auto creator : _creators.get_allowed()) {
+      const uint32_t count = Rand::next(creator->min_count, creator->max_count);
+      for(uint32_t i = 0; i < count; i++) {
+        creators.push_back(creator);
+      }
+    }
+  }
+
+  return creators;
 }

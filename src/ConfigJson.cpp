@@ -75,6 +75,8 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
         parse_number(element->value, min_tempo);
       } else if(!strcmp(element->name->string, "max_tempo")) {
         parse_number(element->value, max_tempo);
+      } else if(!strcmp(element->name->string, "creators")) {
+        parse_creators(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "chords")) {
         parse_chords(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "scales")) {
@@ -88,6 +90,28 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
   }
 
   free(root);
+}
+
+void ConfigJson::parse_creators(const json_object_s* creators_object) {
+  for(const json_object_element_s* creator_element = creators_object->start; creator_element != nullptr; creator_element = creator_element->next) {
+    std::shared_ptr<CreatorDescription> desc = _creators.get_item(creator_element->name->string);
+    if(const json_object_s* creator_object = json_value_as_object(creator_element->value)) {
+      parse_creator(creator_object, *desc);
+    } else {
+    }
+  }
+}
+
+void ConfigJson::parse_creator(const json_object_s* creator_object, CreatorDescription& desc) {
+  parse_item(creator_object, desc);
+  for(const json_object_element_s* creator_attribute = creator_object->start; creator_attribute != nullptr; creator_attribute = creator_attribute->next) {
+    const char* creator_attribute_name = creator_attribute->name->string;
+    if(!strcmp(creator_attribute_name, "min_count")) {
+      parse_number(creator_attribute->value, desc.min_count);
+    } else if(!strcmp(creator_attribute_name, "max_count")) {
+      parse_number(creator_attribute->value, desc.max_count);
+    }
+  }
 }
 
 void ConfigJson::parse_chords(const json_object_s* chords_object) {
