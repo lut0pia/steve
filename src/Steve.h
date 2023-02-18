@@ -48,6 +48,7 @@ namespace steve {
   const char* note_name(uint8_t);
   uint8_t get_note_with_name(const char*);
   ToneSet tone_set_shift(const ToneSet& scale, int shifting);
+  uint32_t tone_set_count(ToneSet);
   const char* tone_set_binary(ToneSet);
   void add_note(Notes&, uint8_t channel, uint8_t tone, size_t start, size_t length, uint8_t velocity = 127);
 

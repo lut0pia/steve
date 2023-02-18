@@ -61,6 +61,14 @@ ToneSet steve::tone_set_shift(const ToneSet& tones, int shifting) {
   assert(shifting >= 0 && shifting < 12);
   return ((tones << shifting) | (tones >> (12 - shifting))) & 0xfff;
 }
+uint32_t steve::tone_set_count(ToneSet tones) {
+  uint32_t count = 0;
+  while(tones) {
+    count += tones & 1;
+    tones >>= 1;
+  }
+  return count;
+}
 const char* steve::tone_set_binary(ToneSet tone_set) {
   static char str[13] = {};
   for(uint32_t tone(0); tone<12; tone++) {
