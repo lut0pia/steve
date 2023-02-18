@@ -16,6 +16,10 @@ float Rand::next_normal() {
   return std::max(0.f, std::min(1.f, dist(generator)));
 }
 
+uint32_t Rand::next(uint32_t min, uint32_t max) {
+  std::uniform_int_distribution<uint32_t> dist(min, max);
+  return dist(generator);
+}
 uint64_t Rand::next(uint64_t min, uint64_t max) {
   std::uniform_int_distribution<uint64_t> dist(min, max);
   return dist(generator);

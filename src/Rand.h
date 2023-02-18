@@ -14,6 +14,7 @@ namespace steve {
     static float next_float();
     static float next_normal();
 
+    static uint32_t next(uint32_t min, uint32_t max); // Returns a random unsigned integer between min and max
     static uint64_t next(uint64_t min, uint64_t max); // Returns a random unsigned integer between min and max
     static int next(int min, int max); // Returns a random integer between min and max
     static float next(float min, float max); // Returns a random float between min and max
