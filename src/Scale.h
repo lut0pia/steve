@@ -25,6 +25,8 @@ namespace steve {
 
     inline std::string full_name() const { return std::string(key_name(key)) + " " + desc->name; }
 
+    // Zero-based
+    uint8_t get_degree_for_tone(uint8_t tone) const;
     Chord chord_by_tonicity(float ratio) const;
     Chord tonic_chord() const;
     Chord subdominant_chord() const;

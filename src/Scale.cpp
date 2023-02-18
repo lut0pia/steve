@@ -43,6 +43,19 @@ void ScaleDescription::compute_chords(const Config& instance) {
   });
 }
 
+uint8_t Scale::get_degree_for_tone(uint8_t tone) const {
+  tone = tone % 12;
+  uint8_t cmp_tone = key;
+  uint8_t degree = 0;
+  while(cmp_tone != tone) {
+    cmp_tone = (cmp_tone + 1) % 12;
+    if((tones & (1 << cmp_tone)) != 0) {
+      degree += 1;
+    }
+  }
+  return degree;
+}
+
 Chord Scale::chord_by_tonicity(float ratio) const {
   const uintptr_t index = clamp<uintptr_t>(ratio * desc->chords.size(), 0, desc->chords.size() - 1);
   return desc->chords[index].chord.shifted(key);
