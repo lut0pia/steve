@@ -203,8 +203,10 @@ void Music::write_mid(std::ostream& s) const {
 
     if(note.first != last_chord && note.first != _size && note.first % bar_ticks == 0) {
       // Chord meta-event
-      std::string chord_str = chord_at(note.first).to_short_string();
-      s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x01) << VarLength(chord_str.size()) << chord_str; // Program change
+      const Chord chord = chord_at(note.first);
+      const uint8_t degree =_scale.get_degree_for_tone(chord.key);
+      const std::string chord_str = chord_at(note.first).to_short_string() + " (" + std::to_string(degree + 1) + ")";
+      s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x01) << VarLength(chord_str.size()) << chord_str;
       last_chord = note.first;
     }
   }
