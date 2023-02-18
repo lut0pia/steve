@@ -166,6 +166,8 @@ void ConfigJson::parse_instrument(const json_object_s* instrument_object, Instru
       parse_note(instrument_attribute->value, desc.min_tone);
     } else if(!strcmp(instrument_attribute->name->string, "max_tone")) {
       parse_note(instrument_attribute->value, desc.max_tone);
+    } else if(!strcmp(instrument_attribute->name->string, "voices")) {
+      parse_note(instrument_attribute->value, desc.voices);
     }
   }
 }
