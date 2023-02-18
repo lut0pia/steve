@@ -7,29 +7,29 @@
       "tones": [4, 7]
     },
     "Minor": {
-      "suffix": "m",
+      "suffix": "min",
       "tones": [3, 7]
     },
     "Augmented": {
-      "suffix": "+",
+      "suffix": "aug",
       "tones": [4, 8]
     },
     "Diminished": {
-      "suffix": "o",
+      "suffix": "dim",
       "tones": [3, 6]
     },
 
     "Major Sixth": {
-      "suffix": "6",
+      "suffix": "maj6",
       "tones": [4, 7, 9]
     },
     "Minor Sixth": {
-      "suffix": "m6",
+      "suffix": "min6",
       "tones": [3, 7, 9]
     },
 
     "Dominant Seventh": {
-      "suffix": "7",
+      "suffix": "dom7",
       "tones": [4, 7, 10]
     },
     "Major Seventh": {
@@ -37,11 +37,11 @@
       "tones": [4, 7, 11]
     },
     "Minor-Major Seventh": {
-      "suffix": "mM7",
+      "suffix": "min/maj7",
       "tones": [3, 7, 11]
     },
     "Minor Seventh": {
-      "suffix": "m7",
+      "suffix": "min7",
       "tones": [3, 7, 10]
     }
   },
