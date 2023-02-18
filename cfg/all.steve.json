@@ -19,28 +19,28 @@
       "tones": [3, 6]
     },
 
-    "Major sixth": {
+    "Major Sixth": {
       "suffix": "6",
       "tones": [4, 7, 9]
     },
-    "Minor sixth": {
+    "Minor Sixth": {
       "suffix": "m6",
       "tones": [3, 7, 9]
     },
 
-    "Dominant seventh": {
+    "Dominant Seventh": {
       "suffix": "7",
       "tones": [4, 7, 10]
     },
-    "Major seventh": {
+    "Major Seventh": {
       "suffix": "maj7",
       "tones": [4, 7, 11]
     },
-    "Minor-major seventh": {
+    "Minor-Major Seventh": {
       "suffix": "mM7",
       "tones": [3, 7, 11]
     },
-    "Minor seventh": {
+    "Minor Seventh": {
       "suffix": "m7",
       "tones": [3, 7, 10]
     }
@@ -52,7 +52,7 @@
     "Byzantine": {
       "tones": [1, 4, 5, 7, 8, 11]
     },
-    "Harmonic minor": {
+    "Harmonic Minor": {
       "tones": [2, 3, 5, 7, 8, 11]
     },
     "Kumoi": {
@@ -64,13 +64,13 @@
     "Minor": {
       "tones": [2, 3, 5, 7, 8, 10]
     },
-    "Melodic minor": {
+    "Melodic Minor": {
       "tones": [2, 3, 5, 7, 9, 11]
     },
-    "Pentatonic major": {
+    "Pentatonic Major": {
       "tones": [2, 4, 7, 9]
     },
-    "Whole tone": {
+    "Whole Tone": {
       "tones": [2, 4, 6, 8, 10]
     }
   },
@@ -195,27 +195,27 @@
       "min_tone": "C2",
       "max_tone": "C7"
     },
-    "Acoustic Guitar (nylon)": {
+    "Acoustic Guitar (Nylon)": {
       "index": 24,
       "min_tone": "E2",
       "max_tone": "C6"
     },
-    "Acoustic Guitar (steel)": {
+    "Acoustic Guitar (Steel)": {
       "index": 25,
       "min_tone": "E2",
       "max_tone": "C6"
     },
-    "Electric Guitar (jazz)": {
+    "Electric Guitar (Jazz)": {
       "index": 26,
       "min_tone": "E2",
       "max_tone": "C6"
     },
-    "Electric Guitar (clean)": {
+    "Electric Guitar (Clean)": {
       "index": 27,
       "min_tone": "E2",
       "max_tone": "C6"
     },
-    "Electric Guitar (muted)": {
+    "Electric Guitar (Muted)": {
       "index": 28,
       "min_tone": "E2",
       "max_tone": "C6"
