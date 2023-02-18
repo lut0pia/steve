@@ -78,47 +78,56 @@
     "Acoustic Grand Piano": {
       "index": 0,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Bright Acoustic Piano": {
       "index": 1,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Electric Grand Piano": {
       "index": 2,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Honky Tonk Piano": {
       "index": 3,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Electric Piano 1": {
       "index": 4,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Electric Piano 2": {
       "index": 5,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Harpsichord": {
       "index": 6,
       "min_tone": "F1",
-      "max_tone": "F6"
+      "max_tone": "F6",
+      "voices": 10
     },
     "Clavinet": {
       "index": 7,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Celesta": {
       "index": 8,
       "min_tone": "C4",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Glockenspiel": {
       "index": 9,
@@ -128,7 +137,8 @@
     "Music Box": {
       "index": 10,
       "min_tone": "A0",
-      "max_tone": "C8"
+      "max_tone": "C8",
+      "voices": 10
     },
     "Vibraphone": {
       "index": 11,
@@ -158,32 +168,38 @@
     "Drawbar Organ": {
       "index": 16,
       "min_tone": "C2",
-      "max_tone": "C7"
+      "max_tone": "C7",
+      "voices": 10
     },
     "Percussive Organ": {
       "index": 17,
       "min_tone": "C2",
-      "max_tone": "C7"
+      "max_tone": "C7",
+      "voices": 10
     },
     "Rock Organ": {
       "index": 18,
       "min_tone": "C2",
-      "max_tone": "C7"
+      "max_tone": "C7",
+      "voices": 10
     },
     "Church Organ": {
       "index": 19,
       "min_tone": "C-1",
-      "max_tone": "G9"
+      "max_tone": "G9",
+      "voices": 10
     },
     "Reed Organ": {
       "index": 20,
       "min_tone": "C2",
-      "max_tone": "C7"
+      "max_tone": "C7",
+      "voices": 10
     },
     "Accordion": {
       "index": 21,
       "min_tone": "D2",
-      "max_tone": "D8"
+      "max_tone": "D8",
+      "voices": 5
     },
     "Harmonica": {
       "index": 22,
@@ -193,87 +209,104 @@
     "Tango Accordion": {
       "index": 23,
       "min_tone": "C2",
-      "max_tone": "C7"
+      "max_tone": "C7",
+      "voices": 5
     },
     "Acoustic Guitar (Nylon)": {
       "index": 24,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Acoustic Guitar (Steel)": {
       "index": 25,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Electric Guitar (Jazz)": {
       "index": 26,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Electric Guitar (Clean)": {
       "index": 27,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Electric Guitar (Muted)": {
       "index": 28,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Overdriven Guitar": {
       "index": 29,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Distorted Guitar": {
       "index": 30,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Guitar Harmonics": {
       "index": 31,
       "min_tone": "E2",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 6
     },
     "Acoustic Bass": {
       "index": 32,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Electric Fingered Bass": {
       "index": 33,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Electric Picked Bass": {
       "index": 34,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Fretless Bass": {
       "index": 35,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Slap Bass 1": {
       "index": 36,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Slap Bass 2": {
       "index": 37,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Syn Bass 1": {
       "index": 38,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Syn Bass 2": {
       "index": 39,
       "min_tone": "E1",
-      "max_tone": "G4"
+      "max_tone": "G4",
+      "voices": 4
     },
     "Violin": {
       "index": 40,
@@ -547,22 +580,26 @@
     "Sitar": {
       "index": 104,
       "min_tone": "C2",
-      "max_tone": "E5"
+      "max_tone": "E5",
+      "voices": 7
     },
     "Banjo": {
       "index": 105,
       "min_tone": "C3",
-      "max_tone": "C6"
+      "max_tone": "C6",
+      "voices": 5
     },
     "Shamisen": {
       "index": 106,
       "min_tone": "D4",
-      "max_tone": "F6"
+      "max_tone": "F6",
+      "voices": 3
     },
     "Koto": {
       "index": 107,
       "min_tone": "A1",
-      "max_tone": "A7"
+      "max_tone": "A7",
+      "voices": 17
     },
     "Kalimba": {
       "index": 108,
