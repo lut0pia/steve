@@ -4,32 +4,15 @@
 
 using namespace steve;
 
-template <class T>
-void compute_allowed_items(const std::vector<std::shared_ptr<T>>& all, std::vector<std::shared_ptr<T>>& allowed) {
-  bool use_whitelist = false;
-
-  for(const auto& item : all) {
-    if(item->whitelisted) {
-      use_whitelist = true;
-    }
-  }
-
-  for(const auto& item : all) {
-    if(!item->blacklisted && (!use_whitelist || item->whitelisted)) {
-      allowed.push_back(item);
-    }
-  }
-}
-
 void Config::compute_cache() {
   // This needs to happen before computing scale chords
-  compute_allowed_items(_chords, _allowed_chords);
-  for(auto& scale : _scales) {
+  _chords.compute_cache();
+  for(auto& scale : _scales.get_all()) {
     scale->compute_chords(*this);
   }
 
-  compute_allowed_items(_scales, _allowed_scales);
-  compute_allowed_items(_instruments, _allowed_instruments);
+  _scales.compute_cache();
+  _instruments.compute_cache();
 }
 
 uint32_t Config::get_random_tempo() const {
@@ -40,7 +23,7 @@ uint32_t Config::get_random_tempo() const {
 
 std::vector<Chord> Config::get_chords_inside(ToneSet tones) const {
   std::vector<Chord> chords;
-  for(const auto& desc : _allowed_chords) {
+  for(const auto& desc : _chords.get_allowed()) {
     for(int key(0); key < 12; key++) {
       const Chord shifted_chord(desc, key);
       if((tones | shifted_chord.tones) == tones) { // All chord tones are in the toneset
@@ -61,12 +44,12 @@ std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
 
 Scale Config::get_random_scale() const {
   Scale scale;
-  scale.desc = Rand::in(_allowed_scales);
+  scale.desc = Rand::in(_scales.get_allowed());
   scale.key = Rand::next(0, 11);
   scale.tones = tone_set_shift(scale.desc->tones, scale.key);
   return scale;
 }
 
 std::shared_ptr<const Instrument> Config::get_random_instrument() const {
-  return Rand::in(_allowed_instruments);
+  return Rand::in(_instruments.get_allowed());
 }

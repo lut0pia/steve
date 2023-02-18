@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Chord.h"
+#include "ConfigItemList.h"
 #include "Instrument.h"
 #include "Scale.h"
 
@@ -11,13 +12,9 @@ namespace steve {
   class Config {
   protected:
     uint32_t min_tempo, max_tempo;
-    std::vector<std::shared_ptr<ChordDescription>> _chords;
-    std::vector<std::shared_ptr<ScaleDescription>> _scales;
-    std::vector<std::shared_ptr<Instrument>> _instruments;
-
-    std::vector<std::shared_ptr<ChordDescription>> _allowed_chords;
-    std::vector<std::shared_ptr<ScaleDescription>> _allowed_scales;
-    std::vector<std::shared_ptr<Instrument>> _allowed_instruments;
+    ConfigItemList<ChordDescription> _chords;
+    ConfigItemList<ScaleDescription> _scales;
+    ConfigItemList<Instrument> _instruments;
 
   public:
     void compute_cache();
