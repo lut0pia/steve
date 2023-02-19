@@ -1,0 +1,33 @@
+Language: Cpp
+
+ColumnLimit: 0
+ConstructorInitializerIndentWidth: 2
+ContinuationIndentWidth: 2
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+
+AlignAfterOpenBracket: DontAlign
+AlignEscapedNewlines: DontAlign
+AlignTrailingComments: false
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortLambdasOnASingleLine: All
+AlwaysBreakTemplateDeclarations: No
+BreakBeforeBraces: Attach
+FixNamespaceComments: false
+IndentCaseLabels: true
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: All
+PointerAlignment: Left
+SpaceBeforeParens: Never
+
+#SortIncludes: CaseInsensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '.*\.(cpp|inl)'
+    Priority: 4
+  - Regex: '<.+>'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
