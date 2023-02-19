@@ -3,6 +3,9 @@
   "min_tempo": 80,
   "max_tempo": 160,
   "creators": {
+    "Arpeggio": {
+      "max_count": 0
+    },
     "Bass": {
       "min_count": 1
     },
