@@ -10,6 +10,10 @@ namespace steve {
   struct ChordDescription : public ItemDescription {
     std::string suffix;
     ToneSet tones = 1;
+
+    uint8_t get_tone(uint8_t index) const;
+
+    inline uint8_t get_tone_count() const { return tone_set_count(tones); }
   };
 
   struct Chord {
