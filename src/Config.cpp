@@ -11,11 +11,9 @@
 using namespace steve;
 
 Config::Config() {
-  /*
   _creators.get_item("Arpeggio")->func = [](Music* music) {
     return new Arpeggio(music);
   };
-  */
   _creators.get_item("Bass")->func = [](Music* music) {
     return new Bass(music);
   };

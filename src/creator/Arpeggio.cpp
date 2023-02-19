@@ -1,36 +1,31 @@
 #include "Arpeggio.h"
 
-#include <ostream>
-
+#include "../Music.h"
 #include "../Rand.h"
 
 using namespace steve;
 
-Arpeggio::Arpeggio(Music* music) : ChordBasedCreator(music) {}
+Arpeggio::Arpeggio(Music* music)
+  : ChordBasedCreator(music) {}
 void Arpeggio::init() {
   ChordBasedCreator::init();
-  _step = Rand::next(NoteValue::sixteenth, _min_time);
+  _min_time = NoteValue::sixteenth;
+  _max_time = NoteValue::quarter;
 }
 Notes Arpeggio::get(size_t start, size_t size) const {
   Notes notes;
-  uintptr_t i(0);
+  auto times = generate_times(start, bar_ticks);
+  uintptr_t i = 0;
   while(i < size) {
-    size_t d(bar_ticks);
-    if(d >= ticks_for(_min_time)) {
-      std::vector<uint8_t> tones(chord_for(start + i, d));
-
-      const size_t step_ticks = ticks_for(_step);
-      for(uint32_t k(0); k*step_ticks < d; k++) {
-        add_note(notes, _channel, tones[k%tones.size()], i + k * step_ticks, step_ticks);
-      }
-
-      i += d;
-    } else i++;
+    const uint8_t base_tone = _min_tone + 12 - (_min_tone % 12);
+    for(uintptr_t j = 0; j < times.size() - 1; j++) {
+      const Chord& chord = _music->chord_at(start + i);
+      const auto chord_tone_count = chord.desc->get_tone_count();
+      const auto duration = times[j + 1] - times[j];
+      const uint8_t tone = base_tone + chord.key + chord.desc->get_tone(j % chord_tone_count);
+      add_note(notes, _channel, tone, i, duration);
+      i += duration;
+    }
   }
   return notes;
-}
-
-void Arpeggio::write_txt(std::ostream& s) const {
-  ChordBasedCreator::write_txt(s);
-  s << "\t\tArpeggio step: " << note_value_name(_step) << std::endl;
 }
