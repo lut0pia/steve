@@ -14,7 +14,7 @@ Creator::Creator(Music* music) {
   _channel = music->creators().size();
 }
 void Creator::init() {
-  _phrase_size = 4 * bar_ticks;
+  _phrase_size = 4 * _music->get_bar_ticks();
 
   do {
     _instrument = _music->get_config().get_random_instrument();
@@ -85,7 +85,7 @@ void Creator::write_txt(std::ostream& s) const {
         s << char('a' + phrase_index - 10);
       }
       const Phrase& phrase(_phrases[phrase_index]);
-      const uint32_t bar_count(phrase.size / bar_ticks);
+      const uint32_t bar_count(phrase.size / _music->get_bar_ticks());
       for(uint32_t i(1); i < bar_count; i++) {
         s << " -";
       }
@@ -130,7 +130,7 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
     uintptr_t d = is_pot ? c : (c / 3);
     for(uintptr_t j = 2; d && j; d >>= 1, j--) {
       if(i % d == 0) {
-        return bar_ticks * (j + (is_pot ? 1 : 0)) + c;
+        return _music->get_bar_ticks() * (j + (is_pot ? 1 : 0)) + c;
       }
     }
     return 0;

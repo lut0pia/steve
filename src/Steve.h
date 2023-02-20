@@ -31,6 +31,10 @@ namespace steve {
     majorseventh,
     perfectoctave,
   };
+  struct TimeSignature {
+    uint32_t beats_per_bar = 4;
+    NoteValue beat_value = NoteValue::quarter;
+  };
   typedef std::multimap<uint32_t, Note> Notes;
   typedef uint16_t ToneSet;
   typedef uint64_t NoteSet;
@@ -40,7 +44,6 @@ namespace steve {
     Tones tones;
     size_t size;
   };
-  static const size_t bar_ticks = 128; // ticks per bar
   inline uint32_t ticks_for(NoteValue v) { return 2 << uint32_t(v); }
   const char* key_name(uint8_t);
   const char* note_value_name(NoteValue);

@@ -1,40 +1,41 @@
 #include "Music.h"
 
-#include <iostream>
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 #include "Chord.h"
 #include "Config.h"
 #include "Rand.h"
 #include "Scale.h"
+#include "creator/Creator.h"
 
 using namespace steve;
 
 Music::Music(const Config& config)
   : _config(config),
     _scale(_config.get_random_scale()),
-    _tempo(_config.get_random_tempo()) {
+    _tempo(_config.get_random_tempo()),
+    _signature(_config.get_random_time_signature()) {
   do {
     _size = uint32_t(40 * Rand::next_normal()) + 26;
   } while(_size > 512); // <=512 with 46 average bars
-  
+
   _size -= _size % 4; // Multiple of 4 bars
-  _size *= bar_ticks;
+  _size *= get_bar_ticks();
 
   { // Generate chord progression
     _chord_progression = _config.get_chord_progression(_scale);
-    for(uintptr_t i(0); i<bars(); i++) {
-      for(uintptr_t j(0); j<bar_ticks; j++) {
+    for(uintptr_t i(0); i < bars(); i++) {
+      for(uintptr_t j(0); j < get_bar_ticks(); j++) {
         _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);
       }
     }
-    assert(_tones.size()==_size);
+    assert(_tones.size() == _size);
   }
 
   { // Generate beats
-    
-    for(uint32_t i = 0; i < 4; i++) {
+    for(uint32_t i = 0; i < _signature.beats_per_bar; i++) {
       const uint32_t offset = ticks_for(NoteValue::quarter) * i;
       _beats.push_back(offset + 0);
       switch(Rand::next(0, 7)) {
@@ -68,7 +69,7 @@ Music::Music(const Config& config)
       }
     }
     
-    _beat_mod = bar_ticks;
+    _beat_mod = get_bar_ticks();
   }
 
   for(const auto& creator : _config.get_creators()) {
@@ -85,12 +86,12 @@ void Music::add_creator(Creator* creator) {
   _creators.push_back(std::unique_ptr<Creator>(creator));
 }
 const Chord& Music::chord_at(size_t i) const {
-  return _chord_progression[(i / bar_ticks) % _chord_progression.size()];
+  return _chord_progression[(i / get_bar_ticks()) % _chord_progression.size()];
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet tones = ~0;
-  const uintptr_t start_bar = start / bar_ticks;
-  const uintptr_t end_bar = (start + size - 1) / bar_ticks;
+  const uintptr_t start_bar = start / get_bar_ticks();
+  const uintptr_t end_bar = (start + size - 1) / get_bar_ticks();
   for(uintptr_t i = start_bar; i <= end_bar; i++) {
       tones &= _chord_progression[i % _chord_progression.size()].tones;
   }
@@ -161,9 +162,20 @@ void Music::write_mid(std::ostream& s) const {
   s << "MTrk";
   const size_t sizeoff(s.tellp());
   write_bigendian(s, 0, 4); // Placeholder for track size
-  s << uint8_t(0); // Track event delta time
-  s << uint8_t(0xFF) << uint8_t(0x51) << uint8_t(3); // Tempo meta event
-  write_bigendian(s, 60000000u/_tempo, 3); // Microseconds per quarter note
+
+  { // Tempo meta event
+    s << uint8_t(0) << uint8_t(0xff) << uint8_t(0x51) << uint8_t(3);
+    write_bigendian(s, 60000000u / _tempo, 3); // Microseconds per quarter note
+  }
+
+  { // Time signature meta event
+    s << uint8_t(0) << uint8_t(0xff) << uint8_t(0x58) << uint8_t(4)
+      << uint8_t(_signature.beats_per_bar) // Numerator
+      << uint8_t(uint8_t(NoteValue::whole) - uint8_t(_signature.beat_value)) // Denominator (2^x)
+      << uint8_t(0x18) // Metronome pulse in clock ticks
+      << uint8_t(ticks_for(_signature.beat_value) / ticks_for(NoteValue::thirtysecond)); // 32nd per beat
+  }
+
   for(uint32_t i(0); i < _creators.size(); i++) {
     s << uint8_t(0) << uint8_t(0xC0|i) << _creators[i]->instrument()->midi_id; // Program change
   }
@@ -194,7 +206,7 @@ void Music::write_mid(std::ostream& s) const {
 
     last = note.first;
 
-    if(note.first != last_chord && note.first != _size && note.first % bar_ticks == 0) {
+    if(note.first != last_chord && note.first != _size && note.first % get_bar_ticks() == 0) {
       // Chord meta-event
       const Chord chord = chord_at(note.first);
       const uint8_t degree =_scale.get_degree_for_tone(chord.key);
@@ -203,7 +215,7 @@ void Music::write_mid(std::ostream& s) const {
       last_chord = note.first;
     }
   }
-  process_end_notes(last + bar_ticks);
+  process_end_notes(last + get_bar_ticks());
 
   s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x2F) << uint8_t(0); // End of track
 
@@ -215,6 +227,7 @@ void Music::write_mid(std::ostream& s) const {
 void Music::write_txt(std::ostream& s) const {
   s << "Scale: " << key_name(scale().key) << " " << scale().desc->name << std::endl
     << "Tempo: " << tempo() << std::endl
+    << "Signature: " << _signature.beats_per_bar << "/" << (1 << (uint32_t(NoteValue::whole) - uint32_t(_signature.beat_value))) << std::endl
     << "Duration: " << duration() << std::endl << std::endl;
 
   {

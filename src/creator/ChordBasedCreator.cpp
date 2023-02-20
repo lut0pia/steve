@@ -9,6 +9,9 @@ ChordBasedCreator::ChordBasedCreator(Music* music) : Creator(music) {}
 void ChordBasedCreator::init() {
   Creator::init();
   _min_time = Rand::next(NoteValue::quarter, NoteValue::whole);
+  while(ticks_for(_min_time) > _music->get_bar_ticks()) {
+    _min_time = NoteValue(uint32_t(_min_time) - 1);
+  }
   _max_time = Rand::next(_min_time, NoteValue::whole);
 }
 std::vector<uint8_t> ChordBasedCreator::chord_for(uintptr_t start, size_t size) const {

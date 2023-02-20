@@ -2,13 +2,14 @@
 
 #include <memory>
 #include <vector>
-#include "Instrument.h"
+
 #include "Chord.h"
-#include "creator/Creator.h"
+#include "Instrument.h"
 #include "Scale.h"
 #include "Steve.h"
 
 namespace steve {
+  class Config;
   class Creator;
   class Music {
   protected:
@@ -20,6 +21,7 @@ namespace steve {
     std::vector<uint32_t> _beats;
     Scale _scale;
     uint32_t _tempo, _size, _beat_mod;
+    TimeSignature _signature;
 
   public:
     Music(const Config&);
@@ -40,7 +42,8 @@ namespace steve {
     inline const Scale& scale() const { return _scale; }
     inline const std::vector<Chord> chord_progression() const { return _chord_progression; }
     inline size_t size() const { return _size; }
-    inline size_t bars() const { return _size/bar_ticks; }
+    inline size_t bars() const { return _size/get_bar_ticks(); }
+    inline size_t get_bar_ticks() const { return ticks_for(_signature.beat_value) * _signature.beats_per_bar; }
     inline size_t parts() const { return _creators.size(); }
     inline const std::vector<std::unique_ptr<Creator>>& creators() const { return _creators; }
     inline size_t tempo() const { return _tempo; }

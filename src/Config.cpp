@@ -11,6 +11,8 @@
 using namespace steve;
 
 Config::Config() {
+  _signatures.push_back({4, NoteValue::quarter});
+
   _creators.get_item("Arpeggio")->func = [](Music* music) {
     return new Arpeggio(music);
   };
@@ -77,6 +79,9 @@ Scale Config::get_random_scale() const {
 
 std::shared_ptr<const Instrument> Config::get_random_instrument() const {
   return Rand::in(_instruments.get_allowed());
+}
+TimeSignature Config::get_random_time_signature() const {
+  return Rand::in(_signatures);
 }
 std::vector<std::shared_ptr<const CreatorDescription>> Config::get_creators() const {
   std::vector<std::shared_ptr<const CreatorDescription>> creators;
