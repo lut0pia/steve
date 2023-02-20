@@ -98,6 +98,10 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
     i + ticks_for(_min_time),
     i + std::min<uintptr_t>(ticks_for(_max_time), size));
 
+  if(candidates.empty()) {
+    return size; // Panic!
+  }
+
   // Transform from position to duration
   for(uintptr_t& candidate : candidates) {
     candidate -= i;
