@@ -105,7 +105,7 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
 
   const auto min_ticks = ticks_for(_min_time);
   const auto max_ticks = ticks_for(_max_time);
-  const auto score = [i, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
+  const auto score = [this, i, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
     bool valid = false;
     for(auto ticks = min_ticks; ticks <= max_ticks; ticks <<= 1) {
       if(c == ticks || (ticks > std::max(min_ticks, ticks_for(NoteValue::eighth)) && ticks < max_ticks && c == (ticks * 3 / 2))) {
@@ -113,7 +113,12 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
         break;
       }
     }
+
     if(!valid) {
+      return 0;
+    }
+
+    if(_music->tones_at(i, c) == 0) {
       return 0;
     }
 
@@ -156,8 +161,8 @@ std::vector<uintptr_t> Creator::generate_times(uintptr_t start, size_t size) con
     uintptr_t i = 0;
     times = {i};
     while(i < size) {
-      const uintptr_t d = time(i, size - i);
-      if(d == 0 || _music->tones_at(start + i, d) == 0) {
+      const uintptr_t d = time(start + i, size - i);
+      if(d == 0) {
         break;
       }
       i += d;
