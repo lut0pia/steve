@@ -96,7 +96,7 @@ void Creator::write_txt(std::ostream& s) const {
 uintptr_t Creator::time(uintptr_t i, size_t size) const {
   std::vector<uintptr_t> candidates = _music->beats_inside(
     i + ticks_for(_min_time),
-    std::min(i + ticks_for(_max_time), size));
+    i + std::min<uintptr_t>(ticks_for(_max_time), size));
 
   // Transform from position to duration
   for(uintptr_t& candidate : candidates) {
@@ -146,8 +146,8 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
   std::exponential_distribution<float> dist(0.5f);
   const uintptr_t index = std::max<uintptr_t>(0, std::min<uintptr_t>(candidates.size() - 1, dist(Rand::generator)));
 
-  size_t ticks = candidates[index];
-  assert(i + ticks <= size);
+  const size_t ticks = candidates[index];
+  assert(ticks <= size);
   return ticks;
 }
 std::vector<uintptr_t> Creator::generate_times(uintptr_t start, size_t size) const {
@@ -156,7 +156,7 @@ std::vector<uintptr_t> Creator::generate_times(uintptr_t start, size_t size) con
     uintptr_t i = 0;
     times = {i};
     while(i < size) {
-      const uintptr_t d = time(i, size);
+      const uintptr_t d = time(i, size - i);
       if(d == 0 || _music->tones_at(start + i, d) == 0) {
         break;
       }
