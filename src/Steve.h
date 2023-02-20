@@ -41,7 +41,7 @@ namespace steve {
     size_t size;
   };
   static const size_t bar_ticks = 128; // ticks per bar
-  inline uint32_t ticks_for(NoteValue v) { return bar_ticks >> (uint32_t(NoteValue::whole) - uint32_t(v)); }
+  inline uint32_t ticks_for(NoteValue v) { return 2 << uint32_t(v); }
   const char* key_name(uint8_t);
   const char* note_value_name(NoteValue);
   void note_name_init();
