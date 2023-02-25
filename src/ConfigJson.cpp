@@ -95,6 +95,7 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
 }
 
 void ConfigJson::parse_time_signatures(const json_array_s* time_signatures_array) {
+  _signatures.clear();
   for(json_array_element_s* time_signature_element = time_signatures_array->start; time_signature_element != nullptr; time_signature_element = time_signature_element->next) {
     if(const json_string_s* time_signature_str = json_value_as_string(time_signature_element->value)) {
       std::string time_signature = time_signature_str->string;
