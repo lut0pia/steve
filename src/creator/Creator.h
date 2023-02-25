@@ -28,6 +28,7 @@ namespace steve {
     Creator(class Music*);
     virtual ~Creator() {}
     virtual void init();
+    virtual void post_init();
     virtual Notes compose();
     virtual Notes get(size_t start, size_t size) const = 0;
     virtual const char* name() const = 0;

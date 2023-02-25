@@ -33,6 +33,18 @@ void Creator::init() {
   _max_time = Rand::next(std::max(_min_time, NoteValue::quarter), NoteValue::whole);
   _repetition = Rand::next_float() * 0.5f;
 }
+void Creator::post_init() {
+  { // Make sure we can make notes the size of the beat
+    // Otherwise we may not be able to complete a bar
+    if(_min_time > _music->get_beat_value()) {
+      _min_time = _music->get_beat_value();
+    }
+    if(_max_time < _music->get_beat_value()) {
+      _max_time = _music->get_beat_value();
+    }
+  }
+}
+
 Notes Creator::compose() {
   uint32_t i(0);
   Notes notes;

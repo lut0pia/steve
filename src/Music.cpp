@@ -82,6 +82,7 @@ Music::Music(const Config& config)
 }
 void Music::add_creator(Creator* creator) {
   creator->init();
+  creator->post_init();
   paste(creator->compose(), _notes);
   _creators.push_back(std::unique_ptr<Creator>(creator));
 }
