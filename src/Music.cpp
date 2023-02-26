@@ -35,41 +35,19 @@ Music::Music(const Config& config)
   }
 
   { // Generate beats
-    for(uint32_t i = 0; i < _signature.beats_per_bar; i++) {
-      const uint32_t offset = ticks_for(NoteValue::quarter) * i;
-      _beats.push_back(offset + 0);
-      switch(Rand::next(0, 7)) {
-        case 0: break; // 4
-        case 1: // 22
-          _beats.push_back(offset + ticks_for(NoteValue::eighth));
-          break;
-        case 2: // 1111
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 2);
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
-          break;
-        case 3: // 211
-          _beats.push_back(offset + ticks_for(NoteValue::eighth));
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
-          break;
-        case 4: // 112
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 2);
-          break;
-        case 5: // 31
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
-          break;
-        case 6: // 13
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
-          break;
-        case 7: // 121
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth));
-          _beats.push_back(offset + ticks_for(NoteValue::sixteenth) * 3);
-          break;
+    _beats.resize(get_bar_ticks());
+    for(uint32_t i = 0; i < _beats.size(); i++) {
+      _beats[i] = false;
+      for(NoteValue j = _signature.beat_value; j >= NoteValue(0); j = NoteValue(uint32_t(j) - 1)) {
+        const auto ticks = ticks_for(j);
+        if((i / ticks) * ticks == i) {
+          if(Rand::next(0ul, (uint32_t(_signature.beat_value) - uint32_t(j)) * 2) == 0) {
+            _beats[i] = true;
+            break;
+          }
+        }
       }
     }
-    
-    _beat_mod = get_bar_ticks();
   }
 
   for(const auto& creator : _config.get_creators()) {
@@ -99,8 +77,7 @@ ToneSet Music::tones_at(size_t start, size_t size) const {
   return tones;
 }
 bool Music::is_beat(uintptr_t i) const {
-  i %= _beat_mod;
-  return std::find(_beats.begin(), _beats.end(), i) != _beats.end();
+  return _beats[i % _beats.size()];
 }
 std::vector<uintptr_t> Music::beats_inside(uintptr_t min, uintptr_t max) const {
   std::vector<uintptr_t> beats;
@@ -241,8 +218,8 @@ void Music::write_txt(std::ostream& s) const {
 
   {
     s << "Rhythm:" << std::endl << '\t';
-    for(uintptr_t i = 0; i < _beat_mod; i += 2) {
-      if(i % ticks_for(NoteValue::quarter) == 0 && i > 0) {
+    for(uintptr_t i = 0; i < _beats.size(); i += 2) {
+      if(i % ticks_for(get_beat_value()) == 0 && i > 0) {
         s << ' ';
       }
       s << (is_beat(i) ? '1' : '0');

@@ -18,9 +18,9 @@ namespace steve {
     Tones _tones;
     std::vector<std::unique_ptr<Creator>> _creators;
     std::vector<Chord> _chord_progression;
-    std::vector<uint32_t> _beats;
+    std::vector<bool> _beats;
     Scale _scale;
-    uint32_t _tempo, _size, _beat_mod;
+    uint32_t _tempo, _size;
     TimeSignature _signature;
 
   public:
