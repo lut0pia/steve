@@ -109,10 +109,7 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
   std::vector<uintptr_t> candidates = _music->beats_inside(
     i + ticks_for(_min_time),
     i + std::min<uintptr_t>(ticks_for(_max_time), size));
-
-  if(candidates.empty()) {
-    return size; // Panic!
-  }
+  assert(!candidates.empty());
 
   // Transform from position to duration
   for(uintptr_t& candidate : candidates) {
@@ -122,15 +119,11 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
   const auto min_ticks = ticks_for(_min_time);
   const auto max_ticks = ticks_for(_max_time);
   const auto score = [this, i, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
-    bool valid = false;
-    for(auto ticks = min_ticks; ticks <= max_ticks; ticks <<= 1) {
-      if(c == ticks || (ticks > std::max(min_ticks, ticks_for(NoteValue::eighth)) && ticks < max_ticks && c == (ticks * 3 / 2))) {
-        valid = true;
-        break;
-      }
+    if(c < min_ticks || c > max_ticks) {
+      return 0;
     }
 
-    if(!valid) {
+    if((c / min_ticks) * min_ticks != c) {
       return 0;
     }
 
@@ -138,14 +131,15 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
       return 0;
     }
 
-    const bool is_pot = (c & (c - 1)) == 0;
-    uintptr_t d = is_pot ? c : (c / 3);
-    for(uintptr_t j = 2; d && j; d >>= 1, j--) {
-      if(i % d == 0) {
-        return _music->get_bar_ticks() * (j + (is_pot ? 1 : 0)) + c;
+    uintptr_t score = UINTPTR_MAX;
+    for(uintptr_t i = 0; i < sizeof(uintptr_t) * 8; i++) {
+      // Low set bits reduce score greatly
+      // High set bits reduce score slightly
+      if(((1ull << i) & c) != 0) {
+        score -= 1ull << (sizeof(uintptr_t) * 8 - i - 1);
       }
     }
-    return 0;
+    return score;
   };
 
   // Remove unwanted candidates
