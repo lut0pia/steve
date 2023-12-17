@@ -70,11 +70,7 @@ std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
 }
 
 Scale Config::get_random_scale() const {
-  Scale scale;
-  scale.desc = Rand::in(_scales.get_allowed());
-  scale.key = Rand::next(0, 11);
-  scale.tones = tone_set_shift(scale.desc->tones, scale.key);
-  return scale;
+  return Scale(Rand::in(_scales.get_allowed()), Rand::next(0, 11));
 }
 
 std::shared_ptr<const Instrument> Config::get_random_instrument() const {

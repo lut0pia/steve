@@ -20,8 +20,11 @@ namespace steve {
   };
   struct Scale {
     std::shared_ptr<const ScaleDescription> desc;
-    uint8_t key;
-    ToneSet tones;
+    uint8_t key = 0;
+    ToneSet tones = 0;
+
+    inline Scale(const std::shared_ptr<const ScaleDescription>& d, uint8_t k)
+      : desc(d), key(k), tones(tone_set_shift(d->tones, k)) {}
 
     inline std::string full_name() const { return std::string(key_name(key)) + " " + desc->name; }
 
