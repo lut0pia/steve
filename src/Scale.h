@@ -8,13 +8,9 @@
 #include "Steve.h"
 
 namespace steve {
-  struct ScaleChordDescription {
-    Chord chord;
-    float tonicity = 0;
-  };
   struct ScaleDescription : public ItemDescription {
-    ToneSet tones = 1, tonic_tones = 0;
-    std::vector<ScaleChordDescription> chords;
+    std::vector<Chord> chords;
+    ToneSet tones = 1;
 
     void compute_chords(const class Config&);
   };
@@ -30,9 +26,5 @@ namespace steve {
 
     // Zero-based
     uint8_t get_degree_for_tone(uint8_t tone) const;
-    Chord chord_by_tonicity(float ratio) const;
-    Chord tonic_chord() const;
-    Chord subdominant_chord() const;
-    Chord dominant_chord() const;
   };
 }

@@ -62,10 +62,10 @@ std::vector<Chord> Config::get_chords_inside(ToneSet tones) const {
 }
 std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
   std::vector<Chord> chords;
-  chords.push_back(scale.tonic_chord());
-  chords.push_back(scale.subdominant_chord());
-  chords.push_back(scale.subdominant_chord());
-  chords.push_back(scale.dominant_chord());
+  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
+  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
+  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
+  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
   return chords;
 }
 
