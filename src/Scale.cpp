@@ -31,4 +31,6 @@ uint8_t Scale::get_degree_for_tone(uint8_t tone) const {
   }
   return degree;
 }
-
+std::string Scale::get_degree_string_for_chord(const Chord& chord) const {
+  return steve::degree_name(get_degree_for_tone(chord.key), chord.desc->uppercase) + chord.desc->suffix;
+}

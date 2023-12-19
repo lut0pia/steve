@@ -49,7 +49,7 @@ void Config::list_scales(std::ostream& out) const {
     Scale scale(scale_desc, 0);
     out << scale.desc->name << ":" << std::endl;
     for(const auto& chord : scale.desc->chords) {
-      out << '\t' << steve::degree_name(scale.get_degree_for_tone(chord.key), chord.desc->uppercase) << chord.desc->suffix << "\n";
+      out << '\t' << scale.get_degree_string_for_chord(chord) << "\n";
     }
   }
 }

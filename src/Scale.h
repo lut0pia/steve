@@ -26,5 +26,6 @@ namespace steve {
 
     // Zero-based
     uint8_t get_degree_for_tone(uint8_t tone) const;
+    std::string get_degree_string_for_chord(const Chord& chord) const;
   };
 }
