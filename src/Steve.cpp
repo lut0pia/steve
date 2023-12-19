@@ -25,6 +25,11 @@ const char* steve::key_name(uint8_t key) {
   }
   return "N/A";
 }
+const char* steve::degree_name(uint8_t degree, bool uppercase) {
+  static char upper_degrees[7][4] = {"I", "II", "III", "IV", "V", "VI", "VII"};
+  static char lower_degrees[7][4] = {"i", "ii", "iii", "iv", "v", "vi", "vii"};
+  return uppercase ? upper_degrees[degree] : lower_degrees[degree];
+}
 const char* steve::note_value_name(NoteValue v) {
   switch(v) {
     case NoteValue::sixtyfourth: return "sixtyfourth";

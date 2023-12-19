@@ -46,6 +46,7 @@ namespace steve {
   };
   inline uint32_t ticks_for(NoteValue v) { return 2 << uint32_t(v); }
   const char* key_name(uint8_t);
+  const char* degree_name(uint8_t, bool uppercase); // Zero-based
   const char* note_value_name(NoteValue);
   void note_name_init();
   const char* note_name(uint8_t);
