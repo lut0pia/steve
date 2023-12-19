@@ -1,5 +1,7 @@
 #include "Config.h"
 
+#include <iostream>
+
 #include "Music.h"
 #include "Rand.h"
 #include "creator/Arpeggio.h"
@@ -40,6 +42,16 @@ void Config::compute_cache() {
   _scales.compute_cache();
   _instruments.compute_cache();
   _creators.compute_cache();
+}
+
+void Config::list_scales(std::ostream& out) const {
+  for(const auto& scale_desc : _scales.get_allowed()) {
+    Scale scale(scale_desc, 0);
+    out << scale.desc->name << ":" << std::endl;
+    for(const auto& chord : scale.desc->chords) {
+      out << '\t' << steve::degree_name(scale.get_degree_for_tone(chord.key), chord.desc->uppercase) << chord.desc->suffix << "\n";
+    }
+  }
 }
 
 uint32_t Config::get_random_tempo() const {

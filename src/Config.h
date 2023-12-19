@@ -22,6 +22,7 @@ namespace steve {
   public:
     Config();
     void compute_cache();
+    void list_scales(std::ostream&) const;
 
     uint32_t get_random_tempo() const;
     TimeSignature get_random_time_signature() const;

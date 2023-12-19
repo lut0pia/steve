@@ -14,6 +14,7 @@ int main(int argc, char** argv) {
 
   cmdline::parser args;
   args.set_program_name("steve");
+  args.add("list-scales", 0, "list scales and their information");
   args.add("mid", 'm', "output .mid file");
   args.add("txt", 't', "output .txt file");
   args.add<std::string>("config", 'c', "path to a JSON configuration file", true);
@@ -24,6 +25,11 @@ int main(int argc, char** argv) {
   ConfigJson config;
   config.parse_file(args.get<std::string>("config").c_str());
   config.compute_cache();
+
+  if(args.exist("list-scales")) {
+    config.list_scales(std::cout);
+    return 0;
+  }
 
   const uint32_t num = args.get<uint32_t>("num");
   const bool output_mid = args.exist("mid");
