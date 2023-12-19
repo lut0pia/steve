@@ -10,6 +10,7 @@ namespace steve {
   struct ChordDescription : public ItemDescription {
     std::string suffix;
     ToneSet tones = 1;
+    bool uppercase = false;
 
     uint8_t get_tone(uint8_t index) const;
 

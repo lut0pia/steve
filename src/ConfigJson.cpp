@@ -162,6 +162,8 @@ void ConfigJson::parse_chord(const json_object_s* chord_object, ChordDescription
         }
       } else {
       }
+    } else if(!strcmp(chord_attribute_name, "uppercase")) {
+      desc.uppercase = json_value_is_true(chord_attribute->value);
     }
   }
 }

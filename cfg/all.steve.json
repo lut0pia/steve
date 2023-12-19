@@ -7,7 +7,8 @@
   "chords": {
     "Major": {
       "suffix": "",
-      "tones": [4, 7]
+      "tones": [4, 7],
+      "uppercase": true
     },
     "Minor": {
       "suffix": "min",
@@ -24,7 +25,8 @@
 
     "Major Sixth": {
       "suffix": "maj6",
-      "tones": [4, 7, 9]
+      "tones": [4, 7, 9],
+      "uppercase": true
     },
     "Minor Sixth": {
       "suffix": "min6",
@@ -33,11 +35,13 @@
 
     "Dominant Seventh": {
       "suffix": "dom7",
-      "tones": [4, 7, 10]
+      "tones": [4, 7, 10],
+      "uppercase": true
     },
     "Major Seventh": {
       "suffix": "maj7",
-      "tones": [4, 7, 11]
+      "tones": [4, 7, 11],
+      "uppercase": true
     },
     "Minor-Major Seventh": {
       "suffix": "min/maj7",
