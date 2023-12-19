@@ -213,7 +213,7 @@ void Music::write_txt(std::ostream& s) const {
   {
     s << "Chord progression:" << std::endl;
     for(const Chord& chord : _chord_progression) {
-      s << " - " << chord.to_short_string() << std::endl;
+      s << " - " << _scale.get_degree_string_for_chord(chord) << " (" << chord.to_short_string() << ")" << std::endl;
     }
     s << std::endl;
   }
