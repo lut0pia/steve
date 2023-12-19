@@ -90,8 +90,10 @@ std::vector<uintptr_t> Music::beats_inside(uintptr_t min, uintptr_t max) const {
 }
 std::string Music::to_short_string() const {
   std::string short_string;
-  short_string += scale().desc->name + "_" + key_name(scale().key) + "_";
-  short_string += std::to_string(tempo());
+  short_string += scale().desc->name + "_" + key_name(scale().key);
+  short_string += "_" + std::to_string(_signature.beats_per_bar);
+  short_string += std::to_string(1 << (uint32_t(NoteValue::whole) - uint32_t(_signature.beat_value)));
+  short_string += "_" + std::to_string(tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
 
