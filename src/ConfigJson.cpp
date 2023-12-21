@@ -223,6 +223,8 @@ void ConfigJson::parse_item(const json_object_s* item_object, ItemDescription& i
       item.whitelisted = json_value_is_true(item_attribute->value);
     } else if(!strcmp(item_attribute->name->string, "blacklist")) {
       item.blacklisted = json_value_is_true(item_attribute->value);
+    } else if(!strcmp(item_attribute->name->string, "weight")) {
+      parse_number(item_attribute->value, item.weight);
     }
   }
 }

@@ -82,11 +82,11 @@ std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
 }
 
 Scale Config::get_random_scale() const {
-  return Scale(Rand::in(_scales.get_allowed()), Rand::next(0, 11));
+  return Scale(_scales.get_random_item(), Rand::next(0, 11));
 }
 
 std::shared_ptr<const Instrument> Config::get_random_instrument() const {
-  return Rand::in(_instruments.get_allowed());
+  return _instruments.get_random_item();
 }
 TimeSignature Config::get_random_time_signature() const {
   return Rand::in(_signatures);
