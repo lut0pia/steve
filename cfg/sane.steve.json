@@ -15,6 +15,9 @@
     }
   },
   "scales": {
+    "Major": {
+      "weight": 5
+    },
     "Byzantine": {
       "blacklist": true
     },
