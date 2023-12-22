@@ -76,7 +76,7 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
       } else if(!strcmp(element->name->string, "max_tempo")) {
         parse_number(element->value, max_tempo);
       } else if(!strcmp(element->name->string, "time_signatures")) {
-        parse_time_signatures(json_value_as_array(element->value));
+        parse_time_signatures(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "creators")) {
         parse_creators(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "chords")) {
@@ -94,19 +94,17 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
   free(root);
 }
 
-void ConfigJson::parse_time_signatures(const json_array_s* time_signatures_array) {
-  _signatures.clear();
-  for(json_array_element_s* time_signature_element = time_signatures_array->start; time_signature_element != nullptr; time_signature_element = time_signature_element->next) {
-    if(const json_string_s* time_signature_str = json_value_as_string(time_signature_element->value)) {
-      std::string time_signature = time_signature_str->string;
-      auto slash_pos = time_signature.find('/');
-      if(slash_pos != std::string::npos) {
-        TimeSignature ts;
-        ts.beats_per_bar = atoi(time_signature.substr(0, slash_pos).c_str());
-        ts.beat_value = NoteValue(uint32_t(NoteValue::whole) - log2(atoi(time_signature.substr(slash_pos + 1).c_str())));
-        _signatures.push_back(ts);
-      }
-    } else {
+void ConfigJson::parse_time_signatures(const json_object_s* time_signatures_object) {
+  for(const json_object_element_s* time_signature_element = time_signatures_object->start; time_signature_element != nullptr; time_signature_element = time_signature_element->next) {
+    std::shared_ptr<TimeSignature> desc = _signatures.get_item(time_signature_element->name->string);
+    std::string time_signature = time_signature_element->name->string;
+    auto slash_pos = time_signature.find('/');
+    if(slash_pos != std::string::npos) {
+      desc->beats_per_bar = atoi(time_signature.substr(0, slash_pos).c_str());
+      desc->beat_value = NoteValue(uint32_t(NoteValue::whole) - log2(atoi(time_signature.substr(slash_pos + 1).c_str())));
+    }
+    if(const json_object_s* time_signature_object = json_value_as_object(time_signature_element->value)) {
+      parse_item(time_signature_object, *desc);
     }
   }
 }

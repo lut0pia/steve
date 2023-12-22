@@ -31,10 +31,6 @@ namespace steve {
     majorseventh,
     perfectoctave,
   };
-  struct TimeSignature {
-    uint32_t beats_per_bar = 4;
-    NoteValue beat_value = NoteValue::quarter;
-  };
   typedef std::multimap<uint32_t, Note> Notes;
   typedef uint16_t ToneSet;
   typedef uint64_t NoteSet;

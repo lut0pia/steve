@@ -16,7 +16,7 @@ Music::Music(const Config& config)
   : _config(config),
     _scale(_config.get_random_scale()),
     _tempo(_config.get_random_tempo()),
-    _signature(_config.get_random_time_signature()) {
+    _signature(*_config.get_random_time_signature()) {
   do {
     _size = uint32_t(40 * Rand::next_normal()) + 26;
   } while(_size > 512); // <=512 with 46 average bars

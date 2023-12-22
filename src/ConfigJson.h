@@ -11,7 +11,7 @@ namespace steve {
   public:
     void parse_file(const char* filepath);
     void parse_buffer(const char* buffer, size_t size);
-    void parse_time_signatures(const json_array_s*);
+    void parse_time_signatures(const json_object_s*);
     void parse_creators(const json_object_s*);
     void parse_creator(const json_object_s*, CreatorDescription&);
     void parse_chords(const json_object_s*);
