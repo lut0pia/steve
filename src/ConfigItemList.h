@@ -21,6 +21,8 @@ namespace steve {
     void compute_cache();
     std::shared_ptr<T> get_item(const std::string& name);
     std::shared_ptr<T> get_random_item() const;
+    template <typename F>
+    std::shared_ptr<T> get_random_item(F predicate) const;
   };
 
   template <class T>
@@ -68,5 +70,26 @@ namespace steve {
         weight_index -= candidate->weight;
       }
     }
+  }
+  template <class T>
+  template <typename F>
+  std::shared_ptr<T> ConfigItemList<T>::get_random_item(F predicate) const {
+    float filtered_weight = 0.f;
+    std::vector<std::shared_ptr<T>> filtered_items;
+    for(const auto& candidate : _allowed_items) {
+      if(predicate(candidate)) {
+        filtered_items.push_back(candidate);
+        filtered_weight += candidate->weight;
+      }
+    }
+    float weight_index = Rand::next(0.f, filtered_weight);
+    for(const auto& candidate : filtered_items) {
+      if(weight_index < candidate->weight) {
+        return candidate;
+      } else {
+        weight_index -= candidate->weight;
+      }
+    }
+    return std::shared_ptr<T>();
   }
 }
