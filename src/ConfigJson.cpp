@@ -52,7 +52,7 @@ void ConfigJson::parse_file(const char* relative_filepath) {
 
 void ConfigJson::parse_buffer(const char* buffer, size_t size) {
   json_parse_result_s parse_result;
-  json_value_s* root = json_parse_ex(buffer, size, 0, nullptr, nullptr, &parse_result);
+  json_value_s* root = json_parse_ex(buffer, size, json_parse_flags_allow_json5, nullptr, nullptr, &parse_result);
 
   if(const json_object_s* root_object = json_value_as_object(root)) {
     // Properties like "parents" need to be parsed first
