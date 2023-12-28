@@ -66,6 +66,10 @@ ToneSet steve::tone_set_shift(const ToneSet& tones, int shifting) {
   assert(shifting >= 0 && shifting < 12);
   return ((tones << shifting) | (tones >> (12 - shifting))) & 0xfff;
 }
+bool steve::tone_set_within(const ToneSet& scale, const ToneSet& chord) {
+  return (scale | chord) == scale;
+}
+
 uint32_t steve::tone_set_count(ToneSet tones) {
   uint32_t count = 0;
   while(tones) {

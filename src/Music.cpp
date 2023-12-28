@@ -103,8 +103,8 @@ void Music::check() const {
   Tones final_tones(octave_tones(_notes));
   assert(final_tones.size() <= _tones.size());
   for(uintptr_t i(0); i < final_tones.size(); i++) {
-    assert((final_tones[i] | _scale.tones) == _scale.tones);
-    assert((final_tones[i] | _tones[i]) == _tones[i]);
+    assert(tone_set_within(_scale.tones, final_tones[i]));
+    assert(tone_set_within(_tones[i], final_tones[i]));
   }
 
   for(const auto& note : _notes) {
