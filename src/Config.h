@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Chord.h"
+#include "ChordChange.h"
 #include "ConfigItemList.h"
 #include "Instrument.h"
 #include "Scale.h"
@@ -18,7 +19,10 @@ namespace steve {
     ConfigItemList<CreatorDescription> _creators;
     ConfigItemList<ChordDescription> _chords;
     ConfigItemList<ScaleDescription> _scales;
+    ConfigItemList<ChordChange> _chord_changes;
     ConfigItemList<Instrument> _instruments;
+
+    std::shared_ptr<ChordChange> get_chord_change(const std::shared_ptr<ChordDescription>& source, const std::shared_ptr<ChordDescription>& target, uint8_t tone_shift);
 
   public:
     Config();

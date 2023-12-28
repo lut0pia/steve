@@ -18,6 +18,8 @@ namespace steve {
     void parse_chord(const json_object_s*, ChordDescription&);
     void parse_scales(const json_object_s*);
     void parse_scale(const json_object_s*, ScaleDescription&);
+    void parse_chord_changes(const json_object_s*);
+    void parse_chord_change(const json_object_s*, const std::string& src, const std::string& tar, const std::string& off);
     void parse_instruments(const json_object_s*);
     void parse_instrument(const json_object_s*, Instrument&);
 

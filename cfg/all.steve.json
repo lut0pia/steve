@@ -81,6 +81,9 @@
       "tones": [2, 4, 6, 8, 10]
     }
   },
+  "chord_changes": {
+    "*": { "*": { "*": {}}}
+  },
   "instruments": {
     "Acoustic Grand Piano": {
       "index": 0,

@@ -12,6 +12,13 @@
 
 using namespace steve;
 
+std::shared_ptr<ChordChange> Config::get_chord_change(const std::shared_ptr<ChordDescription>& source, const std::shared_ptr<ChordDescription>& target, uint8_t tone_shift) {
+  std::shared_ptr<ChordChange> chord_change = _chord_changes.get_item(source->name + "->" + target->name + "+" + std::to_string(tone_shift));
+  chord_change->source_chord = source;
+  chord_change->target_chord = target;
+  chord_change->tone_shift = tone_shift;
+  return chord_change;
+}
 
 Config::Config() {
   _creators.get_item("Arpeggio")->func = [](Music* music) {
@@ -42,6 +49,7 @@ void Config::compute_cache() {
   _instruments.compute_cache();
   _creators.compute_cache();
   _signatures.compute_cache();
+  _chord_changes.compute_cache();
 }
 
 void Config::list_scales(std::ostream& out) const {
@@ -74,10 +82,27 @@ std::vector<Chord> Config::get_chords_inside(ToneSet tones) const {
 }
 std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
   std::vector<Chord> chords;
-  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
-  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
-  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
-  chords.push_back(Rand::in(scale.desc->chords).shifted(scale.key));
+
+  // Start with first degree chord
+  chords.push_back(Chord(_chords.get_random_item([scale](std::shared_ptr<ChordDescription> chord) {
+    return std::find_if(scale.desc->chords.begin(), scale.desc->chords.end(), [chord](const Chord& scale_chord) {
+      return scale_chord.desc == chord && scale_chord.key == 0;
+    }) != scale.desc->chords.end();
+  }),
+    scale.key));
+
+  // Progress backwards
+  while(chords.size() < 4) {
+    const Chord dest_chord = chords.back();
+    const std::shared_ptr<ChordChange> chord_change = _chord_changes.get_random_item([&](std::shared_ptr<ChordChange> chord_change) {
+      return dest_chord.desc == chord_change->target_chord && tone_set_within(scale.tones, tone_set_shift(chord_change->source_chord->tones, (dest_chord.key - chord_change->tone_shift + 12) % 12));
+    });
+    chords.push_back(Chord(chord_change->source_chord, (dest_chord.key - chord_change->tone_shift + 12) % 12));
+  }
+
+  // Reverse but keep first as start
+  std::reverse(chords.begin() + 1, chords.end());
+
   return chords;
 }
 

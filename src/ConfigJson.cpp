@@ -1,11 +1,20 @@
 #include "ConfigJson.h"
 
+#include <sstream>
+
 using namespace steve;
 
 template <class T>
 void parse_number(json_value_s* json_value, T& target) {
   if(const json_number_s* json_number = json_value_as_number(json_value)) {
     target = atoi(json_number->number);
+  } else {
+  }
+}
+
+void parse_number(json_value_s* json_value, float& target) {
+  if(const json_number_s* json_number = json_value_as_number(json_value)) {
+    target = atof(json_number->number);
   } else {
   }
 }
@@ -83,6 +92,8 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
         parse_chords(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "scales")) {
         parse_scales(json_value_as_object(element->value));
+      } else if(!strcmp(element->name->string, "chord_changes")) {
+        parse_chord_changes(json_value_as_object(element->value));
       } else if(!strcmp(element->name->string, "instruments")) {
         parse_instruments(json_value_as_object(element->value));
       } else {
@@ -187,6 +198,66 @@ void ConfigJson::parse_scale(const json_object_s* scale_object, ScaleDescription
           }
         }
       } else {
+      }
+    }
+  }
+}
+
+void ConfigJson::parse_chord_changes(const json_object_s* chord_changes_object) {
+  for(const json_object_element_s* chord_change_source_element = chord_changes_object->start; chord_change_source_element != nullptr; chord_change_source_element = chord_change_source_element->next) {
+    const std::string source_name = chord_change_source_element->name->string;
+    if(const json_object_s* chord_change_target_object = json_value_as_object(chord_change_source_element->value)) {
+      for(const json_object_element_s* chord_change_target_element = chord_change_target_object->start; chord_change_target_element != nullptr; chord_change_target_element = chord_change_target_element->next) {
+        const std::string target_name = chord_change_target_element->name->string;
+        if(const json_object_s* chord_change_offset_object = json_value_as_object(chord_change_target_element->value)) {
+          for(const json_object_element_s* chord_change_offset_element = chord_change_offset_object->start; chord_change_offset_element != nullptr; chord_change_offset_element = chord_change_offset_element->next) {
+            const std::string offset_string = chord_change_offset_element->name->string;
+            if(const json_object_s* chord_change_object = json_value_as_object(chord_change_offset_element->value)) {
+              parse_chord_change(chord_change_object, source_name, target_name, offset_string);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+void ConfigJson::parse_chord_change(const json_object_s* chord_change_object, const std::string& source_string, const std::string& target_string, const std::string& offset_string) {
+  std::vector<std::shared_ptr<ChordDescription>> source_chords;
+  std::vector<std::shared_ptr<ChordDescription>> target_chords;
+  std::vector<uint32_t> offsets;
+
+  if(source_string == "*") {
+    source_chords = _chords.get_all();
+  } else {
+    std::stringstream ss(source_string);
+    for(std::string chord_name; std::getline(ss, chord_name, '|');) {
+      source_chords.push_back(_chords.get_item(chord_name));
+    }
+  }
+
+  if(target_string == "*") {
+    target_chords = _chords.get_all();
+  } else {
+    std::stringstream ss(target_string);
+    for(std::string chord_name; std::getline(ss, chord_name, '|');) {
+      target_chords.push_back(_chords.get_item(chord_name));
+    }
+  }
+
+  if(offset_string == "*") {
+    for(uint32_t offset = 0; offset < 12; offset++) {
+      offsets.push_back(offset);
+    }
+  } else {
+    offsets.push_back(atoi(offset_string.c_str()));
+  }
+
+  for(const auto& source_chord : source_chords) {
+    for(const auto& target_chord : target_chords) {
+      for(uint32_t offset : offsets) {
+        std::shared_ptr<ChordChange> chord_change = get_chord_change(source_chord, target_chord, offset);
+        parse_item(chord_change_object, *chord_change);
       }
     }
   }
