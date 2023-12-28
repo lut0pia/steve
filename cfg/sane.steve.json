@@ -53,6 +53,32 @@
       "blacklist": true
     }
   },
+  "chord_changes": {
+    // Allow everything but make it less likely
+    "*": {"*": {"*": {"weight": 0.01}}},
+
+    // Major chord map
+    "Minor|Minor Seventh": { // ii/iii
+      "Minor|Minor Seventh": { // iii/vi
+        "2": {"weight": 1}, // ii -> iii
+        "5": {"weight": 1} // iii -> vi
+      },
+      "Major|Dominant Seventh": {"5": {"weight": 1}}, // ii -> V
+      "Major|Major Sixth|Major Seventh": {"1": {"weight": 1}} // iii -> IV
+    },
+    "Major|Major Sixth|Major Seventh": { // IV
+      "Major|Major Sixth|Major Seventh": {"7": {"weight": 1}}, // IV -> I
+      "Minor|Minor Seventh": {"2": {"weight": 1}}, // IV -> ii
+      "Major|Dominant Seventh": {"2": {"weight": 1}} // IV -> V
+    },
+    "Major|Dominant Seventh": { // V
+      "Major|Major Sixth|Major Seventh": {"5": {"weight": 1}}, // V -> I
+      "Minor|Minor Seventh": {
+        "9": {"weight": 1}, // V -> iii
+        "2": {"weight": 1} // V -> vi
+      }
+    }
+  },
   "instruments": {
     "Acoustic Bass": {
       "voices": 1
