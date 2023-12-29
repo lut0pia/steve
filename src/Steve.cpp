@@ -9,25 +9,12 @@ using namespace std;
 using namespace steve;
 
 const char* steve::key_name(uint8_t key) {
-  switch(key) {
-    case 0: return "C";
-    case 1: return "C#";
-    case 2: return "D";
-    case 3: return "D#";
-    case 4: return "E";
-    case 5: return "F";
-    case 6: return "F#";
-    case 7: return "G";
-    case 8: return "G#";
-    case 9: return "A";
-    case 10: return "A#";
-    case 11: return "B";
-  }
-  return "N/A";
+  static const char key_names[][3] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+  return key_names[key];
 }
 const char* steve::degree_name(uint8_t degree, bool uppercase) {
-  static char upper_degrees[7][4] = {"I", "II", "III", "IV", "V", "VI", "VII"};
-  static char lower_degrees[7][4] = {"i", "ii", "iii", "iv", "v", "vi", "vii"};
+  static const char upper_degrees[][4] = {"I", "II", "III", "IV", "V", "VI", "VII"};
+  static const char lower_degrees[][4] = {"i", "ii", "iii", "iv", "v", "vi", "vii"};
   return uppercase ? upper_degrees[degree] : lower_degrees[degree];
 }
 const char* steve::note_value_name(NoteValue v) {
