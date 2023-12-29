@@ -30,11 +30,12 @@ namespace steve {
     void list_scales(std::ostream&) const;
 
     uint32_t get_random_tempo() const;
-    std::shared_ptr<const TimeSignature> get_random_time_signature() const;
     std::vector<Chord> get_chords_inside(ToneSet tones) const;
     std::vector<Chord> get_chord_progression(const Scale&) const;
-    Scale get_random_scale() const;
-    std::shared_ptr<const Instrument> get_random_instrument() const;
     std::vector<std::shared_ptr<const CreatorDescription>> get_creators() const;
+
+    inline const auto& get_signatures() const { return _signatures; }
+    inline const auto& get_scales() const { return _scales; }
+    inline const auto& get_instruments() const { return _instruments; }
   };
 }

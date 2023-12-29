@@ -14,9 +14,9 @@ using namespace steve;
 
 Music::Music(const Config& config)
   : _config(config),
-    _scale(_config.get_random_scale()),
+    _scale(Scale(_config.get_scales().get_random_item(), Rand::next(0, 11))),
     _tempo(_config.get_random_tempo()),
-    _signature(*_config.get_random_time_signature()) {
+    _signature(_config.get_signatures().get_random_item()) {
   do {
     _size = uint32_t(40 * Rand::next_normal()) + 26;
   } while(_size > 512); // <=512 with 46 average bars
@@ -38,10 +38,10 @@ Music::Music(const Config& config)
     _beats.resize(get_bar_ticks());
     for(uint32_t i = 0; i < _beats.size(); i++) {
       _beats[i] = false;
-      for(NoteValue j = _signature.beat_value; j >= NoteValue(0); j = NoteValue(uint32_t(j) - 1)) {
+      for(NoteValue j = get_beat_value(); j >= NoteValue(0); j = NoteValue(uint32_t(j) - 1)) {
         const auto ticks = ticks_for(j);
         if((i / ticks) * ticks == i) {
-          if(Rand::next(0ul, (uint32_t(_signature.beat_value) - uint32_t(j)) * 2) == 0) {
+          if(Rand::next(0ul, (uint32_t(get_beat_value()) - uint32_t(j)) * 2) == 0) {
             _beats[i] = true;
             break;
           }
@@ -91,8 +91,8 @@ std::vector<uintptr_t> Music::beats_inside(uintptr_t min, uintptr_t max) const {
 std::string Music::to_short_string() const {
   std::string short_string;
   short_string += scale().desc->name + "_" + key_name(scale().key);
-  short_string += "_" + std::to_string(_signature.beats_per_bar);
-  short_string += std::to_string(1 << (uint32_t(NoteValue::whole) - uint32_t(_signature.beat_value)));
+  short_string += "_" + std::to_string(_signature->beats_per_bar);
+  short_string += std::to_string(1 << (uint32_t(NoteValue::whole) - uint32_t(get_beat_value())));
   short_string += "_" + std::to_string(tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
@@ -150,10 +150,10 @@ void Music::write_mid(std::ostream& s) const {
 
   { // Time signature meta event
     s << uint8_t(0) << uint8_t(0xff) << uint8_t(0x58) << uint8_t(4)
-      << uint8_t(_signature.beats_per_bar) // Numerator
-      << uint8_t(uint8_t(NoteValue::whole) - uint8_t(_signature.beat_value)) // Denominator (2^x)
+      << uint8_t(_signature->beats_per_bar) // Numerator
+      << uint8_t(uint8_t(NoteValue::whole) - uint8_t(get_beat_value())) // Denominator (2^x)
       << uint8_t(0x18) // Metronome pulse in clock ticks
-      << uint8_t(ticks_for(_signature.beat_value) / ticks_for(NoteValue::thirtysecond)); // 32nd per beat
+      << uint8_t(ticks_for(get_beat_value()) / ticks_for(NoteValue::thirtysecond)); // 32nd per beat
   }
 
   for(uint32_t i(0); i < _creators.size(); i++) {
@@ -207,7 +207,7 @@ void Music::write_mid(std::ostream& s) const {
 void Music::write_txt(std::ostream& s) const {
   s << "Scale: " << key_name(scale().key) << " " << scale().desc->name << std::endl
     << "Tempo: " << tempo() << std::endl
-    << "Signature: " << _signature.beats_per_bar << "/" << (1 << (uint32_t(NoteValue::whole) - uint32_t(_signature.beat_value))) << std::endl
+    << "Signature: " << _signature->beats_per_bar << "/" << (1 << (uint32_t(NoteValue::whole) - uint32_t(get_beat_value()))) << std::endl
     << "Duration: " << duration() << std::endl << std::endl;
 
   {

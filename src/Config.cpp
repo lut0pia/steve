@@ -106,16 +106,6 @@ std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
   return chords;
 }
 
-Scale Config::get_random_scale() const {
-  return Scale(_scales.get_random_item(), Rand::next(0, 11));
-}
-
-std::shared_ptr<const Instrument> Config::get_random_instrument() const {
-  return _instruments.get_random_item();
-}
-std::shared_ptr<const TimeSignature> Config::get_random_time_signature() const {
-  return _signatures.get_random_item();
-}
 std::vector<std::shared_ptr<const CreatorDescription>> Config::get_creators() const {
   std::vector<std::shared_ptr<const CreatorDescription>> creators;
 

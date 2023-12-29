@@ -16,9 +16,10 @@ Creator::Creator(Music* music) {
 void Creator::init() {
   _phrase_size = 4 * _music->get_bar_ticks();
 
-  do {
-    _instrument = _music->get_config().get_random_instrument();
-  } while(!is_valid_instrument(*_instrument));
+  _instrument = _music->get_config().get_instruments().get_random_item(
+    [this](std::shared_ptr<Instrument> candidate) {
+      return is_valid_instrument(*candidate);
+    });
   const uint8_t ambitus_half_range(Rand::next(6, 10));
   const uint8_t instrument_range(_instrument->max_tone - _instrument->min_tone);
 

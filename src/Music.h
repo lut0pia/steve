@@ -22,7 +22,7 @@ namespace steve {
     std::vector<bool> _beats;
     Scale _scale;
     uint32_t _tempo, _size;
-    TimeSignature _signature;
+    std::shared_ptr<TimeSignature> _signature;
 
   public:
     Music(const Config&);
@@ -44,8 +44,8 @@ namespace steve {
     inline const std::vector<Chord> chord_progression() const { return _chord_progression; }
     inline size_t size() const { return _size; }
     inline size_t bars() const { return _size / get_bar_ticks(); }
-    inline size_t get_bar_ticks() const { return ticks_for(_signature.beat_value) * _signature.beats_per_bar; }
-    inline NoteValue get_beat_value() const { return _signature.beat_value; }
+    inline size_t get_bar_ticks() const { return ticks_for(_signature->beat_value) * _signature->beats_per_bar; }
+    inline NoteValue get_beat_value() const { return _signature->beat_value; }
     inline size_t parts() const { return _creators.size(); }
     inline const std::vector<std::unique_ptr<Creator>>& creators() const { return _creators; }
     inline size_t tempo() const { return _tempo; }
