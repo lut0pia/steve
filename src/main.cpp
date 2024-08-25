@@ -4,6 +4,7 @@
 
 #include "ConfigJson.h"
 #include "Music.h"
+#include "Rand.h"
 #include "Steve.h"
 #include "ext/cmdline.h"
 
@@ -17,9 +18,11 @@ int main(int argc, char** argv) {
   args.add("list-scales", 0, "list scales and their information");
   args.add("mid", 'm', "output .mid file");
   args.add("txt", 't', "output .txt file");
+  args.add("random", 'r', "use random seed");
   args.add<std::string>("config", 'c', "path to a JSON configuration file", true);
   args.add<std::string>("out", 'o', "path to the files to write (w/o extension)", false);
   args.add<uint32_t>("num", 'n', "generation count", false, 1);
+  args.add<uint32_t>("seed", 's', "seed", false, 0);
   args.parse_check(argc, argv);
 
   ConfigJson config;
@@ -30,6 +33,12 @@ int main(int argc, char** argv) {
     config.list_scales(std::cout);
     return 0;
   }
+
+  uint32_t seed = args.get<uint32_t>("seed");
+  if(args.exist("random")) {
+    seed = time(nullptr);
+  }
+  Rand::generator.seed(seed);
 
   const uint32_t num = args.get<uint32_t>("num");
   const bool output_mid = args.exist("mid");
