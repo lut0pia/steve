@@ -1,0 +1,105 @@
+{
+  "parents": ["sane.steve.json"],
+  "creators": {
+    "Drums": {
+      "blacklist": true
+    }
+  },
+  "scales": {
+    "Major": {
+      "whitelist": true
+    },
+    "Minor": {
+      "whitelist": true
+    }
+  },
+  "instruments": {
+    "Acoustic Grand Piano": {
+      "whitelist": true
+    },
+    "Harpsichord": {
+      "whitelist": true
+    },
+    "Clavinet": {
+      "whitelist": true
+    },
+    "Celesta": {
+      "whitelist": true
+    },
+    "Acoustic Bass": {
+      "whitelist": true
+    },
+    "Violin": {
+      "whitelist": true
+    },
+    "Viola": {
+      "whitelist": true
+    },
+    "Cello": {
+      "whitelist": true
+    },
+    "Contrabass": {
+      "whitelist": true
+    },
+    "Tremolo Strings": {
+      "whitelist": true
+    },
+    "Pizzicato Strings": {
+      "whitelist": true
+    },
+    "Orchestral Harp": {
+      "whitelist": true
+    },
+    "Timpani": {
+      "whitelist": true
+    },
+    "String Ensemble": {
+      "whitelist": true
+    },
+    "String Ensemble 2 (Slow)": {
+      "whitelist": true
+    },
+    "Choir Aahs": {
+      "whitelist": true
+    },
+    "Voice Oohs": {
+      "whitelist": true
+    },
+    "Trombone": {
+      "whitelist": true
+    },
+    "Tuba": {
+      "whitelist": true
+    },
+    "French Horn": {
+      "whitelist": true
+    },
+    "Brass Section": {
+      "whitelist": true
+    },
+    "Oboe": {
+      "whitelist": true
+    },
+    "English Horn": {
+      "whitelist": true
+    },
+    "Bassoon": {
+      "whitelist": true
+    },
+    "Clarinet": {
+      "whitelist": true
+    },
+    "Piccolo": {
+      "whitelist": true
+    },
+    "Flute": {
+      "whitelist": true
+    },
+    "Recorder": {
+      "whitelist": true
+    },
+    "Pan Flute": {
+      "whitelist": true
+    }
+  }
+}
