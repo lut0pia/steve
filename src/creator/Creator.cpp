@@ -11,7 +11,7 @@ using namespace steve;
 
 Creator::Creator(Music* music) {
   _music = music;
-  _channel = music->creators().size();
+  _channel = music->get_creators().size();
 }
 void Creator::init() {
   _phrase_size = 4 * _music->get_bar_ticks();
@@ -49,12 +49,12 @@ void Creator::post_init() {
 Notes Creator::compose() {
   uint32_t i(0);
   Notes notes;
-  while(i < _music->size()) {
+  while(i < _music->get_size()) {
     bool new_phrase_needed(true); // If it isn't changed it means no fitting phrase was found
     for(uintptr_t phrase_index(0); phrase_index < _phrases.size(); phrase_index++) { // Iterate through figures already created
       const Phrase& phrase(_phrases[phrase_index]);
       if(i%phrase.size == 0 // Its size is good for the place it would be in
-        && i + phrase.size <= _music->size() // The phrase isn't too long
+        && i + phrase.size <= _music->get_size() // The phrase isn't too long
         && Rand::next_float() < _repetition // Add some randomness
         && harmony(_music->tones().data() + i, phrase.tones.data(), phrase.tones.size())) { // It's in harmony with the current music
         paste(phrase.notes, notes, i); // Paste the phrase on the music
@@ -67,7 +67,7 @@ Notes Creator::compose() {
     if(new_phrase_needed) { // Needs to create a new phrase of music
       Phrase phrase;
       phrase.size = _phrase_size;
-      while(i%phrase.size != 0 || i + phrase.size > _music->size()) // Good size and not too long
+      while(i%phrase.size != 0 || i + phrase.size > _music->get_size()) // Good size and not too long
         phrase.size /= 2;
       phrase.notes = get(i, phrase.size); // Create the phrase
       phrase.tones = octave_tones(phrase.notes);

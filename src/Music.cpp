@@ -72,7 +72,7 @@ ToneSet Music::tones_at(size_t start, size_t size) const {
   const uintptr_t start_bar = start / get_bar_ticks();
   const uintptr_t end_bar = (start + size - 1) / get_bar_ticks();
   for(uintptr_t i = start_bar; i <= end_bar; i++) {
-      tones &= _chord_progression[i % _chord_progression.size()].tones;
+    tones &= _chord_progression[i % _chord_progression.size()].tones;
   }
   return tones;
 }
@@ -90,10 +90,10 @@ std::vector<uintptr_t> Music::beats_inside(uintptr_t min, uintptr_t max) const {
 }
 std::string Music::to_short_string() const {
   std::string short_string;
-  short_string += scale().desc->name + "_" + key_name(scale().key);
+  short_string += get_scale().desc->name + "_" + key_name(get_scale().key);
   short_string += "_" + std::to_string(_signature->beats_per_bar);
   short_string += std::to_string(1 << (uint32_t(NoteValue::whole) - uint32_t(get_beat_value())));
-  short_string += "_" + std::to_string(tempo());
+  short_string += "_" + std::to_string(get_tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
 
@@ -112,103 +112,12 @@ void Music::check() const {
   }
 }
 
-static void write_bigendian(std::ostream& s, uint32_t v, uint32_t byteCount) {
-  if(byteCount>=4) s << uint8_t(v>>24);
-  if(byteCount>=3) s << uint8_t(v>>16);
-  if(byteCount>=2) s << uint8_t(v>>8);
-  if(byteCount>=1) s << uint8_t(v);
-}
-class VarLength {
-  uint32_t _value;
-public:
-  inline VarLength(uint32_t value) : _value(value) {}
-  friend inline std::ostream& operator<<(std::ostream& s, const VarLength& v) {
-    if(v._value >= 128) {
-      s << (uint8_t)(((v._value >> 7) & 0x7f) | 0x80);
-    }
-    s << (uint8_t)(v._value & 0x7f);
-    return s;
-  }
-};
-void Music::write_mid(std::ostream& s) const {
-  // Header chunk
-  s << "MThd"; // Chunk id
-  write_bigendian(s, 6, 4); // Chunk size
-  write_bigendian(s, 0, 2); // Format type (single track)
-  write_bigendian(s, 1, 2); // Number of tracks
-  write_bigendian(s, ticks_for(NoteValue::quarter), 2); // Time division (ticks per beat)
-
-  // Track chunk
-  s << "MTrk";
-  const size_t sizeoff(s.tellp());
-  write_bigendian(s, 0, 4); // Placeholder for track size
-
-  { // Tempo meta event
-    s << uint8_t(0) << uint8_t(0xff) << uint8_t(0x51) << uint8_t(3);
-    write_bigendian(s, 60000000u / _tempo, 3); // Microseconds per quarter note
-  }
-
-  { // Time signature meta event
-    s << uint8_t(0) << uint8_t(0xff) << uint8_t(0x58) << uint8_t(4)
-      << uint8_t(_signature->beats_per_bar) // Numerator
-      << uint8_t(uint8_t(NoteValue::whole) - uint8_t(get_beat_value())) // Denominator (2^x)
-      << uint8_t(0x18) // Metronome pulse in clock ticks
-      << uint8_t(ticks_for(get_beat_value()) / ticks_for(NoteValue::thirtysecond)); // 32nd per beat
-  }
-
-  for(uint32_t i(0); i < _creators.size(); i++) {
-    s << uint8_t(0) << uint8_t(0xC0|i) << _creators[i]->instrument()->midi_id; // Program change
-  }
-
-  uint32_t last = 0;
-  uint32_t last_chord = -1;
-
-  Notes end_notes;
-  auto process_end_notes = [&s, &last, &end_notes](uint32_t next_time) {
-    while(!end_notes.empty()) {
-      auto next_end = end_notes.begin();
-      if(next_end->first <= next_time) {
-        s << VarLength(next_end->first - last) << uint8_t(0x80 | next_end->second.channel) << uint8_t(next_end->second.tone) << uint8_t(next_end->second.velocity); // Note off
-        last = next_end->first;
-        end_notes.erase(next_end);
-      } else {
-        break;
-      }
-    }
-  };
-
-  for(const auto& note : _notes) {
-    process_end_notes(note.first);
-
-    s << VarLength(note.first - last) << uint8_t(0x90 | note.second.channel) << uint8_t(note.second.tone) << uint8_t(note.second.velocity); // Note on
-
-    end_notes.insert(std::make_pair(note.first + note.second.duration, note.second));
-
-    last = note.first;
-
-    if(note.first != last_chord && note.first != _size && note.first % get_bar_ticks() == 0) {
-      // Chord meta-event
-      const Chord chord = chord_at(note.first);
-      const uint8_t degree =_scale.get_degree_for_tone(chord.key);
-      const std::string chord_str = chord_at(note.first).to_short_string() + " (" + std::to_string(degree + 1) + ")";
-      s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x01) << VarLength(chord_str.size()) << chord_str;
-      last_chord = note.first;
-    }
-  }
-  process_end_notes(last + get_bar_ticks());
-
-  s << uint8_t(0) << uint8_t(0xFF) << uint8_t(0x2F) << uint8_t(0); // End of track
-
-  // Write chunk size
-  const size_t endoff(s.tellp());
-  s.seekp(sizeoff);
-  write_bigendian(s, endoff-sizeoff-4, 4);
-}
 void Music::write_txt(std::ostream& s) const {
-  s << "Scale: " << key_name(scale().key) << " " << scale().desc->name << std::endl
-    << "Tempo: " << tempo() << std::endl
+  s << "Scale: " << key_name(get_scale().key) << " " << get_scale().desc->name << std::endl
+    << "Tempo: " << get_tempo() << std::endl
     << "Signature: " << _signature->beats_per_bar << "/" << (1 << (uint32_t(NoteValue::whole) - uint32_t(get_beat_value()))) << std::endl
-    << "Duration: " << duration() << std::endl << std::endl;
+    << "Duration: " << duration() << std::endl
+    << std::endl;
 
   {
     s << "Chord progression:" << std::endl;
@@ -219,14 +128,16 @@ void Music::write_txt(std::ostream& s) const {
   }
 
   {
-    s << "Rhythm:" << std::endl << '\t';
+    s << "Rhythm:" << std::endl
+      << '\t';
     for(uintptr_t i = 0; i < _beats.size(); i += 2) {
       if(i % ticks_for(get_beat_value()) == 0 && i > 0) {
         s << ' ';
       }
       s << (is_beat(i) ? '1' : '0');
     }
-    s << std::endl << std::endl;
+    s << std::endl
+      << std::endl;
   }
 
   s << "Creators:" << std::endl;
