@@ -70,6 +70,7 @@ namespace steve {
         weight_index -= candidate->weight;
       }
     }
+    return std::shared_ptr<T>();
   }
   template <class T>
   template <typename F>

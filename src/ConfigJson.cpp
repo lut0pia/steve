@@ -14,7 +14,7 @@ void parse_number(json_value_s* json_value, T& target) {
 
 void parse_number(json_value_s* json_value, float& target) {
   if(const json_number_s* json_number = json_value_as_number(json_value)) {
-    target = atof(json_number->number);
+    target = float(atof(json_number->number));
   } else {
   }
 }
