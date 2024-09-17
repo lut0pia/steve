@@ -7,7 +7,8 @@
 #include "Rand.h"
 #include "Steve.h"
 #include "ext/cmdline.h"
-#include "midi.h"
+#include "output/MidiOutput.h"
+#include "output/TextOutput.h"
 
 using namespace steve;
 
@@ -53,11 +54,11 @@ int main(int argc, char** argv) {
     std::cout << "Created " << music_path << std::endl;
     if(output_mid) {
       std::ofstream fs(music_path + ".mid", std::ofstream::binary);
-      midi::write(music, fs);
+      MidiOutput::write(music, fs);
     }
     if(output_txt) {
       std::ofstream fs(music_path + ".txt");
-      music.write_txt(fs);
+      TextOutput::write(music, fs);
     }
   }
 

@@ -111,38 +111,3 @@ void Music::check() const {
     assert(is_beat(note.first));
   }
 }
-
-void Music::write_txt(std::ostream& s) const {
-  s << "Scale: " << key_name(get_scale().key) << " " << get_scale().desc->name << std::endl
-    << "Tempo: " << get_tempo() << std::endl
-    << "Signature: " << _signature->beats_per_bar << "/" << (1 << (uint32_t(NoteValue::whole) - uint32_t(get_beat_value()))) << std::endl
-    << "Duration: " << duration() << std::endl
-    << std::endl;
-
-  {
-    s << "Chord progression:" << std::endl;
-    for(const Chord& chord : _chord_progression) {
-      s << " - " << _scale.get_degree_string_for_chord(chord) << " (" << chord.to_short_string() << ")" << std::endl;
-    }
-    s << std::endl;
-  }
-
-  {
-    s << "Rhythm:" << std::endl
-      << '\t';
-    for(uintptr_t i = 0; i < _beats.size(); i += 2) {
-      if(i % ticks_for(get_beat_value()) == 0 && i > 0) {
-        s << ' ';
-      }
-      s << (is_beat(i) ? '1' : '0');
-    }
-    s << std::endl
-      << std::endl;
-  }
-
-  s << "Creators:" << std::endl;
-  for(const auto& creator : _creators) {
-    creator->write_txt(s);
-    s << std::endl;
-  }
-}

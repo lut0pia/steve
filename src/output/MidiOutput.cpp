@@ -1,11 +1,10 @@
-#include "midi.h"
+#include "MidiOutput.h"
 
 #include <iostream>
 
-#include "creator/Creator.h"
+#include "../creator/Creator.h"
 
 using namespace steve;
-using namespace midi;
 
 const uint8_t mid_meta_event = 0xff;
 const uint8_t mid_text_event = 0x01;
@@ -44,7 +43,7 @@ public:
   }
 };
 
-void steve::midi::write(const Music& music, std::ostream& s) {
+void steve::MidiOutput::write(const Music& music, std::ostream& s) {
   // Header chunk
   s << "MThd"; // Chunk id
   write_bigendian(s, 2 * 3, 4); // Chunk size (the 3 next 16bit integers)
@@ -106,7 +105,7 @@ void steve::midi::write(const Music& music, std::ostream& s) {
       const Chord chord = music.chord_at(note.first);
       const uint8_t degree = music.get_scale().get_degree_for_tone(chord.key);
       const std::string chord_str = music.chord_at(note.first).to_short_string() + " (" + std::to_string(degree + 1) + ")";
-      s << uint8_t(0) << mid_meta_event << mid_text_event << VarLength(chord_str.size()) << chord_str;
+      s << uint8_t(0) << mid_meta_event << mid_text_event << VarLength(uint32_t(chord_str.size())) << chord_str;
       last_chord = note.first;
     }
   }
