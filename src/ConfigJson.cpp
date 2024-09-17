@@ -4,26 +4,20 @@
 
 using namespace steve;
 
+void parse_note_value(const json& object, const std::string& name, uint8_t& value) {
+  if(object.contains(name)) {
+    const json& note = object[name];
+    if(note.is_string()) {
+      value = get_note_with_name(note.get<std::string>().c_str());
+    } else {
+      value = note.get<int>();
+    }
+  }
+}
 template <class T>
-void parse_number(json_value_s* json_value, T& target) {
-  if(const json_number_s* json_number = json_value_as_number(json_value)) {
-    target = atoi(json_number->number);
-  } else {
-  }
-}
-
-void parse_number(json_value_s* json_value, float& target) {
-  if(const json_number_s* json_number = json_value_as_number(json_value)) {
-    target = float(atof(json_number->number));
-  } else {
-  }
-}
-
-void parse_note(json_value_s* json_value, uint8_t& target) {
-  if(const json_string_s* json_string = json_value_as_string(json_value)) {
-    target = get_note_with_name(json_string->string);
-  } else {
-    parse_number(json_value, target);
+void parse_value(const json& object, const std::string& name, T& value) {
+  if(object.contains(name)) {
+    value = object[name];
   }
 }
 
@@ -60,169 +54,97 @@ void ConfigJson::parse_file(const char* relative_filepath) {
 }
 
 void ConfigJson::parse_buffer(const char* buffer, size_t size) {
-  json_parse_result_s parse_result;
-  json_value_s* root = json_parse_ex(buffer, size, json_parse_flags_allow_json5, nullptr, nullptr, &parse_result);
+  json root = json::parse(buffer, buffer + size, nullptr, true, true);
 
-  if(const json_object_s* root_object = json_value_as_object(root)) {
-    // Properties like "parents" need to be parsed first
-    for(const json_object_element_s* root_attribute = root_object->start; root_attribute != nullptr; root_attribute = root_attribute->next) {
-      if(!strcmp(root_attribute->name->string, "parents")) {
-        if(const json_array_s* parents = json_value_as_array(root_attribute->value)) {
-          for(json_array_element_s* parent = parents->start; parent != nullptr; parent = parent->next) {
-            if(const json_string_s* parent_path = json_value_as_string(parent->value)) {
-              parse_file(parent_path->string);
-            } else {
-            }
-          }
-        } else {
-        }
-      }
+  // The "parents" property needs to be parsed first
+  if(root.contains("parents")) {
+    for(const auto& parent_path : root["parents"]) {
+      parse_file(parent_path.get<std::string>().c_str());
     }
-
-    for(const json_object_element_s* element = root_object->start; element != nullptr; element = element->next) {
-      if(!strcmp(element->name->string, "min_tempo")) {
-        parse_number(element->value, min_tempo);
-      } else if(!strcmp(element->name->string, "max_tempo")) {
-        parse_number(element->value, max_tempo);
-      } else if(!strcmp(element->name->string, "time_signatures")) {
-        parse_time_signatures(json_value_as_object(element->value));
-      } else if(!strcmp(element->name->string, "creators")) {
-        parse_creators(json_value_as_object(element->value));
-      } else if(!strcmp(element->name->string, "chords")) {
-        parse_chords(json_value_as_object(element->value));
-      } else if(!strcmp(element->name->string, "scales")) {
-        parse_scales(json_value_as_object(element->value));
-      } else if(!strcmp(element->name->string, "chord_changes")) {
-        parse_chord_changes(json_value_as_object(element->value));
-      } else if(!strcmp(element->name->string, "instruments")) {
-        parse_instruments(json_value_as_object(element->value));
-      } else {
-      }
-    }
-  } else {
   }
-
-  free(root);
+  parse_value(root, "min_tempo", min_tempo);
+  parse_value(root, "max_tempo", max_tempo);
+  if(root.contains("time_signatures")) {
+    parse_time_signatures(root["time_signatures"]);
+  }
+  if(root.contains("creators")) {
+    parse_creators(root["creators"]);
+  }
+  if(root.contains("chords")) {
+    parse_chords(root["chords"]);
+  }
+  if(root.contains("scales")) {
+    parse_scales(root["scales"]);
+  }
+  if(root.contains("chord_changes")) {
+    parse_chord_changes(root["chord_changes"]);
+  }
+  if(root.contains("instruments")) {
+    parse_instruments(root["instruments"]);
+  }
 }
 
-void ConfigJson::parse_time_signatures(const json_object_s* time_signatures_object) {
-  for(const json_object_element_s* time_signature_element = time_signatures_object->start; time_signature_element != nullptr; time_signature_element = time_signature_element->next) {
-    std::shared_ptr<TimeSignature> desc = _signatures.get_item(time_signature_element->name->string);
-    std::string time_signature = time_signature_element->name->string;
-    auto slash_pos = time_signature.find('/');
+void ConfigJson::parse_time_signatures(const json& time_signatures_object) {
+  for(const auto& item : time_signatures_object.items()) {
+    std::shared_ptr<TimeSignature> desc = _signatures.get_item(item.key());
+    auto slash_pos = desc->name.find('/');
     if(slash_pos != std::string::npos) {
-      desc->beats_per_bar = atoi(time_signature.substr(0, slash_pos).c_str());
-      desc->beat_value = NoteValue(uint32_t(NoteValue::whole) - log2(atoi(time_signature.substr(slash_pos + 1).c_str())));
+      desc->beats_per_bar = atoi(desc->name.substr(0, slash_pos).c_str());
+      desc->beat_value = NoteValue(uint32_t(NoteValue::whole) - log2(atoi(desc->name.substr(slash_pos + 1).c_str())));
     }
-    if(const json_object_s* time_signature_object = json_value_as_object(time_signature_element->value)) {
-      parse_item(time_signature_object, *desc);
-    }
+    parse_item(item.value(), *desc);
   }
 }
 
-void ConfigJson::parse_creators(const json_object_s* creators_object) {
-  for(const json_object_element_s* creator_element = creators_object->start; creator_element != nullptr; creator_element = creator_element->next) {
-    std::shared_ptr<CreatorDescription> desc = _creators.get_item(creator_element->name->string);
-    if(const json_object_s* creator_object = json_value_as_object(creator_element->value)) {
-      parse_creator(creator_object, *desc);
-    } else {
-    }
+void ConfigJson::parse_creators(const json& creators_object) {
+  for(const auto& item : creators_object.items()) {
+    std::shared_ptr<CreatorDescription> desc = _creators.get_item(item.key());
+    const json& creator_object = item.value();
+    parse_item(creator_object, *desc);
+    parse_value(creator_object, "min_count", desc->min_count);
+    parse_value(creator_object, "max_count", desc->max_count);
   }
 }
 
-void ConfigJson::parse_creator(const json_object_s* creator_object, CreatorDescription& desc) {
-  parse_item(creator_object, desc);
-  for(const json_object_element_s* creator_attribute = creator_object->start; creator_attribute != nullptr; creator_attribute = creator_attribute->next) {
-    const char* creator_attribute_name = creator_attribute->name->string;
-    if(!strcmp(creator_attribute_name, "min_count")) {
-      parse_number(creator_attribute->value, desc.min_count);
-    } else if(!strcmp(creator_attribute_name, "max_count")) {
-      parse_number(creator_attribute->value, desc.max_count);
-    }
-  }
-}
-
-void ConfigJson::parse_chords(const json_object_s* chords_object) {
-  for(const json_object_element_s* chord_element = chords_object->start; chord_element != nullptr; chord_element = chord_element->next) {
-    std::shared_ptr<ChordDescription> desc = _chords.get_item(chord_element->name->string);
-    if(const json_object_s* chord_object = json_value_as_object(chord_element->value)) {
-      parse_chord(chord_object, *desc);
-    } else {
-    }
-  }
-}
-
-void ConfigJson::parse_chord(const json_object_s* chord_object, ChordDescription& desc) {
-  parse_item(chord_object, desc);
-  for(const json_object_element_s* chord_attribute = chord_object->start; chord_attribute != nullptr; chord_attribute = chord_attribute->next) {
-    const char* chord_attribute_name = chord_attribute->name->string;
-    if(!strcmp(chord_attribute_name, "suffix")) {
-      if(const json_string_s* chord_suffix = json_value_as_string(chord_attribute->value)) {
-        desc.suffix = chord_suffix->string;
-      } else {
-      }
-    } else if(!strcmp(chord_attribute_name, "tones")) {
-      if(const json_array_s* chord_tones = json_value_as_array(chord_attribute->value)) {
-        for(json_array_element_s* element = chord_tones->start; element != nullptr; element = element->next) {
-          if(const json_number_s* tone = json_value_as_number(element->value)) {
-            desc.tones |= 1 << atoi(tone->number);
-          } else {
-          }
-        }
-      } else {
-      }
-    } else if(!strcmp(chord_attribute_name, "uppercase")) {
-      desc.uppercase = json_value_is_true(chord_attribute->value);
-    }
-  }
-}
-
-void ConfigJson::parse_scales(const json_object_s* scales_object) {
-  for(const json_object_element_s* scale_element = scales_object->start; scale_element != nullptr; scale_element = scale_element->next) {
-    std::shared_ptr<ScaleDescription> desc = _scales.get_item(scale_element->name->string);
-    if(const json_object_s* scale_object = json_value_as_object(scale_element->value)) {
-      parse_scale(scale_object, *desc);
-    }
-  }
-}
-
-void ConfigJson::parse_scale(const json_object_s* scale_object, ScaleDescription& desc) {
-  parse_item(scale_object, desc);
-  for(const json_object_element_s* scale_attribute = scale_object->start; scale_attribute != nullptr; scale_attribute = scale_attribute->next) {
-    if(!strcmp(scale_attribute->name->string, "tones")) {
-      if(const json_array_s* scale_tones = json_value_as_array(scale_attribute->value)) {
-        for(json_array_element_s* element = scale_tones->start; element != nullptr; element = element->next) {
-          if(const json_number_s* tone = json_value_as_number(element->value)) {
-            desc.tones |= 1 << atoi(tone->number);
-          } else {
-          }
-        }
-      } else {
+void ConfigJson::parse_chords(const json& chords_object) {
+  for(const auto& item : chords_object.items()) {
+    std::shared_ptr<ChordDescription> desc = _chords.get_item(item.key());
+    const json& chord_object = item.value();
+    parse_item(chord_object, *desc);
+    parse_value(chord_object, "uppercase", desc->uppercase);
+    parse_value(chord_object, "suffix", desc->suffix);
+    if(chord_object.contains("tones")) {
+      for(const json& tone : chord_object["tones"]) {
+        desc->tones |= 1 << tone.get<int>();
       }
     }
   }
 }
 
-void ConfigJson::parse_chord_changes(const json_object_s* chord_changes_object) {
-  for(const json_object_element_s* chord_change_source_element = chord_changes_object->start; chord_change_source_element != nullptr; chord_change_source_element = chord_change_source_element->next) {
-    const std::string source_name = chord_change_source_element->name->string;
-    if(const json_object_s* chord_change_target_object = json_value_as_object(chord_change_source_element->value)) {
-      for(const json_object_element_s* chord_change_target_element = chord_change_target_object->start; chord_change_target_element != nullptr; chord_change_target_element = chord_change_target_element->next) {
-        const std::string target_name = chord_change_target_element->name->string;
-        if(const json_object_s* chord_change_offset_object = json_value_as_object(chord_change_target_element->value)) {
-          for(const json_object_element_s* chord_change_offset_element = chord_change_offset_object->start; chord_change_offset_element != nullptr; chord_change_offset_element = chord_change_offset_element->next) {
-            const std::string offset_string = chord_change_offset_element->name->string;
-            if(const json_object_s* chord_change_object = json_value_as_object(chord_change_offset_element->value)) {
-              parse_chord_change(chord_change_object, source_name, target_name, offset_string);
-            }
-          }
-        }
+void ConfigJson::parse_scales(const json& scales_object) {
+  for(const auto& item : scales_object.items()) {
+    std::shared_ptr<ScaleDescription> desc = _scales.get_item(item.key());
+    const json& scale_object = item.value();
+    parse_item(scale_object, *desc);
+    if(scale_object.contains("tones")) {
+      for(const json& tone : scale_object["tones"]) {
+        desc->tones |= 1 << tone.get<int>();
       }
     }
   }
 }
 
-void ConfigJson::parse_chord_change(const json_object_s* chord_change_object, const std::string& source_string, const std::string& target_string, const std::string& offset_string) {
+void ConfigJson::parse_chord_changes(const json& chord_changes_object) {
+  for(const auto& source_item : chord_changes_object.items()) {
+    for(const auto& target_item : source_item.value().items()) {
+      for(const auto& offset_item : target_item.value().items()) {
+        parse_chord_change(offset_item.value(), source_item.key(), target_item.key(), offset_item.key());
+      }
+    }
+  }
+}
+
+void ConfigJson::parse_chord_change(const json& chord_change_object, const std::string& source_string, const std::string& target_string, const std::string& offset_string) {
   std::vector<std::shared_ptr<ChordDescription>> source_chords;
   std::vector<std::shared_ptr<ChordDescription>> target_chords;
   std::vector<uint32_t> offsets;
@@ -263,37 +185,20 @@ void ConfigJson::parse_chord_change(const json_object_s* chord_change_object, co
   }
 }
 
-void ConfigJson::parse_instruments(const json_object_s* instruments_object) {
-  for(const json_object_element_s* instrument_element = instruments_object->start; instrument_element != nullptr; instrument_element = instrument_element->next) {
-    std::shared_ptr<Instrument> desc = _instruments.get_item(instrument_element->name->string);
-    if(const json_object_s* instrument_object = json_value_as_object(instrument_element->value)) {
-      parse_instrument(instrument_object, *desc);
-    }
-  }
-}
-void ConfigJson::parse_instrument(const json_object_s* instrument_object, Instrument& desc) {
-  parse_item(instrument_object, desc);
-  for(const json_object_element_s* instrument_attribute = instrument_object->start; instrument_attribute != nullptr; instrument_attribute = instrument_attribute->next) {
-    if(!strcmp(instrument_attribute->name->string, "index")) {
-      parse_number(instrument_attribute->value, desc.midi_id);
-    } else if(!strcmp(instrument_attribute->name->string, "min_tone")) {
-      parse_note(instrument_attribute->value, desc.min_tone);
-    } else if(!strcmp(instrument_attribute->name->string, "max_tone")) {
-      parse_note(instrument_attribute->value, desc.max_tone);
-    } else if(!strcmp(instrument_attribute->name->string, "voices")) {
-      parse_note(instrument_attribute->value, desc.voices);
-    }
+void ConfigJson::parse_instruments(const json& instruments_object) {
+  for(const auto& item : instruments_object.items()) {
+    std::shared_ptr<Instrument> desc = _instruments.get_item(item.key());
+    const json& instrument_object = item.value();
+    parse_item(instrument_object, *desc);
+    parse_value(instrument_object, "index", desc->midi_id);
+    parse_note_value(instrument_object, "min_tone", desc->min_tone);
+    parse_note_value(instrument_object, "max_tone", desc->max_tone);
+    parse_value(instrument_object, "voices", desc->voices);
   }
 }
 
-void ConfigJson::parse_item(const json_object_s* item_object, ItemDescription& item) {
-  for(const json_object_element_s* item_attribute = item_object->start; item_attribute != nullptr; item_attribute = item_attribute->next) {
-    if(!strcmp(item_attribute->name->string, "whitelist")) {
-      item.whitelisted = json_value_is_true(item_attribute->value);
-    } else if(!strcmp(item_attribute->name->string, "blacklist")) {
-      item.blacklisted = json_value_is_true(item_attribute->value);
-    } else if(!strcmp(item_attribute->name->string, "weight")) {
-      parse_number(item_attribute->value, item.weight);
-    }
-  }
+void ConfigJson::parse_item(const json& item_object, ItemDescription& item) {
+  parse_value(item_object, "whitelist", item.whitelisted);
+  parse_value(item_object, "blacklist", item.blacklisted);
+  parse_value(item_object, "weight", item.weight);
 }
