@@ -7,6 +7,7 @@
 #include "Rand.h"
 #include "Steve.h"
 #include "ext/cmdline.h"
+#include "output/JsonOutput.h"
 #include "output/MidiOutput.h"
 #include "output/TextOutput.h"
 
@@ -20,6 +21,7 @@ int main(int argc, char** argv) {
   args.add("list-scales", 0, "list scales and their information");
   args.add("mid", 'm', "output .mid file");
   args.add("txt", 't', "output .txt file");
+  args.add("json", 'j', "output .json file");
   args.add("random", 'r', "use random seed");
   args.add<std::string>("config", 'c', "path to a JSON configuration file", true);
   args.add<std::string>("out", 'o', "path to the files to write (w/o extension)", false);
@@ -45,6 +47,7 @@ int main(int argc, char** argv) {
   const uint32_t num = args.get<uint32_t>("num");
   const bool output_mid = args.exist("mid");
   const bool output_txt = args.exist("txt");
+  const bool output_json = args.exist("json");
   for(uint32_t i = 0; i < num; i++) {
     std::string music_path = args.get<std::string>("out");
     Music music(config);
@@ -59,6 +62,10 @@ int main(int argc, char** argv) {
     if(output_txt) {
       std::ofstream fs(music_path + ".txt");
       TextOutput::write(music, fs);
+    }
+    if(output_json) {
+      std::ofstream fs(music_path + ".json");
+      JsonOutput::write(music, fs);
     }
   }
 
