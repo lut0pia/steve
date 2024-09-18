@@ -5,7 +5,7 @@
 #include <random>
 
 #include "Config.h"
-#include "Rand.h"
+#include "../Rand.h"
 
 using namespace steve;
 

@@ -2,14 +2,14 @@
 #include <fstream>
 #include <iostream>
 
-#include "ConfigJson.h"
 #include "Music.h"
 #include "Rand.h"
 #include "Steve.h"
+#include "cfg/ConfigJson.h"
 #include "ext/cmdline.h"
-#include "output/JsonOutput.h"
-#include "output/MidiOutput.h"
-#include "output/TextOutput.h"
+#include "out/JsonOutput.h"
+#include "out/MidiOutput.h"
+#include "out/TextOutput.h"
 
 using namespace steve;
 

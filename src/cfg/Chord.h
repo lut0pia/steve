@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
+#include "../Steve.h"
 #include "ItemDescription.h"
-#include "Steve.h"
 
 namespace steve {
   struct ChordDescription : public ItemDescription {

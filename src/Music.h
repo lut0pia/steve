@@ -3,11 +3,10 @@
 #include <memory>
 #include <vector>
 
-#include "Chord.h"
-#include "Instrument.h"
-#include "Scale.h"
 #include "Steve.h"
-#include "TimeSignature.h"
+#include "cfg/Scale.h"
+#include "cfg/TimeSignature.h"
+#include "ctr/Creator.h"
 
 namespace steve {
   class Config;

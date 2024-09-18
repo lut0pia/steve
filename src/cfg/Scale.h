@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
+#include <memory>
 #include <vector>
 
+#include "../Steve.h"
 #include "Chord.h"
 #include "ItemDescription.h"
-#include "Steve.h"
 
 namespace steve {
   struct ScaleDescription : public ItemDescription {

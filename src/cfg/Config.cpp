@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-#include "Music.h"
-#include "Rand.h"
-#include "creator/Arpeggio.h"
-#include "creator/Bass.h"
-#include "creator/Chords.h"
-#include "creator/Drums.h"
-#include "creator/Melody.h"
+#include "../Music.h"
+#include "../Rand.h"
+#include "../ctr/Arpeggio.h"
+#include "../ctr/Bass.h"
+#include "../ctr/Chords.h"
+#include "../ctr/Drums.h"
+#include "../ctr/Melody.h"
 
 using namespace steve;
 

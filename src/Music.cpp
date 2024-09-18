@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include <cassert>
-#include <iostream>
 
-#include "Chord.h"
-#include "Config.h"
 #include "Rand.h"
-#include "Scale.h"
-#include "creator/Creator.h"
+#include "cfg/Chord.h"
+#include "cfg/Config.h"
+#include "cfg/Instrument.h"
+#include "ctr/Creator.h"
 
 using namespace steve;
 

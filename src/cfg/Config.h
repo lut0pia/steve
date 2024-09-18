@@ -7,10 +7,10 @@
 #include "ChordChange.h"
 #include "ConfigItemList.h"
 #include "ConfigRangedNumber.h"
+#include "CreatorDescription.h"
 #include "Instrument.h"
 #include "Scale.h"
 #include "TimeSignature.h"
-#include "creator/Creator.h"
 
 namespace steve {
   class Config {

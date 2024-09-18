@@ -1,12 +1,8 @@
 #pragma once
 
-#include <cstdint>
 #include <vector>
 
-#include "Chord.h"
-#include "Instrument.h"
-#include "Rand.h"
-#include "Scale.h"
+#include "../Rand.h"
 
 namespace steve {
   template <class T>

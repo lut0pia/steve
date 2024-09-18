@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include "../Config.h"
+#include "../cfg/Config.h"
 #include "../Music.h"
 #include "../Rand.h"
+#include "../cfg/Chord.h"
 
 using namespace steve;
 

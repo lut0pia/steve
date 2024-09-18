@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../Steve.h"
 #include "ItemDescription.h"
-#include "Steve.h"
 
 namespace steve {
   struct TimeSignature : public ItemDescription {

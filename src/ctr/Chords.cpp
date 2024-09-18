@@ -1,7 +1,7 @@
 #include "Chords.h"
 
-#include "../Instrument.h"
 #include "../Music.h"
+#include "../cfg/Instrument.h"
 
 using namespace steve;
 

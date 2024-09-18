@@ -1,12 +1,9 @@
 #include "Steve.h"
 
-#include <iostream>
 #include <cassert>
 #include <cstring>
+#include <iostream>
 
-#include "Chord.h"
-
-using namespace std;
 using namespace steve;
 
 const char* steve::key_name(uint8_t key) {
@@ -68,8 +65,8 @@ uint32_t steve::tone_set_count(ToneSet tones) {
 }
 const char* steve::tone_set_binary(ToneSet tone_set) {
   static char str[13] = {};
-  for(uint32_t tone(0); tone<12; tone++) {
-    str[tone] = (tone_set & (1<<tone)) ? '1' : '0';
+  for(uint32_t tone(0); tone < 12; tone++) {
+    str[tone] = (tone_set & (1 << tone)) ? '1' : '0';
   }
   return str;
 }
@@ -79,7 +76,7 @@ void steve::add_note(Notes& notes, uint8_t channel, uint8_t tone, size_t start, 
   note.tone = tone;
   note.velocity = velocity;
   note.duration = length;
-  notes.insert(make_pair(start, note));
+  notes.insert(std::make_pair(start, note));
 }
 
 Tones steve::octave_tones(const Notes& notes) {
@@ -98,20 +95,20 @@ Tones steve::octave_tones(const Notes& notes) {
 }
 void steve::paste(const Notes& src, Notes& tar, size_t start) {
   for(auto&& note : src)
-    tar.insert(make_pair(note.first+start, note.second));
+    tar.insert(std::make_pair(note.first + start, note.second));
 }
 Notes steve::copy(const Notes& src, size_t start, size_t size) {
   Notes wtr;
   auto it = src.lower_bound(start);
   while(it != src.end() && (*it).first <= start + size) {
-    wtr.insert(make_pair((*it).first-start, (*it).second));
+    wtr.insert(std::make_pair((*it).first - start, (*it).second));
     it++;
   }
   return wtr;
 }
 bool steve::harmony(const ToneSet* base, const ToneSet* piece, size_t size) {
-  for(uintptr_t i(0); i<size; i++) {
-    if((base[i]|piece[i]) != base[i]) {
+  for(uintptr_t i(0); i < size; i++) {
+    if((base[i] | piece[i]) != base[i]) {
       return false;
     }
   }

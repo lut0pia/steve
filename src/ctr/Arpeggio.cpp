@@ -2,6 +2,7 @@
 
 #include "../Music.h"
 #include "../Rand.h"
+#include "../cfg/Chord.h"
 
 using namespace steve;
 

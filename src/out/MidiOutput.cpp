@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-#include "../creator/Creator.h"
+#include "../ctr/Creator.h"
+#include "../cfg/Instrument.h"
 
 using namespace steve;
 

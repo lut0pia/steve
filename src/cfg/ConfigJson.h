@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Config.h"
-#include "ext/json.hpp"
+#include "../ext/json.hpp"
 
 namespace steve {
   using json = nlohmann::json;

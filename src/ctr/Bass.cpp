@@ -1,10 +1,13 @@
 #include "Bass.h"
 
 #include "../Music.h"
+#include "../cfg/Chord.h"
+#include "../cfg/Instrument.h"
 
 using namespace steve;
 
-Bass::Bass(Music* music) : Creator(music) {}
+Bass::Bass(Music* music)
+  : Creator(music) {}
 void Bass::init() {
   Creator::init();
 
