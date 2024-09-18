@@ -9,7 +9,7 @@ using namespace steve;
 void steve::TextOutput::write(const Music& music, std::ostream& s) {
   s << "Scale: " << key_name(music.get_scale().key) << " " << music.get_scale().desc->name << std::endl
     << "Tempo: " << music.get_tempo() << std::endl
-    << "Signature: " << music.get_signature().beats_per_bar << "/" << (1 << (uint32_t(NoteValue::whole) - uint32_t(music.get_beat_value()))) << std::endl
+    << "Signature: " << music.get_signature().beats_per_bar << "/" << music.get_signature().beat_value_numeral << std::endl
     << "Duration: " << music.duration() << std::endl
     << std::endl;
 

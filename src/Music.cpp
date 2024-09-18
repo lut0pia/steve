@@ -92,7 +92,7 @@ std::string Music::to_short_string() const {
   std::string short_string;
   short_string += get_scale().desc->name + "_" + key_name(get_scale().key);
   short_string += "_" + std::to_string(_signature->beats_per_bar);
-  short_string += std::to_string(1 << (uint32_t(NoteValue::whole) - uint32_t(get_beat_value())));
+  short_string += std::to_string(get_signature().beat_value_numeral);
   short_string += "_" + std::to_string(get_tempo());
 
   std::replace(short_string.begin(), short_string.end(), ' ', '_');

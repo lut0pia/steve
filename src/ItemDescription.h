@@ -8,5 +8,7 @@ namespace steve {
     std::string name;
     bool blacklisted = false, whitelisted = false;
     float weight = 1.f;
+
+    virtual void compute_cache(){};
   };
 }

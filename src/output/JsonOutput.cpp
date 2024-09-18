@@ -14,7 +14,7 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
     {"signature",
       {
         {"beats_per_bar", music.get_signature().beats_per_bar},
-        {"beat_value", (1 << (uint32_t(NoteValue::whole) - uint32_t(music.get_beat_value())))},
+        {"beat_value", music.get_signature().beat_value_numeral},
       }},
     {"duration", music.duration()},
   };

@@ -34,6 +34,7 @@ namespace steve {
     _total_weight = 0.f;
 
     for(const auto& item : _items) {
+      item->compute_cache();
       if(item->whitelisted) {
         use_whitelist = true;
       }
