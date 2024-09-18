@@ -16,21 +16,23 @@ Music::Music(const Config& config)
     _scale(Scale(_config.get_scales().get_random_item(), Rand::next(0, 11))),
     _tempo(_config.get_tempo().get_value()),
     _signature(_config.get_signatures().get_random_item()) {
-  do {
-    _size = uint32_t(40 * Rand::next_normal()) + 26;
-  } while(_size > 512); // <=512 with 46 average bars
-
-  _size -= _size % 4; // Multiple of 4 bars
-  _size *= get_bar_ticks();
+  { // Compute duration
+    const float target_duration = _config.get_duration().get_value();
+    const float bar_duration = (get_bar_ticks() * get_tick_ms()) / 1000.f;
+    uint32_t bar_count = uint32_t(target_duration / bar_duration);
+    bar_count -= bar_count % 4; // Multiple of 4 bars
+    bar_count = std::max<uint32_t>(bar_count, 4);
+    _ticks = bar_count * get_bar_ticks();
+  }
 
   { // Generate chord progression
     _chord_progression = _config.get_chord_progression(_scale);
-    for(uintptr_t i(0); i < bars(); i++) {
+    for(uintptr_t i(0); i < get_bar_count(); i++) {
       for(uintptr_t j(0); j < get_bar_ticks(); j++) {
         _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);
       }
     }
-    assert(_tones.size() == _size);
+    assert(_tones.size() == _ticks);
   }
 
   { // Generate beats

@@ -16,7 +16,7 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
         {"beats_per_bar", music.get_signature().beats_per_bar},
         {"beat_value", music.get_signature().beat_value_numeral},
       }},
-    {"duration", music.duration()},
+    {"duration", music.get_duration()},
   };
 
   json& chord_progression = root["chord_progression"];

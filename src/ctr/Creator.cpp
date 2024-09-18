@@ -3,10 +3,11 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
-#include "../cfg/Config.h"
+
 #include "../Music.h"
 #include "../Rand.h"
 #include "../cfg/Chord.h"
+#include "../cfg/Config.h"
 
 using namespace steve;
 
@@ -25,7 +26,7 @@ void Creator::init() {
   const uint8_t instrument_range(_instrument->max_tone - _instrument->min_tone);
 
   {
-    const uint8_t mid_tone(_instrument->min_tone + ambitus_half_range + Rand::next_normal()*float(instrument_range - ambitus_half_range * 2));
+    const uint8_t mid_tone(_instrument->min_tone + ambitus_half_range + Rand::next_normal() * float(instrument_range - ambitus_half_range * 2));
     _min_tone = std::max<uint8_t>(mid_tone - ambitus_half_range, _instrument->min_tone);
     _max_tone = std::min<uint8_t>(mid_tone + ambitus_half_range, _instrument->max_tone);
     assert(_max_tone - _min_tone >= 12);
@@ -50,14 +51,14 @@ void Creator::post_init() {
 Notes Creator::compose() {
   uint32_t i(0);
   Notes notes;
-  while(i < _music->get_size()) {
+  while(i < _music->get_tick_count()) {
     bool new_phrase_needed(true); // If it isn't changed it means no fitting phrase was found
     for(uintptr_t phrase_index(0); phrase_index < _phrases.size(); phrase_index++) { // Iterate through figures already created
       const Phrase& phrase(_phrases[phrase_index]);
-      if(i%phrase.size == 0 // Its size is good for the place it would be in
-        && i + phrase.size <= _music->get_size() // The phrase isn't too long
-        && Rand::next_float() < _repetition // Add some randomness
-        && harmony(_music->tones().data() + i, phrase.tones.data(), phrase.tones.size())) { // It's in harmony with the current music
+      if(i % phrase.size == 0 // Its size is good for the place it would be in
+         && i + phrase.size <= _music->get_tick_count() // The phrase isn't too long
+         && Rand::next_float() < _repetition // Add some randomness
+         && harmony(_music->tones().data() + i, phrase.tones.data(), phrase.tones.size())) { // It's in harmony with the current music
         paste(phrase.notes, notes, i); // Paste the phrase on the music
         _phrase_list.push_back(phrase_index); // Register that we used this phrase
         i += phrase.size; // Go forth
@@ -68,7 +69,7 @@ Notes Creator::compose() {
     if(new_phrase_needed) { // Needs to create a new phrase of music
       Phrase phrase;
       phrase.size = _phrase_size;
-      while(i%phrase.size != 0 || i + phrase.size > _music->get_size()) // Good size and not too long
+      while(i % phrase.size != 0 || i + phrase.size > _music->get_tick_count()) // Good size and not too long
         phrase.size /= 2;
       phrase.notes = get(i, phrase.size); // Create the phrase
       phrase.tones = octave_tones(phrase.notes);
@@ -159,7 +160,7 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
     [score](uintptr_t a, uintptr_t b) {
       return score(a) > score(b);
     });
-  
+
   std::exponential_distribution<float> dist(0.5f);
   const uintptr_t index = std::max<uintptr_t>(0, std::min<uintptr_t>(candidates.size() - 1, dist(Rand::generator)));
 

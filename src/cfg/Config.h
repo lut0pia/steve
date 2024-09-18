@@ -16,6 +16,7 @@ namespace steve {
   class Config {
   protected:
     ConfigRangedNumber _tempo;
+    ConfigRangedNumber _duration;
     ConfigItemList<TimeSignature> _signatures;
     ConfigItemList<CreatorDescription> _creators;
     ConfigItemList<ChordDescription> _chords;
@@ -35,6 +36,7 @@ namespace steve {
     std::vector<std::shared_ptr<const CreatorDescription>> get_creators() const;
 
     inline const auto& get_tempo() const { return _tempo; }
+    inline const auto& get_duration() const { return _duration; }
     inline const auto& get_signatures() const { return _signatures; }
     inline const auto& get_scales() const { return _scales; }
     inline const auto& get_instruments() const { return _instruments; }

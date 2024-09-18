@@ -73,6 +73,7 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
     }
   }
   parse_ranged_number(root, "tempo", _tempo);
+  parse_ranged_number(root, "duration", _duration);
   if(root.contains("time_signatures")) {
     parse_time_signatures(root["time_signatures"]);
   }

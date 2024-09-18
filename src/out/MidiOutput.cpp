@@ -101,7 +101,7 @@ void steve::MidiOutput::write(const Music& music, std::ostream& s) {
 
     last = note.first;
 
-    if(note.first != last_chord && note.first != music.get_size() && note.first % music.get_bar_ticks() == 0) {
+    if(note.first != last_chord && note.first != music.get_tick_count() && note.first % music.get_bar_ticks() == 0) {
       // Chord meta-event
       const Chord chord = music.chord_at(note.first);
       const uint8_t degree = music.get_scale().get_degree_for_tone(chord.key);
