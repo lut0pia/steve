@@ -62,12 +62,6 @@ void Config::list_scales(std::ostream& out) const {
   }
 }
 
-uint32_t Config::get_random_tempo() const {
-  const float tempo_range = float(max_tempo - min_tempo);
-  const uint32_t full_precision_tempo = uint32_t(tempo_range * Rand::next_normal()) + min_tempo;
-  return (full_precision_tempo / 5) * 5;
-}
-
 std::vector<Chord> Config::get_chords_inside(ToneSet tones) const {
   std::vector<Chord> chords;
   for(const auto& desc : _chords.get_allowed()) {

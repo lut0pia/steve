@@ -21,6 +21,16 @@ void parse_value(const json& object, const std::string& name, T& value) {
   }
 }
 
+void parse_ranged_number(const json& object, const std::string& name, ConfigRangedNumber& value) {
+  if(object.contains(name)) {
+    const json& number_object = object[name];
+    parse_value(number_object, "min", value.min);
+    parse_value(number_object, "max", value.max);
+    parse_value(number_object, "step", value.step);
+    parse_value(number_object, "sigma", value.sigma);
+  }
+}
+
 void ConfigJson::parse_file(const char* relative_filepath) {
   std::string filepath;
   if(!_directory_stack.empty()) {
@@ -62,8 +72,7 @@ void ConfigJson::parse_buffer(const char* buffer, size_t size) {
       parse_file(parent_path.get<std::string>().c_str());
     }
   }
-  parse_value(root, "min_tempo", min_tempo);
-  parse_value(root, "max_tempo", max_tempo);
+  parse_ranged_number(root, "tempo", _tempo);
   if(root.contains("time_signatures")) {
     parse_time_signatures(root["time_signatures"]);
   }

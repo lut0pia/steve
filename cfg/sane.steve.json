@@ -1,7 +1,10 @@
 {
   "parents": ["base.steve.json"],
-  "min_tempo": 80,
-  "max_tempo": 160,
+  "tempo": {
+    "min": 80,
+    "max": 160,
+    "step": 5
+  },
   "time_signatures": {
     "2/2": {
       "weight": 2

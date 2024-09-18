@@ -15,7 +15,7 @@ using namespace steve;
 Music::Music(const Config& config)
   : _config(config),
     _scale(Scale(_config.get_scales().get_random_item(), Rand::next(0, 11))),
-    _tempo(_config.get_random_tempo()),
+    _tempo(_config.get_tempo().get_value()),
     _signature(_config.get_signatures().get_random_item()) {
   do {
     _size = uint32_t(40 * Rand::next_normal()) + 26;
