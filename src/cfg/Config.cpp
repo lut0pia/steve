@@ -74,7 +74,7 @@ std::vector<Chord> Config::get_chords_inside(ToneSet tones) const {
   }
   return chords;
 }
-std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
+std::vector<Chord> Config::get_chord_progression(const Scale& scale, size_t size) const {
   std::vector<Chord> chords;
 
   // Start with first degree chord
@@ -86,7 +86,7 @@ std::vector<Chord> Config::get_chord_progression(const Scale& scale) const {
     scale.key));
 
   // Progress backwards
-  while(chords.size() < 4) {
+  while(chords.size() < size) {
     const Chord dest_chord = chords.back();
     const std::shared_ptr<ChordChange> chord_change = _chord_changes.get_random_item([&](std::shared_ptr<ChordChange> chord_change) {
       return dest_chord.desc == chord_change->target_chord && tone_set_within(scale.tones, tone_set_shift(chord_change->source_chord->tones, (dest_chord.key - chord_change->tone_shift + 12) % 12));

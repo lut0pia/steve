@@ -26,9 +26,9 @@ Music::Music(const Config& config)
   }
 
   { // Generate chord progression
-    _chord_progression = _config.get_chord_progression(_scale);
     for(uintptr_t i(0); i < get_bar_count(); i++) {
       for(uintptr_t j(0); j < get_bar_ticks(); j++) {
+    _chord_progression = _config.get_chord_progression(_scale, 4);
         _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);
       }
     }
