@@ -84,30 +84,6 @@ Notes Creator::compose() {
 bool Creator::is_valid_instrument(const Instrument&) const {
   return true;
 }
-void Creator::write_txt(std::ostream& s) const {
-  s << "\t" << name() << " (" << _instrument->name << ")" << std::endl
-    << "\t\t[" << note_value_name(_min_time) << ":" << note_value_name(_max_time) << "]" << std::endl
-    << "\t\t[" << note_name(_min_tone) << ":" << note_name(_max_tone) << "]" << std::endl
-    << "\t\tRepetition factor: " << _repetition << std::endl;
-
-  {
-    s << "\t\tPhrases:";
-    for(uintptr_t phrase_index : _phrase_list) {
-      s << " ";
-      if(phrase_index < 10) {
-        s << phrase_index;
-      } else {
-        s << char('a' + phrase_index - 10);
-      }
-      const Phrase& phrase(_phrases[phrase_index]);
-      const uint32_t bar_count(phrase.size / _music->get_bar_ticks());
-      for(uint32_t i(1); i < bar_count; i++) {
-        s << " -";
-      }
-    }
-    s << std::endl;
-  }
-}
 uintptr_t Creator::time(uintptr_t i, size_t size) const {
   std::vector<uintptr_t> candidates = _music->beats_inside(
     i + ticks_for(_min_time),

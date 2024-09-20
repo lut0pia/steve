@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../cfg/Instrument.h"
 #include "../ctr/Creator.h"
 
 using namespace steve;
@@ -36,7 +37,28 @@ void steve::TextOutput::write(const Music& music, std::ostream& s) {
 
   s << "Creators:" << std::endl;
   for(const auto& creator : music.get_creators()) {
-    creator->write_txt(s);
+    s << "\t" << creator->name() << " (" << creator->get_instrument()->name << ")" << std::endl
+      << "\t\t[" << note_value_name(creator->get_min_time()) << ":" << note_value_name(creator->get_max_time()) << "]" << std::endl
+      << "\t\t[" << note_name(creator->get_min_tone()) << ":" << note_name(creator->get_max_tone()) << "]" << std::endl
+      << "\t\tRepetition factor: " << creator->get_repetition() << std::endl;
+
+    {
+      s << "\t\tPhrases:";
+      for(uintptr_t phrase_index : creator->get_phrase_list()) {
+        s << " ";
+        if(phrase_index < 10) {
+          s << phrase_index;
+        } else {
+          s << char('a' + phrase_index - 10);
+        }
+        const Phrase& phrase(creator->get_phrases()[phrase_index]);
+        const uint32_t bar_count(phrase.size / music.get_bar_ticks());
+        for(uint32_t i(1); i < bar_count; i++) {
+          s << " -";
+        }
+      }
+      s << std::endl;
+    }
     s << std::endl;
   }
 }

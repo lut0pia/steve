@@ -72,7 +72,7 @@ void steve::MidiOutput::write(const Music& music, std::ostream& s) {
 
   const auto& creators = music.get_creators();
   for(uint32_t i(0); i < creators.size(); i++) {
-    s << uint8_t(0) << uint8_t(0xC0 | i) << creators[i]->instrument()->midi_id; // Program change
+    s << uint8_t(0) << uint8_t(0xC0 | i) << creators[i]->get_instrument()->midi_id; // Program change
   }
 
   uint32_t last = 0;
