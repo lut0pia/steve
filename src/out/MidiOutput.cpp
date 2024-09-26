@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../ctr/Creator.h"
 #include "../cfg/Instrument.h"
+#include "../ctr/Creator.h"
 
 using namespace steve;
 
@@ -105,7 +105,8 @@ void steve::MidiOutput::write(const Music& music, std::ostream& s) {
       // Chord meta-event
       const Chord chord = music.chord_at(note.first);
       const uint8_t degree = music.get_scale().get_degree_for_tone(chord.key);
-      const std::string chord_str = music.chord_at(note.first).to_short_string() + " (" + std::to_string(degree + 1) + ")";
+      const std::string degree_str = steve::degree_name(degree, chord.desc->uppercase);
+      const std::string chord_str = music.chord_at(note.first).to_short_string() + " (" + degree_str + ")";
       s << uint8_t(0) << mid_meta_event << mid_text_event << VarLength(uint32_t(chord_str.size())) << chord_str;
       last_chord = note.first;
     }
