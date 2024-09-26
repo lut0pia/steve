@@ -76,7 +76,7 @@ void steve::MidiOutput::write(const Music& music, std::ostream& s) {
   }
 
   uint32_t last = 0;
-  uint32_t last_chord = -1;
+  ToneSet last_chord = -1;
 
   Notes end_notes;
   auto process_end_notes = [&s, &last, &end_notes](uint32_t next_time) {
@@ -101,14 +101,14 @@ void steve::MidiOutput::write(const Music& music, std::ostream& s) {
 
     last = note.first;
 
-    if(note.first != last_chord && note.first != music.get_tick_count() && note.first % music.get_bar_ticks() == 0) {
+    if(music.chord_at(note.first).tones != last_chord && note.first != music.get_tick_count()) {
       // Chord meta-event
       const Chord chord = music.chord_at(note.first);
       const uint8_t degree = music.get_scale().get_degree_for_tone(chord.key);
       const std::string degree_str = steve::degree_name(degree, chord.desc->uppercase);
       const std::string chord_str = music.chord_at(note.first).to_short_string() + " (" + degree_str + ")";
       s << uint8_t(0) << mid_meta_event << mid_text_event << VarLength(uint32_t(chord_str.size())) << chord_str;
-      last_chord = note.first;
+      last_chord = chord.tones;
     }
   }
   process_end_notes(last + music.get_bar_ticks());
