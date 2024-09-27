@@ -57,8 +57,7 @@ Notes Creator::compose() {
       const Phrase& phrase(_phrases[phrase_index]);
       if(i % phrase.size == 0 // Its size is good for the place it would be in
          && i + phrase.size <= _music->get_tick_count() // The phrase isn't too long
-         && Rand::next_float() < _repetition // Add some randomness
-         && harmony(_music->tones().data() + i, phrase.tones.data(), phrase.tones.size())) { // It's in harmony with the current music
+         && Rand::next_float() < _repetition) { // Add some randomness
         paste(phrase.notes, notes, i); // Paste the phrase on the music
         _phrase_list.push_back(phrase_index); // Register that we used this phrase
         i += phrase.size; // Go forth
@@ -86,6 +85,7 @@ bool Creator::is_valid_instrument(const Instrument&) const {
 }
 void Creator::add_note(Notes& notes, uint8_t tone, size_t start, size_t length, uint8_t velocity) const {
   assert(_music->tones_at(start, length) & (1 << (tone % 12)));
+  assert(_music->is_beat(start));
   steve::add_note(notes, _channel, tone, start, length, velocity);
 }
 uintptr_t Creator::generate_time(uintptr_t i, size_t size, bool chord_strict) const {

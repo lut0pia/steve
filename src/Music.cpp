@@ -33,13 +33,6 @@ Music::Music(const Config& config)
       }
     }
     assert(_chord_progression.size() % _signature->beats_per_bar == 0);
-
-    for(uintptr_t i(0); i < get_beat_count(); i++) {
-      for(uintptr_t j(0); j < get_beat_ticks(); j++) {
-        _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);
-      }
-    }
-    assert(_tones.size() == _ticks);
   }
 
   { // Generate beats
@@ -61,10 +54,6 @@ Music::Music(const Config& config)
   for(const auto& creator : _config.get_creators()) {
     add_creator(creator->func(this));
   }
-
-#ifndef NDEBUG
-  check();
-#endif
 }
 void Music::add_creator(Creator* creator) {
   creator->init();
@@ -106,16 +95,4 @@ std::string Music::to_short_string() const {
   std::replace(short_string.begin(), short_string.end(), ' ', '_');
 
   return short_string;
-}
-void Music::check() const {
-  Tones final_tones(octave_tones(_notes));
-  assert(final_tones.size() <= _tones.size());
-  for(uintptr_t i(0); i < final_tones.size(); i++) {
-    assert(tone_set_within(_scale.tones, final_tones[i]));
-    assert(tone_set_within(_tones[i], final_tones[i]));
-  }
-
-  for(const auto& note : _notes) {
-    assert(is_beat(note.first));
-  }
 }

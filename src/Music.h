@@ -15,7 +15,6 @@ namespace steve {
   protected:
     const Config& _config;
     Notes _notes;
-    Tones _tones;
     std::vector<std::unique_ptr<Creator>> _creators;
     std::vector<Chord> _chord_progression;
     std::vector<bool> _beats;
@@ -31,11 +30,9 @@ namespace steve {
     bool is_beat(uintptr_t i) const;
     std::vector<uintptr_t> beats_inside(uintptr_t min, uintptr_t max) const;
     std::string to_short_string() const;
-    void check() const;
 
     inline const Config& get_config() const { return _config; }
     inline const Notes& get_notes() const { return _notes; }
-    inline const Tones& tones() const { return _tones; }
     inline const Scale& get_scale() const { return _scale; }
     inline const std::vector<Chord> get_chord_progression() const { return _chord_progression; }
     inline std::vector<bool> get_beats() const { return _beats; }
