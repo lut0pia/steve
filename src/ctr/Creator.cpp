@@ -84,7 +84,7 @@ Notes Creator::compose() {
 bool Creator::is_valid_instrument(const Instrument&) const {
   return true;
 }
-uintptr_t Creator::time(uintptr_t i, size_t size) const {
+uintptr_t Creator::generate_time(uintptr_t i, size_t size, bool chord_strict) const {
   std::vector<uintptr_t> candidates = _music->beats_inside(
     i + ticks_for(_min_time),
     i + std::min<uintptr_t>(ticks_for(_max_time), size));
@@ -97,7 +97,7 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
 
   const auto min_ticks = ticks_for(_min_time);
   const auto max_ticks = ticks_for(_max_time);
-  const auto score = [this, i, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
+  const auto score = [this, i, chord_strict, min_ticks, max_ticks](uintptr_t c) -> uintptr_t {
     if(c < min_ticks || c > max_ticks) {
       return 0;
     }
@@ -106,8 +106,16 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
       return 0;
     }
 
-    if(_music->tones_at(i, c) == 0) {
-      return 0;
+    const ToneSet available_tones_over_duration = _music->tones_at(i, c);
+    if(available_tones_over_duration == 0) {
+      return 0; // There are no common tones over that period
+    }
+
+    if(chord_strict) {
+      const ToneSet available_instant_tones = _music->tones_at(i, 1);
+      if(available_instant_tones != available_tones_over_duration) {
+        return 0; // Caller disallowed notes that overlap chord changes
+      }
     }
 
     uintptr_t score = UINTPTR_MAX;
@@ -123,10 +131,10 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
 
   // Remove unwanted candidates
   auto previous_candidates = candidates;
-  candidates.erase(std::remove_if(candidates.begin(), candidates.end(),
-    [score](uintptr_t c) {
-      return score(c) == 0;
-    }), candidates.end());
+  candidates.erase(std::remove_if(candidates.begin(), candidates.end(), [score](uintptr_t c) {
+    return score(c) == 0;
+  }),
+    candidates.end());
   if(candidates.empty()) {
     return 0;
   }
@@ -144,13 +152,13 @@ uintptr_t Creator::time(uintptr_t i, size_t size) const {
   assert(ticks <= size);
   return ticks;
 }
-std::vector<uintptr_t> Creator::generate_times(uintptr_t start, size_t size) const {
+std::vector<uintptr_t> Creator::generate_times(uintptr_t start, size_t size, bool chord_key_strict) const {
   std::vector<uintptr_t> times;
   do {
     uintptr_t i = 0;
     times = {i};
     while(i < size) {
-      const uintptr_t d = time(start + i, size - i);
+      const uintptr_t d = generate_time(start + i, size - i, chord_key_strict);
       if(d == 0) {
         break;
       }

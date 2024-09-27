@@ -36,7 +36,12 @@ namespace steve {
     inline uint8_t get_max_tone() const { return _max_tone; }
     inline float get_repetition() const { return _repetition; }
 
-    uintptr_t time(uintptr_t i, size_t size) const;
-    std::vector<uintptr_t> generate_times(uintptr_t i, size_t size) const;
+    // Returns a valid amount of ticks until a next potential note
+    uintptr_t generate_time(uintptr_t i, size_t size, bool chord_strict = false) const;
+    // Returns a list of tick indices that partition time in a way
+    // that notes can be played inbetween and still respect creator's time restrictions
+    // and chord restrictions
+    // @chord_strict means that a chord change REQUIRES a fracture even if there are common tones
+    std::vector<uintptr_t> generate_times(uintptr_t start, size_t size, bool chord_strict = false) const;
   };
 }
