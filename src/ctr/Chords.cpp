@@ -21,7 +21,7 @@ Notes Chords::get(size_t start, size_t size) const {
           //continue; // Lowest tone need to be key
         }
         if(((1 << (tone % 12)) & chord.tones) != 0) {
-          add_note(notes, _channel, tone, i, duration);
+          add_note(notes, tone, i, duration);
           voice_count++;
         }
       }

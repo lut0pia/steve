@@ -84,6 +84,10 @@ Notes Creator::compose() {
 bool Creator::is_valid_instrument(const Instrument&) const {
   return true;
 }
+void Creator::add_note(Notes& notes, uint8_t tone, size_t start, size_t length, uint8_t velocity) const {
+  assert(_music->tones_at(start, length) & (1 << (tone % 12)));
+  steve::add_note(notes, _channel, tone, start, length, velocity);
+}
 uintptr_t Creator::generate_time(uintptr_t i, size_t size, bool chord_strict) const {
   std::vector<uintptr_t> candidates = _music->beats_inside(
     i + ticks_for(_min_time),

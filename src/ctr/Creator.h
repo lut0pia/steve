@@ -26,6 +26,7 @@ namespace steve {
     virtual Notes get(size_t start, size_t size) const = 0;
     virtual const char* name() const = 0;
     virtual bool is_valid_instrument(const Instrument& instrument) const;
+    virtual void add_note(Notes&, uint8_t tone, size_t start, size_t length, uint8_t velocity = 127) const;
 
     inline std::shared_ptr<const Instrument> get_instrument() const { return _instrument; }
     inline const std::vector<Phrase>& get_phrases() const { return _phrases; }

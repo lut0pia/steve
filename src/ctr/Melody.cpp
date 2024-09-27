@@ -14,7 +14,7 @@ Notes Melody::get(size_t start, size_t size) const {
     const auto duration = times[i + 1] - time;
     const auto tones = choose_note_from_chord(_music->tones_at(start + time, duration));
     const auto tone = Rand::in(tones);
-    add_note(notes, _channel, tone, time, duration);
+    add_note(notes, tone, time, duration);
   }
   return notes;
 }

@@ -23,7 +23,7 @@ Notes Bass::get(size_t start, size_t size) const {
       const auto duration = times[j + 1] - times[j];
       const Chord& chord = _music->chord_at(start + i);
       const uint8_t tone = _min_tone + chord.key;
-      add_note(notes, _channel, tone, i, duration);
+      add_note(notes, tone, i, duration);
       i += duration;
     }
   }

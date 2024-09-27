@@ -24,7 +24,7 @@ Notes Arpeggio::get(size_t start, size_t size) const {
       const auto chord_tone_count = chord.desc->get_tone_count();
       const auto duration = times[j + 1] - times[j];
       const uint8_t tone = base_tone + chord.key + chord.desc->get_tone(j % chord_tone_count);
-      add_note(notes, _channel, tone, i, duration);
+      add_note(notes, tone, i, duration);
       i += duration;
     }
   }
