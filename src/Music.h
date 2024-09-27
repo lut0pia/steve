@@ -16,7 +16,7 @@ namespace steve {
     const Config& _config;
     Notes _notes;
     std::vector<std::unique_ptr<Creator>> _creators;
-    std::vector<Chord> _chord_progression;
+    std::vector<Chord> _progression;
     std::vector<bool> _beats;
     Scale _scale;
     uint32_t _tempo, _phrase_size, _ticks;
@@ -34,7 +34,7 @@ namespace steve {
     inline const Config& get_config() const { return _config; }
     inline const Notes& get_notes() const { return _notes; }
     inline const Scale& get_scale() const { return _scale; }
-    inline const std::vector<Chord> get_chord_progression() const { return _chord_progression; }
+    inline const std::vector<Chord> get_progression() const { return _progression; }
     inline std::vector<bool> get_beats() const { return _beats; }
     inline uint32_t get_tick_count() const { return _ticks; }
     inline uint32_t get_beat_count() const { return _ticks / get_beat_ticks(); }

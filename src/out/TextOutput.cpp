@@ -15,8 +15,8 @@ void steve::TextOutput::write(const Music& music, std::ostream& s) {
     << std::endl;
 
   {
-    s << "Chord progression:" << std::endl;
-    for(const Chord& chord : music.get_chord_progression()) {
+    s << "Progression:" << std::endl;
+    for(const Chord& chord : music.get_progression()) {
       s << " - " << music.get_scale().get_degree_string_for_chord(chord) << " (" << chord.to_short_string() << ")" << std::endl;
     }
     s << std::endl;

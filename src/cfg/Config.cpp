@@ -74,7 +74,7 @@ std::vector<Chord> Config::get_chords_inside(ToneSet tones) const {
   }
   return chords;
 }
-std::vector<Chord> Config::get_chord_progression(const Scale& scale, size_t size) const {
+std::vector<Chord> Config::get_progression(const Scale& scale, size_t size) const {
   std::vector<Chord> chords;
 
   // Start with first degree chord

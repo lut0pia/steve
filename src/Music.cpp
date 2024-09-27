@@ -17,14 +17,14 @@ Music::Music(const Config& config)
     _tempo(_config.get_tempo().get_value()),
     _signature(_config.get_signatures().get_random_item()) {
   { // Generate chord progression
-    std::vector<steve::Chord> chords = _config.get_chord_progression(_scale, 4);
+    std::vector<steve::Chord> chords = _config.get_progression(_scale, 4);
     for(const Chord& chord : chords) {
       for(int i = 0; i < get_signature().beats_per_bar; i++) {
-        _chord_progression.push_back(chord);
+        _progression.push_back(chord);
       }
     }
-    assert(_chord_progression.size() % _signature->beats_per_bar == 0);
-    _phrase_size = _chord_progression.size() / _signature->beats_per_bar;
+    assert(_progression.size() % _signature->beats_per_bar == 0);
+    _phrase_size = _progression.size() / _signature->beats_per_bar;
   }
 
   { // Compute duration
@@ -63,14 +63,14 @@ void Music::add_creator(Creator* creator) {
   _creators.push_back(std::unique_ptr<Creator>(creator));
 }
 const Chord& Music::chord_at(size_t i) const {
-  return _chord_progression[(i / get_beat_ticks()) % _chord_progression.size()];
+  return _progression[(i / get_beat_ticks()) % _progression.size()];
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet tones = ~0;
   const uintptr_t start_beat = start / get_beat_ticks();
   const uintptr_t end_beat = (start + size - 1) / get_beat_ticks();
   for(uintptr_t i = start_beat; i <= end_beat; i++) {
-    tones &= _chord_progression[i % _chord_progression.size()].tones;
+    tones &= _progression[i % _progression.size()].tones;
   }
   return tones;
 }

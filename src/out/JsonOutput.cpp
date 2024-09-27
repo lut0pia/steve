@@ -19,8 +19,8 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
     {"duration", music.get_duration()},
   };
 
-  json& chord_progression = root["chord_progression"];
-  for(const Chord& chord : music.get_chord_progression()) {
+  json& chord_progression = root["progression"];
+  for(const Chord& chord : music.get_progression()) {
     chord_progression.push_back({
       {"degree", music.get_scale().get_degree_string_for_chord(chord)},
       {"chord", chord.to_short_string()},

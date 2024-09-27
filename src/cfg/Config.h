@@ -32,7 +32,7 @@ namespace steve {
     void list_scales(std::ostream&) const;
 
     std::vector<Chord> get_chords_inside(ToneSet tones) const;
-    std::vector<Chord> get_chord_progression(const Scale&, size_t) const;
+    std::vector<Chord> get_progression(const Scale&, size_t) const;
     std::vector<std::shared_ptr<const CreatorDescription>> get_creators() const;
 
     inline const auto& get_tempo() const { return _tempo; }
