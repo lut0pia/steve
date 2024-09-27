@@ -40,8 +40,10 @@ namespace steve {
     inline const std::vector<Chord> get_chord_progression() const { return _chord_progression; }
     inline std::vector<bool> get_beats() const { return _beats; }
     inline uint32_t get_tick_count() const { return _ticks; }
+    inline uint32_t get_beat_count() const { return _ticks / get_beat_ticks(); }
     inline uint32_t get_bar_count() const { return _ticks / get_bar_ticks(); }
-    inline uint32_t get_bar_ticks() const { return ticks_for(_signature->beat_value) * _signature->beats_per_bar; }
+    inline uint32_t get_beat_ticks() const { return ticks_for(_signature->beat_value); }
+    inline uint32_t get_bar_ticks() const { return get_beat_ticks() * _signature->beats_per_bar; }
     inline NoteValue get_beat_value() const { return _signature->beat_value; }
     inline size_t parts() const { return _creators.size(); }
     inline const std::vector<std::unique_ptr<Creator>>& get_creators() const { return _creators; }
