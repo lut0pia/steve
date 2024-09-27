@@ -80,7 +80,9 @@
         "9": {"weight": 10}, // V -> iii
         "2": {"weight": 10} // V -> vi
       }
-    }
+    },
+    // Forbid staying in place
+    "*": { "*": { "0": {"blacklist": true}}}
   },
   "instruments": {
     "Acoustic Bass": {
