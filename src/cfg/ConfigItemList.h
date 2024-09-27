@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <vector>
 
 #include "../Rand.h"
@@ -81,6 +82,7 @@ namespace steve {
         filtered_weight += candidate->weight;
       }
     }
+    assert(filtered_items.size() > 0);
     float weight_index = Rand::next(0.f, filtered_weight);
     for(const auto& candidate : filtered_items) {
       if(weight_index < candidate->weight) {
