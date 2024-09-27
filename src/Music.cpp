@@ -16,15 +16,6 @@ Music::Music(const Config& config)
     _scale(Scale(_config.get_scales().get_random_item(), Rand::next(0, 11))),
     _tempo(_config.get_tempo().get_value()),
     _signature(_config.get_signatures().get_random_item()) {
-  { // Compute duration
-    const float target_duration = _config.get_duration().get_value();
-    const float bar_duration = (get_bar_ticks() * get_tick_ms()) / 1000.f;
-    uint32_t bar_count = uint32_t(target_duration / bar_duration);
-    bar_count -= bar_count % 4; // Multiple of 4 bars
-    bar_count = std::max<uint32_t>(bar_count, 4);
-    _ticks = bar_count * get_bar_ticks();
-  }
-
   { // Generate chord progression
     std::vector<steve::Chord> chords = _config.get_chord_progression(_scale, 4);
     for(const Chord& chord : chords) {
@@ -33,6 +24,16 @@ Music::Music(const Config& config)
       }
     }
     assert(_chord_progression.size() % _signature->beats_per_bar == 0);
+    _phrase_size = _chord_progression.size() / _signature->beats_per_bar;
+  }
+
+  { // Compute duration
+    const float target_duration = _config.get_duration().get_value();
+    const float bar_duration = (get_bar_ticks() * get_tick_ms()) / 1000.f;
+    uint32_t bar_count = uint32_t(target_duration / bar_duration);
+    bar_count -= bar_count % _phrase_size;
+    bar_count = std::max<uint32_t>(bar_count, _phrase_size);
+    _ticks = bar_count * get_bar_ticks();
   }
 
   { // Generate beats

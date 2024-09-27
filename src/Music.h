@@ -19,7 +19,7 @@ namespace steve {
     std::vector<Chord> _chord_progression;
     std::vector<bool> _beats;
     Scale _scale;
-    uint32_t _tempo, _ticks;
+    uint32_t _tempo, _phrase_size, _ticks;
     std::shared_ptr<TimeSignature> _signature;
 
   public:
