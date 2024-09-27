@@ -28,6 +28,14 @@
       "suffix": "dim",
       "tones": [3, 6]
     },
+    "Suspended Second": {
+      "suffix": "sus2",
+      "tones": [2, 7]
+    },
+    "Suspended Fourth": {
+      "suffix": "sus4",
+      "tones": [5, 7]
+    },
 
     "Major Sixth": {
       "suffix": "maj6",
