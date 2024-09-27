@@ -26,9 +26,16 @@ Music::Music(const Config& config)
   }
 
   { // Generate chord progression
-    _chord_progression = _config.get_chord_progression(_scale, 4);
-    for(uintptr_t i(0); i < get_bar_count(); i++) {
-      for(uintptr_t j(0); j < get_bar_ticks(); j++) {
+    std::vector<steve::Chord> chords = _config.get_chord_progression(_scale, 4);
+    for(const Chord& chord : chords) {
+      for(int i = 0; i < get_signature().beats_per_bar; i++) {
+        _chord_progression.push_back(chord);
+      }
+    }
+    assert(_chord_progression.size() % _signature->beats_per_bar == 0);
+
+    for(uintptr_t i(0); i < get_beat_count(); i++) {
+      for(uintptr_t j(0); j < get_beat_ticks(); j++) {
         _tones.push_back(_chord_progression[i % _chord_progression.size()].tones);
       }
     }
@@ -66,13 +73,13 @@ void Music::add_creator(Creator* creator) {
   _creators.push_back(std::unique_ptr<Creator>(creator));
 }
 const Chord& Music::chord_at(size_t i) const {
-  return _chord_progression[(i / get_bar_ticks()) % _chord_progression.size()];
+  return _chord_progression[(i / get_beat_ticks()) % _chord_progression.size()];
 }
 ToneSet Music::tones_at(size_t start, size_t size) const {
   ToneSet tones = ~0;
-  const uintptr_t start_bar = start / get_bar_ticks();
-  const uintptr_t end_bar = (start + size - 1) / get_bar_ticks();
-  for(uintptr_t i = start_bar; i <= end_bar; i++) {
+  const uintptr_t start_beat = start / get_beat_ticks();
+  const uintptr_t end_beat = (start + size - 1) / get_beat_ticks();
+  for(uintptr_t i = start_beat; i <= end_beat; i++) {
     tones &= _chord_progression[i % _chord_progression.size()].tones;
   }
   return tones;

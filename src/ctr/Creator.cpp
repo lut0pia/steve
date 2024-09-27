@@ -16,7 +16,7 @@ Creator::Creator(Music* music) {
   _channel = music->get_creators().size();
 }
 void Creator::init() {
-  _phrase_size = 4 * _music->get_bar_ticks();
+  _phrase_size = _music->get_chord_progression().size() * _music->get_beat_ticks();
 
   _instrument = _music->get_config().get_instruments().get_random_item(
     [this](std::shared_ptr<Instrument> candidate) {
