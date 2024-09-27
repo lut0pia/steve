@@ -15,7 +15,7 @@ void Arpeggio::init() {
 }
 Notes Arpeggio::get(size_t start, size_t size) const {
   Notes notes;
-  auto times = generate_times(start, _music->get_bar_ticks());
+  auto times = generate_times(start, size, true);
   uintptr_t i = 0;
   while(i < size) {
     const uint8_t base_tone = _min_tone + 12 - (_min_tone % 12);

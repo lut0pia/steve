@@ -16,7 +16,7 @@ void Bass::init() {
 }
 Notes Bass::get(size_t start, size_t size) const {
   Notes notes;
-  auto times = generate_times(start, _music->get_bar_ticks());
+  auto times = generate_times(start, size, true);
   uintptr_t i = 0;
   while(i < size) {
     for(uintptr_t j = 0; j < times.size() - 1; j++) {
