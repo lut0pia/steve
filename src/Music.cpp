@@ -24,15 +24,15 @@ Music::Music(const Config& config)
       }
     }
     assert(_progression.size() % _signature->beats_per_bar == 0);
-    _phrase_size = _progression.size() / _signature->beats_per_bar;
+    _pattern_size = _progression.size() / _signature->beats_per_bar;
   }
 
   { // Compute duration
     const float target_duration = _config.get_duration().get_value();
     const float bar_duration = (get_bar_ticks() * get_tick_ms()) / 1000.f;
     uint32_t bar_count = uint32_t(target_duration / bar_duration);
-    bar_count -= bar_count % _phrase_size;
-    bar_count = std::max<uint32_t>(bar_count, _phrase_size);
+    bar_count -= bar_count % _pattern_size;
+    bar_count = std::max<uint32_t>(bar_count, _pattern_size);
     _ticks = bar_count * get_bar_ticks();
   }
 

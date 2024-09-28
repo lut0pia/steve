@@ -43,16 +43,16 @@ void steve::TextOutput::write(const Music& music, std::ostream& s) {
       << "\t\tRepetition factor: " << creator->get_repetition() << std::endl;
 
     {
-      s << "\t\tPhrases:";
-      for(uintptr_t phrase_index : creator->get_phrase_list()) {
+      s << "\t\Patterns:";
+      for(uintptr_t pattern_index : creator->get_pattern_list()) {
         s << " ";
-        if(phrase_index < 10) {
-          s << phrase_index;
+        if(pattern_index < 10) {
+          s << pattern_index;
         } else {
-          s << char('a' + phrase_index - 10);
+          s << char('a' + pattern_index - 10);
         }
-        const Phrase& phrase(creator->get_phrases()[phrase_index]);
-        const uint32_t bar_count(phrase.size / music.get_bar_ticks());
+        const Pattern& pattern(creator->get_patterns()[pattern_index]);
+        const uint32_t bar_count(pattern.size / music.get_bar_ticks());
         for(uint32_t i(1); i < bar_count; i++) {
           s << " -";
         }

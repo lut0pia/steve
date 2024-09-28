@@ -34,16 +34,16 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
     progression.push_back(scale_chord_it - scale_chords.cbegin());
   }
 
-  json parts;
+  json tracks;
   for(const auto& creator : music.get_creators()) {
     const auto instrument = *creator->get_instrument();
-    json phrases;
-    for(const Phrase& phrase : creator->get_phrases()) {
-      phrases.push_back({{"size", phrase.size / music.get_bar_ticks()}});
+    json patterns;
+    for(const Pattern& pattern : creator->get_patterns()) {
+      patterns.push_back({{"size", pattern.size / music.get_bar_ticks()}});
     }
-    json phrase_list;
-    for(const size_t& phrase : creator->get_phrase_list()) {
-      phrase_list.push_back(phrase);
+    json pattern_list;
+    for(const size_t& pattern : creator->get_pattern_list()) {
+      pattern_list.push_back(pattern);
     }
     json part{
       {"creator", creator->name()},
@@ -52,10 +52,10 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
           {"name", instrument.name},
           {"index", instrument.midi_id},
         }},
-      {"phrases", phrases},
-      {"phrase_list", phrase_list},
+      {"patterns", patterns},
+      {"pattern_list", pattern_list},
     };
-    parts.push_back(part);
+    tracks.push_back(part);
   }
 
   json root{
@@ -74,7 +74,7 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
       }},
     {"duration", music.get_duration()},
     {"progression", progression},
-    {"parts", parts},
+    {"tracks", tracks},
   };
 
   s << root;

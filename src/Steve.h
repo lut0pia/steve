@@ -36,7 +36,7 @@ namespace steve {
   typedef uint16_t ToneSet;
   typedef uint64_t NoteSet;
   typedef std::vector<ToneSet> Tones;
-  struct Phrase {
+  struct Pattern {
     Notes notes;
     Tones tones;
     size_t size;

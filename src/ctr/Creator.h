@@ -9,9 +9,9 @@ namespace steve {
   protected:
     class Music* _music;
     std::shared_ptr<const struct Instrument> _instrument;
-    std::vector<Phrase> _phrases;
-    std::vector<uintptr_t> _phrase_list;
-    size_t _phrase_size = 1;
+    std::vector<Pattern> _patterns;
+    std::vector<uintptr_t> _pattern_list;
+    size_t _pattern_size = 1;
     NoteValue _min_time = NoteValue::sixtyfourth, _max_time = NoteValue::whole;
     uint8_t _min_tone = 0, _max_tone = 128;
     float _repetition = 1.f;
@@ -29,8 +29,8 @@ namespace steve {
     virtual void add_note(Notes&, uint8_t tone, size_t start, size_t length, uint8_t velocity = 127) const;
 
     inline std::shared_ptr<const Instrument> get_instrument() const { return _instrument; }
-    inline const std::vector<Phrase>& get_phrases() const { return _phrases; }
-    inline const std::vector<uintptr_t>& get_phrase_list() const { return _phrase_list; }
+    inline const std::vector<Pattern>& get_patterns() const { return _patterns; }
+    inline const std::vector<uintptr_t>& get_pattern_list() const { return _pattern_list; }
     inline NoteValue get_min_time() const { return _min_time; }
     inline NoteValue get_max_time() const { return _max_time; }
     inline uint8_t get_min_tone() const { return _min_tone; }

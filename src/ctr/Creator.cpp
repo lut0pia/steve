@@ -16,7 +16,7 @@ Creator::Creator(Music* music) {
   _channel = music->get_creators().size();
 }
 void Creator::init() {
-  _phrase_size = _music->get_progression().size() * _music->get_beat_ticks();
+  _pattern_size = _music->get_progression().size() * _music->get_beat_ticks();
 
   _instrument = _music->get_config().get_instruments().get_random_item(
     [this](std::shared_ptr<Instrument> candidate) {
@@ -52,30 +52,30 @@ Notes Creator::compose() {
   uint32_t i(0);
   Notes notes;
   while(i < _music->get_tick_count()) {
-    bool new_phrase_needed(true); // If it isn't changed it means no fitting phrase was found
-    for(uintptr_t phrase_index(0); phrase_index < _phrases.size(); phrase_index++) { // Iterate through figures already created
-      const Phrase& phrase(_phrases[phrase_index]);
-      if(i % phrase.size == 0 // Its size is good for the place it would be in
-         && i + phrase.size <= _music->get_tick_count() // The phrase isn't too long
+    bool new_pattern_needed(true); // If it isn't changed it means no fitting pattern was found
+    for(uintptr_t pattern_index(0); pattern_index < _patterns.size(); pattern_index++) { // Iterate through figures already created
+      const Pattern& pattern(_patterns[pattern_index]);
+      if(i % pattern.size == 0 // Its size is good for the place it would be in
+         && i + pattern.size <= _music->get_tick_count() // The pattern isn't too long
          && Rand::next_float() < _repetition) { // Add some randomness
-        paste(phrase.notes, notes, i); // Paste the phrase on the music
-        _phrase_list.push_back(phrase_index); // Register that we used this phrase
-        i += phrase.size; // Go forth
-        new_phrase_needed = false; // Specify that the program doesn't need to create a new phrase
+        paste(pattern.notes, notes, i); // Paste the pattern on the music
+        _pattern_list.push_back(pattern_index); // Register that we used this pattern
+        i += pattern.size; // Go forth
+        new_pattern_needed = false; // Specify that the program doesn't need to create a new pattern
         break;
       }
     }
-    if(new_phrase_needed) { // Needs to create a new phrase of music
-      Phrase phrase;
-      phrase.size = _phrase_size;
-      while(i % phrase.size != 0 || i + phrase.size > _music->get_tick_count()) // Good size and not too long
-        phrase.size /= 2;
-      phrase.notes = get(i, phrase.size); // Create the phrase
-      phrase.tones = octave_tones(phrase.notes);
-      _phrase_list.push_back(_phrases.size()); // Register that we used this phrase
-      _phrases.push_back(phrase); // Add it to the collection of phrases
-      paste(phrase.notes, notes, i); // Paste it on the music
-      i += phrase.size; // Go forth
+    if(new_pattern_needed) { // Needs to create a new pattern of music
+      Pattern pattern;
+      pattern.size = _pattern_size;
+      while(i % pattern.size != 0 || i + pattern.size > _music->get_tick_count()) // Good size and not too long
+        pattern.size /= 2;
+      pattern.notes = get(i, pattern.size); // Create the pattern
+      pattern.tones = octave_tones(pattern.notes);
+      _pattern_list.push_back(_patterns.size()); // Register that we used this pattern
+      _patterns.push_back(pattern); // Add it to the collection of patterns
+      paste(pattern.notes, notes, i); // Paste it on the music
+      i += pattern.size; // Go forth
     }
   }
   return notes;
