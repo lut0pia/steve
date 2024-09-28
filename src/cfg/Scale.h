@@ -22,10 +22,8 @@ namespace steve {
     inline Scale(const std::shared_ptr<const ScaleDescription>& d, uint8_t k)
       : desc(d), key(k), tones(tone_set_shift(d->tones, k)) {}
 
-    inline std::string full_name() const { return std::string(key_name(key)) + " " + desc->name; }
-
-    // Zero-based
-    uint8_t get_degree_for_tone(uint8_t tone) const;
+    std::vector<Chord> get_chords() const;
+    uint8_t get_degree_for_tone(uint8_t tone) const; // Zero-based
     std::string get_degree_string_for_chord(const Chord& chord) const;
   };
 }

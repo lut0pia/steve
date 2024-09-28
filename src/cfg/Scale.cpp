@@ -1,11 +1,8 @@
 #include "Scale.h"
 
 #include <algorithm>
-#include <cassert>
-#include <random>
 
 #include "Config.h"
-#include "../Rand.h"
 
 using namespace steve;
 
@@ -16,9 +13,16 @@ void ScaleDescription::compute_chords(const Config& instance) {
   std::sort(chords.begin(), chords.end(), [](const Chord& a, const Chord& b) {
     return a.key < b.key;
   });
-
 }
 
+std::vector<Chord> Scale::get_chords() const {
+  std::vector<Chord> chords = desc->chords;
+  std::transform(chords.cbegin(), chords.cend(), chords.begin(),
+    [this](const Chord& desc_chord) {
+      return Chord(desc_chord.desc, (key + desc_chord.key) % 12);
+    });
+  return chords;
+}
 uint8_t Scale::get_degree_for_tone(uint8_t tone) const {
   tone = tone % 12;
   uint8_t cmp_tone = key;
