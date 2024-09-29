@@ -73,6 +73,7 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
         {"beat_value", music.get_signature().beat_value_numeral},
       }},
     {"duration", music.get_duration()},
+    {"beat_count", music.get_beat_count()},
     {"progression", progression},
     {"tracks", tracks},
   };
