@@ -31,6 +31,7 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
       [&chord](const Chord& scale_chord) {
         return chord.desc == scale_chord.desc && chord.key == scale_chord.key;
       });
+    assert(scale_chord_it != scale_chords.end());
     progression.push_back(scale_chord_it - scale_chords.cbegin());
   }
 
