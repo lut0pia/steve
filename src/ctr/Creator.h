@@ -36,6 +36,7 @@ namespace steve {
     inline uint8_t get_min_tone() const { return _min_tone; }
     inline uint8_t get_max_tone() const { return _max_tone; }
     inline float get_repetition() const { return _repetition; }
+    inline uint8_t get_channel() const { return _channel; }
 
     // Returns a valid amount of ticks until a next potential note
     uintptr_t generate_time(uintptr_t i, size_t size, bool chord_strict = false) const;
