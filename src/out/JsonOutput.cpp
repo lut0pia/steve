@@ -46,17 +46,19 @@ void steve::JsonOutput::write(const Music& music, std::ostream& s) {
     for(const size_t& pattern : creator->get_pattern_list()) {
       pattern_list.push_back(pattern);
     }
-    json part{
+    json track{
       {"creator", creator->name()},
-      {"instrument",
-        {
-          {"name", instrument.name},
-          {"index", instrument.midi_id},
-        }},
       {"patterns", patterns},
       {"pattern_list", pattern_list},
+      {"channel", creator->get_channel()},
     };
-    tracks.push_back(part);
+    if(creator->get_channel() != 9) {
+      track["instrument"] = {
+        {"name", instrument.name},
+        {"index", instrument.midi_id},
+      };
+    }
+    tracks.push_back(track);
   }
 
   json root{
