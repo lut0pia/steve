@@ -30,11 +30,13 @@ Config::Config() {
   _creators.get_item("Chords")->func = [](Music* music) {
     return new Chords(music);
   };
-  _creators.get_item("Drums")->func = [](Music* music) {
-    return new Drums(music);
-  };
+  
   _creators.get_item("Melody")->func = [](Music* music) {
     return new Melody(music);
+  };
+
+  _creators.get_item("Drums")->func = [](Music* music) {
+    return new Drums(music);
   };
 }
 
