@@ -10,6 +10,8 @@ void Drums::init() {
   Creator::init();
   _channel = 9;
   _repetition = 1;
+  _min_tone = 35;
+  _max_tone = 81;
 }
 Notes Drums::get(size_t, size_t size) const {
   Notes notes;
@@ -25,7 +27,7 @@ Notes Drums::get(size_t, size_t size) const {
 
   uint32_t layers(Rand::next(2, 5));
   for(uint32_t i(0); i < layers; i++) {
-    uint8_t tone(Rand::next(35, 59));
+    uint8_t tone(Rand::next(_min_tone, _max_tone));
     NoteValue period_value = Rand::next(NoteValue::eighth, max_period);
     uintptr_t period = ticks_for(period_value);
     uintptr_t offset = ticks_for(Rand::next(NoteValue::eighth, period_value));
