@@ -9,4 +9,5 @@ void ChordChange::compute_cache() {
   if(source_chord->whitelisted && target_chord->whitelisted) {
     whitelisted = true;
   }
+  weight *= source_chord->weight * target_chord->weight;
 }
