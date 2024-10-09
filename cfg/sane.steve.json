@@ -31,12 +31,10 @@
     "Whole Tone": {"blacklist": true}
   },
   "chords": {
-    "Major Sixth": {
-      "blacklist": true
-    },
-    "Minor Sixth": {
-      "blacklist": true
-    }
+    "Major Sixth": {"weight": 0.1},
+    "Minor Sixth": {"weight": 0.1},
+    "Suspended Fourth": {"weight": 0.1},
+    "Suspended Second": {"weight": 0.1}
   },
   "chord_changes": {
     // Major chord map
