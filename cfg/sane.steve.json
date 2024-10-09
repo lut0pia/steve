@@ -6,21 +6,11 @@
     "step": 5
   },
   "time_signatures": {
-    "2/2": {
-      "weight": 2
-    },
-    "2/4": {
-      "weight": 2
-    },
-    "4/4": {
-      "weight": 4
-    },
-    "7/4": {
-      "weight": 0.5
-    },
-    "9/8": {
-      "weight": 0.1
-    }
+    "2/2": {"weight": 2},
+    "2/4": {"weight": 2},
+    "4/4": {"weight": 4},
+    "7/4": {"weight": 0.5},
+    "9/8": {"weight": 0.1}
   },
   "creators": {
     "Arpeggio": {
@@ -35,18 +25,10 @@
     }
   },
   "scales": {
-    "Major": {
-      "weight": 5
-    },
-    "Byzantine": {
-      "blacklist": true
-    },
-    "Kumoi": {
-      "blacklist": true
-    },
-    "Whole Tone": {
-      "blacklist": true
-    }
+    "Major": {"weight": 5},
+    "Byzantine": {"blacklist": true},
+    "Kumoi": {"blacklist": true},
+    "Whole Tone": {"blacklist": true}
   },
   "chords": {
     "Major Sixth": {
@@ -85,65 +67,25 @@
     "*": { "*": { "0": {"blacklist": true}}}
   },
   "instruments": {
-    "Acoustic Bass": {
-      "voices": 1
-    },
-    "Electric Fingered Bass": {
-      "voices": 1
-    },
-    "Electric Picked Bass": {
-      "voices": 1
-    },
-    "Fretless Bass": {
-      "voices": 1
-    },
-    "Slap Bass 1": {
-      "voices": 1
-    },
-    "Slap Bass 2": {
-      "voices": 1
-    },
-    "Syn Bass 1": {
-      "voices": 1
-    },
-    "Syn Bass 2": {
-      "voices": 1
-    },
-    "Guitar Harmonics": {
-      "blacklist": true
-    },
-    "Bottle Blow": {
-      "blacklist": true
-    },
-    "Whistle": {
-      "blacklist": true
-    },
-    "Reverse Cymbal": {
-      "blacklist": true
-    },
-    "Guitar Fret Noise": {
-      "blacklist": true
-    },
-    "Breath Noise": {
-      "blacklist": true
-    },
-    "Seashore": {
-      "blacklist": true
-    },
-    "Bird Tweet": {
-      "blacklist": true
-    },
-    "Telephone Ring": {
-      "blacklist": true
-    },
-    "Helicopter": {
-      "blacklist": true
-    },
-    "Applause": {
-      "blacklist": true
-    },
-    "Gunshot": {
-      "blacklist": true
-    }
+    "Acoustic Bass": {"voices": 1},
+    "Electric Fingered Bass": {"voices": 1},
+    "Electric Picked Bass": {"voices": 1},
+    "Fretless Bass": {"voices": 1},
+    "Slap Bass 1": {"voices": 1},
+    "Slap Bass 2": {"voices": 1},
+    "Syn Bass 1": {"voices": 1},
+    "Syn Bass 2": {"voices": 1},
+    "Guitar Harmonics": {"blacklist": true},
+    "Bottle Blow": {"blacklist": true},
+    "Whistle": {"blacklist": true},
+    "Reverse Cymbal": {"blacklist": true},
+    "Guitar Fret Noise": {"blacklist": true},
+    "Breath Noise": {"blacklist": true},
+    "Seashore": {"blacklist": true},
+    "Bird Tweet": {"blacklist": true},
+    "Telephone Ring": {"blacklist": true},
+    "Helicopter": {"blacklist": true},
+    "Applause": {"blacklist": true},
+    "Gunshot": {"blacklist": true}
   }
 }
