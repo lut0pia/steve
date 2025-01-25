@@ -1,0 +1,25 @@
+{
+  "parents": ["sane.steve.json"],
+  "chords": {
+    "Dominant Seventh": {"weight": 2},
+    "Major Seventh": {"weight": 2},
+    "Major Sixth": {"weight": 1},
+    "Minor Seventh": {"weight": 2},
+    "Minor Sixth": {"weight": 1},
+    "Minor-Major Seventh": {"weight": 2}
+  },
+  "instruments": {
+    "Acoustic Bass": {"whitelist": true},
+    "Acoustic Grand Piano": {"whitelist": true},
+    "Alto Sax": {"whitelist": true},
+    "Baritone Sax": {"whitelist": true},
+    "Clarinet": {"whitelist": true},
+    "Electric Guitar (Jazz)": {"whitelist": true},
+    "Soprano Sax": {"whitelist": true},
+    "Tenor Sax": {"whitelist": true},
+    "Trombone": {"whitelist": true},
+    "Trumpet": {"whitelist": true},
+    "Tuba": {"whitelist": true},
+    "Vibraphone": {"whitelist": true}
+  }
+}
