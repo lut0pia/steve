@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.8..3.10)
 
 project(steve)
 
@@ -11,7 +11,7 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbg)
 set_target_properties(
   steve PROPERTIES
   VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbg
-  CXX_STANDARD 17
+  CXX_STANDARD 14
 )
 
 install(TARGETS steve)
