@@ -13,3 +13,6 @@ set_target_properties(
   VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbg
   CXX_STANDARD 17
 )
+
+install(TARGETS steve)
+install(DIRECTORY cfg DESTINATION steve)
