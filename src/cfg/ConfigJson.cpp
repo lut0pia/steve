@@ -33,10 +33,10 @@ void parse_ranged_number(const json& object, const std::string& name, ConfigRang
 
 void ConfigJson::parse_file(const char* relative_filepath) {
   std::string filepath;
-  if(!_directory_stack.empty()) {
-    filepath = _directory_stack.back() + relative_filepath;
-  } else {
+  if(_directory_stack.empty() || *relative_filepath == '/') {
     filepath = relative_filepath;
+  } else {
+    filepath = _directory_stack.back() + relative_filepath;
   }
 
   {
